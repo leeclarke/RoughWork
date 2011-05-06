@@ -5,6 +5,7 @@ function windowReady() {
 	var CANVAS_WIDTH = 480;
 	var CANVAS_HEIGHT = 320;
 
+	//Create canvas
 	var canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                       "' height='" + CANVAS_HEIGHT + "'></canvas>");
 	var context = canvasElement.get(0).getContext("2d");
@@ -19,10 +20,22 @@ function windowReady() {
 	context.fillStyle = gradient;
 	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
 	
-	//context.fillRect(0, 0, canvasElement.width, canvasElement.height) ;
-	
+	//darw green box.
 	context.fillStyle = 'rgb(0, 255, 0)' ;
 	context.fillRect(10, 20, 50, 50);	
+	
+	//Draw map tile onto screen
+	
+	img = document.createElement('img');
+	img.onload = function () { 
+		context.drawImage(this, 200,200);
+		
+		//ctx.fillStyle = ctx.createPattern(this, 'repeat'); 
+		//ctx.fillRect(200, 200, canvas.width, canvas.height); 
+	}; 
+		
+	img.src = 'res/stone1-00.gif';
+	
 	
 //	canvas.fillRect(10, 20, 50, 50); // creates a solid square
 //	canvas.strokeStyle = 'rgb(0, 182, 0)' ;
