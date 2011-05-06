@@ -29,14 +29,22 @@ function windowReady() {
 	orgPt2 = tileMap.tileOrgPoint(0,0);
 	console.log("Returned x,y=" + orgPt.xPos + " y=" +orgPt.yPos);
 	
+	
+	//Test retrival through use of namedTile.
+	tileMap.addNamedTile('FLOOR1',0,0);
+	orgPt3 = tileMap.namedTileOrgPoint('FLOOR1');
+	console.log("xPos=="+orgPt3.xPos);
+	//TODO: this isnt working for some reason, obj contains NANs
+	
 	doungeon = document.createElement('img');
 	doungeon.onload = function () { 
 		context.drawImage(doungeon, orgPt.xPos, orgPt.yPos, tileMap.tileWidth, tileMap.tileHeight, 100,100, tileMap.tileWidth, tileMap.tileHeight);
 		context.drawImage(doungeon, orgPt2.xPos, orgPt2.yPos, tileMap.tileWidth, tileMap.tileHeight, 132,100, tileMap.tileWidth, tileMap.tileHeight);
+		context.drawImage(doungeon, orgPt3.xPos, orgPt3.yPos, tileMap.tileWidth, tileMap.tileHeight, 100-32,100, tileMap.tileWidth, tileMap.tileHeight);
 	}
 	doungeon.src = 'res/dungeontiles.gif';
 	
-	//Test retrival through use of namedTile.
+	
 	
 	
 	//TODO:then an array give ability to load maps from Arrays of data.
@@ -68,9 +76,16 @@ function TileMap(tileW, tileH, src) {
 	/**
 	 * @return map containing x,y origin point for the requested tile.
 	 */
+	this.namedTileOrgPoint = function(tileName) {
+		namedPt = this.getNamedTile(tileName);
+		return {"xPos": this.tileWidth*namedPt.tileCol , "yPos": (this.tileHeight*namedPt.tileRow)}		
+	}
+	
+	/**
+	 * @return map containing x,y origin point for the requested tile.
+	 */
 	this.tileOrgPoint = function(tileCol, tileRow) {
-		xPos = this.tileWidth*tileCol;
-		var result = {"xPos": xPos , "yPos": (this.tileHeight*tileRow)}
+		var result = {"xPos": this.tileWidth*tileCol , "yPos": (this.tileHeight*tileRow)}
 		return result;
 	}
 }
