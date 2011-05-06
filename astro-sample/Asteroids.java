@@ -23,11 +23,11 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
     // use this as a double buffer
     BufferedImage backbuffer;
     
-    // the main drawing object for the back buffer
+    // the main drawing object for the back buffer, this comes from a method on the backbuffer. 
     Graphics2D g2d;
     
-    // toggle for drawing bounding boxes
-    boolean showBounds = false;
+    // toggle for drawing bounding boxes, very useful for debugging but didnt seem to work??
+    boolean showBounds = true;
 
     // create the asteroid array
     int ASTEROIDS = 20;
@@ -37,7 +37,7 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
     Bullet[] bullet = new Bullet[BULLETS];
     int currentBullet = 0;
 
-    // the player’s ship
+    // the playerï¿½s ship
     Ship ship = new Ship();
     
     // create the identity transform (0, 0)
@@ -49,7 +49,12 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
     /*This is used in place of the old integer directional system which results in much cleaner code. Keyboard input 
      * will change the facing angle +-5 degrees, then the velocity (movement) is computed. 
      * 45 degrees would end up with x=1 and y=0 
-     * 17 degrees would be valocityX=.01 and valocityY=1.57 , this wouldn't immediately translate on screen but would add up over time esp @ 50fps*/
+     * 17 degrees would be valocityX=.01 and valocityY=1.57 , this wouldn't immediately translate on screen but would add up over time esp @ 50fps
+     * 
+     * NOTE: wouldnt want everything to have velocity that carried past a turn in non-zero-g games 
+     * because you wouldnt be able to stop a player/monster sprite. 
+     * Velocity for missiles would be perfect though. and velocity would simulate speed if there isnt another way..
+     * */
     /*****************************************************
      * calculate X movement value based on direction Angle
      *****************************************************/
@@ -232,14 +237,14 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
      * Update the ship position based on velocity
      *****************************************************/
     public void updateShip() {
-        // update ship’s X position
+        // update shipï¿½s X position
         ship.incX(ship.getVelX());
         // wrap around left/right
         if (ship.getX() < -10)
             ship.setX(getSize().width + 10);
         else if (ship.getX() > getSize().width + 10)
             ship.setX(-10);
-        // update ship’s Y position
+        // update shipï¿½s Y position
         ship.incY(ship.getVelY());
 
         // wrap around top/bottom
@@ -258,13 +263,13 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
         for (int n = 0; n < BULLETS; n++) {
             // i s thi s bullet bei ng used?
             if (bullet[n].isAlive()) {
-                // updat e bullet’ s x posi ti on
+                // updat e bulletï¿½ s x posi ti on
                 bullet[n].incX(bullet[n].getVelX());
                 // bullet di s appears at l eft/ri ght edge
                 if (bullet[n].getX() < 0 || bullet[n].getX() > getSize().width) {
                     bullet[n].setAlive(false);
                 }
-                // updat e bullet’ s y posi ti on
+                // updat e bulletï¿½ s y posi ti on
                 bullet[n].incY(bullet[n].getVelY());
                 // bullet di s appears at top/bott om edge
                 if (bullet[n].getY() < 0 || bullet[n].getY() > getSize().height) {
@@ -282,21 +287,21 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
         for (int n = 0; n < ASTEROIDS; n++) {
             // i s thi s asteroi d bei ng used?
             if (ast[n].isAlive()) {
-                // updat e the asteroi d’ s X val ue
+                // updat e the asteroi dï¿½ s X val ue
                 ast[n].incX(ast[n].getVelX());
                 // warp t he a steroi d at screen edges
                 if (ast[n].getX() < -20)
                     ast[n].setX(getSize().width + 20);
                 else if (ast[n].getX() > getSize().width + 20)
                     ast[n].setX(-20);
-                // updat e the asteroi d’ s Y val ue
+                // updat e the asteroi dï¿½ s Y val ue
                 ast[n].incY(ast[n].getVelY());
                 // warp t he a steroi d at screen edges
                 if (ast[n].getY() < -20)
                     ast[n].setY(getSize().height + 20);
                 else if (ast[n].getY() > getSize().height + 20)
                     ast[n].setY(-20);
-                // updat e the asteroi d’ s rotation
+                // updat e the asteroi dï¿½ s rotation
                 ast[n].incMoveAngle(ast[n].getRotationVelocity());
                 // keep t he a ngl e wi thi n 0- 359 degrees
                 if (ast[n].getMoveAngle() < 0)
@@ -316,7 +321,7 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
             // i s thi s asteroi d bei ng used?
             if (ast[m].isAlive()) {
                 /*
-                 * check for col l i si on wi t h bullet
+                 * check for collisi on with bullet
                  */
                 for (int n = 0; n < BULLETS; n++) {
                     // is thi s bullet bei ng used?
@@ -347,6 +352,8 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
         }
     }
 
+    
+    
 
     /*****************************************************
      * key listener events
@@ -359,6 +366,8 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
     public void keyTyped(KeyEvent k) {
     }
 
+    
+    
     @Override
     public void keyPressed(KeyEvent k) {
         int keyCode = k.getKeyCode();
@@ -400,9 +409,17 @@ public class Asteroids extends Applet implements Runnable, KeyListener {
                 double Angle = bullet[currentBullet].getMoveAngle();
                 double svx = ship.getVelX();
                 double svy = ship.getVelY();
-                bullet[currentBullet].setVelX(svx + calcAngleMoveX(Angle) * 2);
-                bullet[currentBullet].setVelY(svy + calAnglMoveY(Angle) * 2);
+                bullet[currentBullet].setVelX(calcAngleMoveX(Angle) * 2);
+                bullet[currentBullet].setVelY(calAnglMoveY(Angle) * 2);
                 break;
+                
+            case KeyEvent.VK_R:
+            	//reset astroids.
+            	for (Asteroid a : this.ast) {
+					a.setAlive(true);
+				}
+            	
+            break;
         }
     }
 }
