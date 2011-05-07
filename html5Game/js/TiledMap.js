@@ -1,4 +1,6 @@
 //The goal here is to work out tile map rendering for eventual API.
+//DONE: Built a Map loader! see TODOs below for finishing touches.
+//TODO: make scrollable maps..and/or linking maps
 window.onload = windowReady;
 
 /**
@@ -19,43 +21,33 @@ function windowReady() {
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
 	
-	
-	//Display a tile from tile map
-	//Test SpriteTileManager   Draw a couple of tiles side by side on the canvas.
-/*	tileMap = new SpriteTileManager(32,32,"res/dungeontiles.gif");
-	orgPt = tileMap.tileOrgPoint(4,2);
-	orgPt2 = tileMap.tileOrgPoint(0,0);
-	console.log("Returned x,y=" + orgPt.xPos + " y=" +orgPt.yPos);
-	
-	
-	//Test retrival through use of namedTile.
-	tileMap.addNamedTile('FLOOR1',0,0);
-	orgPt3 = tileMap.namedTileOrgPoint('FLOOR1');
-	console.log("xPos=="+orgPt3.xPos);
-	
-	tileMap.spriteImage.onload = function () { 
-		console.log("tileMap onLoad!");
-		context.drawImage(tileMap.spriteImage, orgPt.xPos, orgPt.yPos, tileMap.tileWidth, tileMap.tileHeight, 100,100, tileMap.tileWidth, tileMap.tileHeight);
-		context.drawImage(tileMap.spriteImage, orgPt2.xPos, orgPt2.yPos, tileMap.tileWidth, tileMap.tileHeight, 132,100, tileMap.tileWidth, tileMap.tileHeight);
-		context.drawImage(tileMap.spriteImage, orgPt3.xPos, orgPt3.yPos, tileMap.tileWidth, tileMap.tileHeight, 100-32,100, tileMap.tileWidth, tileMap.tileHeight);
-		context.drawImage(tileMap.spriteImage, orgPt3.xPos, orgPt3.yPos, tileMap.tileWidth, tileMap.tileHeight, 100-32-32,100, tileMap.tileWidth, tileMap.tileHeight);
-	}*/
-	//tileMap.spriteImage.src = "res/dungeontiles.gif";
-
 	//TODO:then an arraynamedTiles give ability to load maps from Arrays of data.
+	tileWidth = 32;
+	tileHeight = 32;
+	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
 	
-	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,32,32);
 //TODO: make the setable with and array of objects {"name":"","col":0,"row":0}
-	tiledMap.tileMapManager.addNamedTile('WALL1',0,0); 
-	tiledMap.tileMapManager.addNamedTile('FLOOR1',0,8);
-	tiledMap.tileMapManager.addNamedTile('DOOR1',4,2);
-	tiledMap.tileMapManager.addNamedTile('DOOR2',1,6);
+	tileMapManager = new SpriteTileManager(tileWidth,tileHeight,"res/dungeontiles.gif")
+	tileMapManager.addNamedTile('WALL1',0,0); 
+	tileMapManager.addNamedTile('FLOOR1',1,8);
+	tileMapManager.addNamedTile('DOOR1',4,2);
+	tileMapManager.addNamedTile('DOOR2',1,6);
+//TODO: make object, loader or something to make this less nasty.	
+//TODO: define constants or something Strings to messy and long. not good for storage, ints better.
 	tiledMap.tiles = [['',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
-				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
-				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2'],
-				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1']
+				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1']
+				
 	];
+	tiledMap.tileMapManager = tileMapManager;
 	
 	theMap = tiledMap.renderMap();
 	//draw to canvas
@@ -74,11 +66,9 @@ function TiledMap(width, height, tileWidth, tileHeight) {
 	map.height = (~~(height/tileHeight))*tileHeight;
 	mapCtx = map.getContext('2d');
 	tiles = [];
-	ready = false;
-	tileMapManager = new SpriteTileManager(tileWidth,tileHeight,"res/dungeontiles.gif");	
-	tileMapManager.spriteImage.onload = function() {
-		this.ready = true;
-	}
+	BLANK_TILE = '';
+	tileMapManager = "";	
+	
 }
 
 /**
@@ -86,47 +76,38 @@ function TiledMap(width, height, tileWidth, tileHeight) {
  * canvas to speed up rendering.  
  */
 TiledMap.prototype.renderMap = function() {
-	/**	sudo code + actual code, needs finishing
-	//For each Map tile data drawTile.
-	//Retrieve the tile image data
-	orgPt = tileMap.namedTileOrgPoint('FLOOR1');
-	//increment x,y tile position to next position, (these could be generated once at init).
 	
-	context.drawImage(tileMapManager.spriteImage, orgPt.xPos, orgPt.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
-	*/
-	while(this.ready == false) {
-		console.log('wait for load');
-	}
-	
-	for(var col = 0; this.tiles.length ;col++)
+	for(var rows = 0; rows < this.tiles.length ;rows++)
 	{
-		for(var row = 0; this.tiles[col].length; row++){
-			tileType = this.tiles[col][row];
-			sprPos = tileMapManager.namedTileOrgPoint(tileType);
-			tileX = col*tileMapManager.tileWidth;
-			tileY = row*tileMapManager.tileHeight;
-			mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
+		for(var cols = 0; cols < this.tiles[rows].length; cols++){
+			tileType = this.tiles[rows][cols];
+			if(tileType != BLANK_TILE) {
+				sprPos = tileMapManager.namedTileOrgPoint(tileType);
+				tileX = cols*tileMapManager.tileWidth;
+				tileY = rows*tileMapManager.tileHeight;
+				mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
+			}
 		}
 	
 	}
-	//draw at the 0,0 position 
-	//mapCtx.drawImage(mapImg, 0, 0, mapImg.width, mapImg.height, -25, -25, 50, 50); 
-	// draw to game canvas like so source 
-	//ctx.drawImage(mapCtx.canvas, x, y);
 	return mapCtx.canvas;
 }
 
 TiledMap.prototype.setMapData = function(){
 		
 }
-/** TiledMap END **/
+/********** TiledMap END **********/
 
 /**
+ * @object  Tile
  * Must track all data on each tile inorder to manage collision etc. 
  */
 function Tile() {
 	this.blocking = false; //indicates if the tile is passable floors are not blocking and walls are true etc..
+	this.type = "";
+	
 }
+/********** Tile END **********/
 
 /**
  * @object SpriteTileManager
@@ -172,4 +153,4 @@ SpriteTileManager.prototype.addNamedTile = function(tileName, tileCol, tileRow) 
 SpriteTileManager.prototype.getNamedTile = function(tileName) {
 	return this.namedTiles[tileName];
 }
-/** SpriteTileManager END **/
+/********** SpriteTileManager END **********/
