@@ -3,7 +3,7 @@
   <head> 
     <title>SpriteTileManager Test</title> 
     <script type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
-    <script type="text/javascript" src="jsUnitCore.js"></script> 
+    <script type="text/javascript" src="unitTest.js"></script> 
     <script type="text/javascript" src="../js/TiledMap.js"></script> 
     
     <style>
@@ -20,50 +20,47 @@
 			
 			tileMapManager.addNamedTile(tile);
 			tileMapManager.addNamedTile(tile2);
-			 assertEquals(tile,tileMapManager.getNamedTileById(0));
-			return "success";
+			resp = assertEquals(tile,tileMapManager.getNamedTileById(0));
+			return (resp)?"Success":"Failed";
 		}
 		
 		function testGetNamedTile() {
-			try {
+			
 			tileMapManager.addNamedTile(tile);
-			 assertEquals(tile,tileMapManager.getNamedTile('FLOOR1'));
-			 return "success";
-			} catch(e) {
-				return "Fail";
-			}	
+			resp = assertEquals(tile,tileMapManager.getNamedTile('FLOOR1'));
+			return (resp)?"Success":"Failed";
 		}
 		
 		function testGetNamedTileFail() {
 			
 			tileMapManager.addNamedTile(tile);
-			assertEquals(tile2,tileMapManager.getNamedTile('FLOOR1'));
-			return "success";
+			resp = assertEquals(tile2,tileMapManager.getNamedTile('FLOOR1'));
+			return (resp)?"Success":"Failed";
 		}
 		
 		function test() {
 		
 			report("testAddNamedTile_object",testAddNamedTile_object());	
 			report("testGetNamedTile",testGetNamedTile());	
-			//report("testGetNamedTileFail",testGetNamedTileFail());
+			report("testGetNamedTileFail",testGetNamedTileFail());
 		}
 		
-		function report(testName, response) {
-			var out = $('<ul>');
-			out.html("<li><b>"+ testName +"</b></span>: [ "+response+" ]</li>");
-			out.appendTo('body');
-		}
+
 		
-		//FAiled TEsts dont return errors just in chrome console.
-		/*function assertEquals(expected, actual) {
-			 if (!( args.length == expectedNumberOfNonCommentArgs ||
-				(args.length == expectedNumberOfNonCommentArgs + 1 && (typeof(args[0]) == 'string') || args[0] == null)))
-			if(expected == actual)
-				return true;
-			else
-				return false;
+		/*function assertEquals(obj1, obj2) {
+			for (var i in obj1) {
+				if (obj1.hasOwnProperty(i)) {
+					if (!obj2.hasOwnProperty(i)) return false;
+					if (obj1[i] != obj2[i]) return false;
+				}
+			}
+			for (var i in obj2) {
+				if (obj2.hasOwnProperty(i)) {
+					if (!obj1.hasOwnProperty(i)) return false;
+					if (obj1[i] != obj2[i]) return false;
+				}
+			}
 		}*/
-		
 		
 		$(document).ready(test);
 		

@@ -26,12 +26,12 @@ function windowReady() {
 	tileHeight = 32;
 	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
 	
-//TODO: DONE! convert this.make the setable with and array of objects {"name":"","col":0,"row":0}
 	tileMapManager = new SpriteTileManager(tileWidth,tileHeight,"res/dungeontiles.gif")
-	tileMapManager.addNamedTile('WALL1',0,0); 
-	tileMapManager.addNamedTile('FLOOR1',1,8);
-	tileMapManager.addNamedTile('DOOR1',4,2);
-	tileMapManager.addNamedTile('DOOR2',1,6);
+	tileMapManager.addNamedTile({"id":0,"name":"WALL1","col":0,"row":0}); 
+	tileMapManager.addNamedTile({"id":1,"name":"FLOOR1","col":1,"row":8}); 
+	tileMapManager.addNamedTile({"id":2,"name":"DOOR1","col":4,"row":2}); 
+	tileMapManager.addNamedTile({"id":3,"name":"DOOR2","col":1,"row":6}); 
+	
 //TODO: make object, loader or something to make this less nasty.	
 //TODO: define constants or something Strings to messy and long. not good for storage, ints better.
 	tiledMap.tiles = [['',''],
@@ -83,6 +83,10 @@ TiledMap.prototype.renderMap = function() {
 			tileType = this.tiles[rows][cols];
 			if(tileType != BLANK_TILE) {
 				sprPos = tileMapManager.namedTileOrgPoint(tileType);
+				if(!sprPos) {
+					console.log("Bad Tile named: "+ tileType);
+					continue;
+				}
 				tileX = cols*tileMapManager.tileWidth;
 				tileY = rows*tileMapManager.tileHeight;
 				mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
@@ -136,7 +140,11 @@ SpriteTileManager.prototype.tileOrgPoint = function(tileCol, tileRow) {
  */
 SpriteTileManager.prototype.namedTileOrgPoint = function(tileName) {
 	namedPt = this.getNamedTile(tileName);
-	return this.tileOrgPoint(namedPt.tileCol,namedPt.tileRow);
+	if(namedPt) {
+		return this.tileOrgPoint(namedPt.col,namedPt.row);
+	} else {	
+		return null;
+	}
 }
 
 /**
@@ -144,7 +152,8 @@ SpriteTileManager.prototype.namedTileOrgPoint = function(tileName) {
  * inplace of tile coordinants.
  */
 SpriteTileManager.prototype.addNamedTile = function(tileName, tileCol, tileRow) {
-	this.namedTiles[tileName] = {"tileCol":tileCol, "tileRow":tileRow}
+	//TODO: generate an ID here
+	this.namedTiles[tileName] = {"id":999, "name":tileName,"tileCol":col, "tileRow":row}
 }
 
 /**
