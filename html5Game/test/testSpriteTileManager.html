@@ -1,0 +1,76 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>SpriteTileManager Test</title> 
+    <script type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="jsUnitCore.js"></script> 
+    <script type="text/javascript" src="../js/TiledMap.js"></script> 
+    
+    <style>
+		html {
+			background: #CCCCCC;
+		}
+    </style>
+    <script>
+		tileMapManager = new SpriteTileManager(32,32,"../res/dungeontiles.gif");
+		tile = {"id":0,"name":"FLOOR1","col":1,"row":2};
+		tile2 = {"id":1,"name":"FLOOR2","col":0,"row":2};
+		
+		function testAddNamedTile_object() {
+			
+			tileMapManager.addNamedTile(tile);
+			tileMapManager.addNamedTile(tile2);
+			 assertEquals(tile,tileMapManager.getNamedTileById(0));
+			return "success";
+		}
+		
+		function testGetNamedTile() {
+			try {
+			tileMapManager.addNamedTile(tile);
+			 assertEquals(tile,tileMapManager.getNamedTile('FLOOR1'));
+			 return "success";
+			} catch(e) {
+				return "Fail";
+			}	
+		}
+		
+		function testGetNamedTileFail() {
+			
+			tileMapManager.addNamedTile(tile);
+			assertEquals(tile2,tileMapManager.getNamedTile('FLOOR1'));
+			return "success";
+		}
+		
+		function test() {
+		
+			report("testAddNamedTile_object",testAddNamedTile_object());	
+			report("testGetNamedTile",testGetNamedTile());	
+			//report("testGetNamedTileFail",testGetNamedTileFail());
+		}
+		
+		function report(testName, response) {
+			var out = $('<ul>');
+			out.html("<li><b>"+ testName +"</b></span>: [ "+response+" ]</li>");
+			out.appendTo('body');
+		}
+		
+		//FAiled TEsts dont return errors just in chrome console.
+		/*function assertEquals(expected, actual) {
+			 if (!( args.length == expectedNumberOfNonCommentArgs ||
+				(args.length == expectedNumberOfNonCommentArgs + 1 && (typeof(args[0]) == 'string') || args[0] == null)))
+			if(expected == actual)
+				return true;
+			else
+				return false;
+		}*/
+		
+		
+		$(document).ready(test);
+		
+    </script>
+  </head> 
+  <body> 
+    <div class="debug">Testing SpriteTileManager</div><br>
+  </body> 
+</html>
+

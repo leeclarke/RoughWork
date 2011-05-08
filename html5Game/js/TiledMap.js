@@ -1,7 +1,7 @@
 //The goal here is to work out tile map rendering for eventual API.
 //DONE: Built a Map loader! see TODOs below for finishing touches.
 //TODO: make scrollable maps..and/or linking maps
-window.onload = windowReady;
+//window.onload = windowReady;
 
 /**
  *  WindowReady used for testing functionality of the TiledMap object. 
@@ -26,7 +26,7 @@ function windowReady() {
 	tileHeight = 32;
 	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
 	
-//TODO: make the setable with and array of objects {"name":"","col":0,"row":0}
+//TODO: DONE! convert this.make the setable with and array of objects {"name":"","col":0,"row":0}
 	tileMapManager = new SpriteTileManager(tileWidth,tileHeight,"res/dungeontiles.gif")
 	tileMapManager.addNamedTile('WALL1',0,0); 
 	tileMapManager.addNamedTile('FLOOR1',1,8);
@@ -151,6 +151,26 @@ SpriteTileManager.prototype.addNamedTile = function(tileName, tileCol, tileRow) 
  * Retrieve a Tile reference by its name.
  */
 SpriteTileManager.prototype.getNamedTile = function(tileName) {
-	return this.namedTiles[tileName];
+	for(tile in this.namedTiles) {
+		if(this.namedTiles[tile].name == tileName) {
+			return this.namedTiles[tile];
+		}
+	}
+	return null;
+}
+
+/**
+ *  Accepts an object with tileData in the following format  
+ * {"id":0,"name":"","col":0,"row":0}
+ */
+SpriteTileManager.prototype.addNamedTile = function(tileData) {
+	return this.namedTiles[tileData.id] = tileData;
+}
+
+/**
+ * 
+ */
+SpriteTileManager.prototype.getNamedTileById = function(id) {
+	return this.namedTiles[id];
 }
 /********** SpriteTileManager END **********/

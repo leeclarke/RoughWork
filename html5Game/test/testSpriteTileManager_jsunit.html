@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>SpriteTileManager Test</title> 
+    <script language="JavaScript" src="/home/lee/javaApi/jsunit/jsUnitCore.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="../js/TiledMap.js"></script> 
+    <style>
+		html {
+			background: #CCCCCC;
+		}
+    </style>
+    <script>
+		
+		function testAddNamedTile_object() {
+			tileMapManager = new SpriteTileManager(32,32,"../res/dungeontiles.gif")
+			tile = {"id":0,"name":"FLOOR1","col":1,"row":2};
+			tileMapManager.addNamedTile(tile);
+			resp = tileMapManager.getNamedTileById(0);
+			return assertEquals(tile,resp);
+			
+		}
+		
+		function testGetNamedTile() {
+			tileMapManager = new SpriteTileManager(32,32,"../res/dungeontiles.gif")
+			tile = {"id":0,"name":"FLOOR1","col":1,"row":2};
+			tileMapManager.addNamedTile(tile);
+			resp = tileMapManager.getNamedTile('FLOOR1');
+			return assertEquals(tile,resp);
+		}
+		
+		function test() {
+		
+			report("testAddNamedTile_object",testAddNamedTile_object());	
+			report("testGetNamedTile",testGetNamedTile());	
+		}
+		
+		function report(testName, response) {
+			var out = $('<ul>');
+			out.html("<li><b>"+ testName +"</b></span>: [ "+response+" ]</li>");
+			out.appendTo('body');
+		}
+		
+		/*function assertEquals(expected, actual) {
+			if(expected == actual)
+				return true;
+			else
+				return false;
+		}*/
+		
+		//$(document).ready(test);
+		
+    </script>
+  </head> 
+  <body> 
+    <div class="debug">Testing SpriteTileManager</div><br>
+  </body> 
+</html>
+
