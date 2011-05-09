@@ -1,11 +1,17 @@
 //The goal here is to work out tile map rendering for eventual API.
 //DONE: Built a Map loader! see TODOs below for finishing touches.
 //TODO: make scrollable maps..and/or linking maps
+//TODO: convert data input for map layout into ints (IDs)
+//TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
+//      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
+
 //window.onload = windowReady;
 
 /**
  *  WindowReady used for testing functionality of the TiledMap object. 
  * Probably should move it to its own file at some point.
+ *
+ * This simulates an actual game client
  */
 function windowReady() {
 	//console.log("Start painting");
@@ -21,11 +27,10 @@ function windowReady() {
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
 	
-	//TODO:then an arraynamedTiles give ability to load maps from Arrays of data.
 	tileWidth = 32;
 	tileHeight = 32;
 	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
-	//TODO: Make SpriteTileManager load this:
+
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
 		{"id":1,"name":"FLOOR1","col":1,"row":8},
@@ -35,7 +40,6 @@ function windowReady() {
 	
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
-//TODO: make object, loader or something to make this less nasty.	
 //TODO: define constants or something Strings to messy and long. not good for storage, ints better.
 	tiledMap.tiles = [['',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],

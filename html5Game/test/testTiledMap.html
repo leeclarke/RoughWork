@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>TiledMap Test</title> 
+    <script type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="unitTest.js"></script> 
+    <script type="text/javascript" src="../js/TiledMap.js"></script> 
+    
+    <style>
+		html {
+			background: #CCCCCC;
+		}
+    </style>
+    <script>
+		var tiledMap = new TiledMap(300,400,32,32);
+
+		
+		tiledMap.tiles = [['',''],
+				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
+				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','','','','','','','','','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1']
+
+		];
+		
+		/**
+		 * Test constructor
+		 */
+		function testTiledMap(){
+			
+			info = "map.width==" + tiledMap.map.width + " <br> map.height==" + tiledMap.map.height;
+			
+			resp = null//assertEquals(tile3,tileMapManagerObj.getNamedTileById(3));
+			return info + (resp)?"Success":"Failed";
+			
+		}
+		
+		function testRenderMap() {
+			
+			//TODO: figure out how to test render? compare pixels?
+			resp = assertEquals(tile,tileMapManager.getNamedTileById(0));
+			return (resp)?"Success":"Failed";
+		}
+		
+		function test() {
+		
+			report("testTiledMap Constructor Test",testTiledMap());	
+			//report("testGetNamedTile",testGetNamedTile());	
+		}
+		
+		
+		$(document).ready(test);
+		
+    </script>
+  </head> 
+  <body> 
+    <div class="debug">Testing TiledMap</div><br>
+  </body> 
+</html>
+
