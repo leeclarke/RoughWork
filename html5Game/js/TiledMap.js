@@ -25,8 +25,15 @@ function windowReady() {
 	tileWidth = 32;
 	tileHeight = 32;
 	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
+	//TODO: Make SpriteTileManager load this:
+	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
+		{"id":0,"name":"WALL1","col":0,"row":0},
+		{"id":1,"name":"FLOOR1","col":1,"row":8},
+		{"id":2,"name":"DOOR1","col":4,"row":2},
+		{"id":3,"name":"DOOR2","col":1,"row":6}
+	]}
 	
-	tileMapManager = new SpriteTileManager(tileWidth,tileHeight,"res/dungeontiles.gif")
+	tileMapManager = new SpriteTileManager(null, tileWidth,tileHeight,"res/dungeontiles.gif")
 	tileMapManager.addNamedTile({"id":0,"name":"WALL1","col":0,"row":0}); 
 	tileMapManager.addNamedTile({"id":1,"name":"FLOOR1","col":1,"row":8}); 
 	tileMapManager.addNamedTile({"id":2,"name":"DOOR1","col":4,"row":2}); 
@@ -117,12 +124,20 @@ function Tile() {
  * @object SpriteTileManager
  * Manages Retriaval of sprites from a single img source.
  */
-function SpriteTileManager(tileW, tileH, src) {
-	this.tileWidth = (tileW)?tileW:0;
-	this.tileHeight = (tileH)?tileH:0;
-	this.namedTiles = {};
-	this.spriteImage = document.createElement('img');
-	this.spriteImage.src = (src)?src:"";	
+function SpriteTileManager(config, tileW, tileH, src) {
+	if(config){
+		this.tileWidth = (config.tileWidth)?config.tileWidth:0;
+		this.tileHeight = (config.tileHeight)?config.tileHeight:0;
+		this.namedTiles = (config.namedTiles)?config.namedTiles:[];
+		this.spriteImage = document.createElement('img');
+		this.spriteImage.src = (src)?src:"";	
+	} else{
+		this.tileWidth = (tileW)?tileW:0;
+		this.tileHeight = (tileH)?tileH:0;
+		this.namedTiles = {};
+		this.spriteImage = document.createElement('img');
+		this.spriteImage.src = (src)?src:"";	
+	}
 }
 
 /**  SpriteTileManagermethods **/
