@@ -71,7 +71,6 @@ function TiledMap(width, height, tileWidth, tileHeight) {
 	tiles = [];
 	BLANK_TILE = '';
 	tileMapManager = "";	
-	tileKeyType = 'id'; //or name but id is much shorter!
 }
 
 /**
@@ -85,7 +84,7 @@ TiledMap.prototype.renderMap = function() {
 		for(var cols = 0; cols < this.tiles[rows].length; cols++){
 			tileType = this.tiles[rows][cols];
 			if(tileType != BLANK_TILE) {
-				sprPos = tileMapManager.namedTileOrgPoint(tileType); //TODO: need to fix this here to accept id | name
+				sprPos = tileMapManager.namedTileOrgPoint(tileType); //TODO: Test out id vs name retrival on tiles.
 				if(!sprPos) {
 					console.log("Bad Tile named: "+ tileType);
 					continue;
@@ -150,7 +149,10 @@ SpriteTileManager.prototype.tileOrgPoint = function(tileCol, tileRow) {
  * @return map containing x,y origin point for the requested tile.
  */
 SpriteTileManager.prototype.namedTileOrgPoint = function(tileName) {
-	namedPt = this.getNamedTile(tileName);
+	if(typeof 'String')
+		namedPt = this.getNamedTile(tileName);
+	else
+		namedPt = this.getNamedTileById(tileName);
 	if(namedPt) {
 		return this.tileOrgPoint(namedPt.col,namedPt.row);
 	} else {	
