@@ -3,7 +3,7 @@
 	
 	function report(testName, response) {
 		var out = $('<ul>');
-		out.html("<li><b>"+ testName +"</b></span>: [ "+response+" ]</li>");
+		out.html("<li><b>"+ testName +"</b></span>: [ " + response + " ]</li>");
 		out.appendTo('body');
 	}
 		

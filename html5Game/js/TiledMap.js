@@ -1,6 +1,7 @@
 //The goal here is to work out tile map rendering for eventual API.
 //DONE: Built a Map loader! see TODOs below for finishing touches.
 //TODO: make scrollable maps..and/or linking maps
+//TODO: need to be able to center scrollable map on a map point
 //TODO: convert data input for map layout into ints (IDs)
 //TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
@@ -58,7 +59,7 @@ function windowReady() {
 	
 	theMap = tiledMap.renderMap();
 	//draw to canvas
-	context.drawImage(mapCtx.canvas, 0, 0);
+	context.drawImage(theMap, 0, 0);
 }
 
 
@@ -68,13 +69,22 @@ function windowReady() {
  * Note the Map width/height will be set to a whole number that is <= to the canvas (w/h) / tile (w/h) 
  */
 function TiledMap(width, height, tileWidth, tileHeight) {
-	var map = document.createElement('canvas');
+	map = document.createElement('canvas');
+	height = (~~(height/tileHeight))*tileHeight;
+	width = (~~(width/tileWidth))*tileWidth;
 	map.width = (~~(width/tileWidth))*tileWidth; //faster then calling floor
 	map.height = (~~(height/tileHeight))*tileHeight;
 	mapCtx = map.getContext('2d');
 	tiles = [];
 	BLANK_TILE = '';
 	tileMapManager = "";	
+}
+
+/**
+ * Returns the size of the canvas containing the map. This size is adjusted to fit the tile size.
+ */
+TiledMap.prototype.getMapSize = function() {
+	return {"width":this.width, "height": this.height};
 }
 
 /**
@@ -98,13 +108,25 @@ TiledMap.prototype.renderMap = function() {
 				mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
 			}
 		}
-	
 	}
 	return mapCtx.canvas;
 }
 
+/**
+ * Render a subset of the whole map based on the size of the view port and 
+ * base the window on either the upper left corner or a centerpoint.
+ * @param
+ * @param
+ * @param referencePoint - x,y positon of the center or
+ */
+TiledMap.prototype.renderMapSection = function(viewPortWidth, viewPortHeight, referencePoint) {
+	//TODO: need to decide how to specify ref point, assume centering for now.
+	
+}
+
 TiledMap.prototype.setMapData = function(){
-		
+	//TODO: add
+	console.log("setMapData not implemented.");	
 }
 /********** TiledMap END **********/
 

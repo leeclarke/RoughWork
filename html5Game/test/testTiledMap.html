@@ -13,7 +13,14 @@
     </style>
     <script>
 		var tiledMap = new TiledMap(300,400,32,32);
-
+		testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/dungeontiles.gif", "namedTiles":[
+			{"id":0,"name":"WALL1","col":0,"row":0},
+			{"id":1,"name":"FLOOR1","col":1,"row":8},
+			{"id":2,"name":"DOOR1","col":4,"row":2},
+			{"id":3,"name":"DOOR2","col":1,"row":6}
+		]}
+	
+		tileMapManager = new SpriteTileManager(testManagerConfig);
 		
 		tiledMap.tiles = [['',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
@@ -28,30 +35,42 @@
 				['','','','','','','','','','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1']
 
 		];
+		tiledMap.tileMapManager = tileMapManager;
 		
 		/**
 		 * Test constructor
 		 */
 		function testTiledMap(){
-			
-			info = "map.width==" + tiledMap.map.width + " <br> map.height==" + tiledMap.map.height;
-			
-			resp = null//assertEquals(tile3,tileMapManagerObj.getNamedTileById(3));
-			return info + (resp)?"Success":"Failed";
+			info = "",resp = false;
+			try {
+				mapSize =  tiledMap.getMapSize();
+				info = "size="+mapSize;	//assertEquals(tile3,tileMapManagerObj.getNamedTileById(3));
+				resp = true;
+			} catch(err) {
+				info = "ERROR: "+err;
+				console.log(info);
+			}	
+			return (info + (resp)?"Success":"Failed");
 			
 		}
 		
 		function testRenderMap() {
-			
-			//TODO: figure out how to test render? compare pixels?
-			resp = assertEquals(tile,tileMapManager.getNamedTileById(0));
-			return (resp)?"Success":"Failed";
+			info = "",resp = false;
+			try {
+				map = tiledMap.renderMap();
+				
+				resp = (map)?"Success":"Failed";
+				
+			} catch(err) {
+				info = "ERROR: "+err;
+			}
+			return info + (resp)?"Success":"Failed";
 		}
 		
 		function test() {
 		
 			report("testTiledMap Constructor Test",testTiledMap());	
-			//report("testGetNamedTile",testGetNamedTile());	
+			report("render Test",testRenderMap());	
 		}
 		
 		
