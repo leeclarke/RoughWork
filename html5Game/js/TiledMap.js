@@ -7,6 +7,9 @@
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
 
 //window.onload = windowReady;
+var CANVAS_WIDTH = 600;
+var CANVAS_HEIGHT = 400;
+var showGrid = true;
 
 /**
  *  WindowReady used for testing functionality of the TiledMap object. 
@@ -16,8 +19,7 @@
  */
 function windowReady() {
 	//console.log("Start painting");
-	var CANVAS_WIDTH = 600;
-	var CANVAS_HEIGHT = 400;
+	
 
 	//Create canvas
 	var canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
@@ -32,6 +34,10 @@ function windowReady() {
 	tileHeight = 32;
 	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
 
+	//add fake player sprite, centerd in middle of screen
+	playerImage = document.createElement('img');
+	playerImage.src = "res/player.png";
+
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
 		{"id":1,"name":"FLOOR1","col":1,"row":8},
@@ -42,7 +48,7 @@ function windowReady() {
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
 //TODO: define constants or something Strings to messy and long. not good for storage, ints better.
-	tiledMap.tiles = [['',''],
+	tiledMap.tiles = [['WALL1',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
 				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
 				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','WALL1'],
@@ -60,33 +66,81 @@ function windowReady() {
 	theMap = tiledMap.renderMap();
 	//draw to canvas	
 	
-
 	//TODO: consider movement and collission, will this method cause a problem?
 	//move should be done ahead of time and fail if not legal so when we get here the player position should be correct...
-	//TODOL think over something isnt quite right.
+	//TODO: think over something isnt quite right.
 	
+	//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
+
+	//TODO: internalize this into the function, shouldnt be determined here. Could come from the spriteManager. 
+	//      It will be needed for all game Entities for placement. SpriteManager is probably more apropreate location.
+	// 		This would allow all Entities to render themselves if wanted to at least provide the info for a single render to do it.
+	vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tile perhaps.
+	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
+	console.log("vpX ="+vpX +" vpY=" +vpY )
+	player = new Player("Test",playerImage);
+	player.location.x = 128;
+	player.location.y = 96;
+	renderViewPort(context, theMap, player, vpX,vpY);  
+	
+}
+
+/**
+ * Paints the game map then centers the viewport on the player sprite.
+ *
+ * @param contest - ViewPort's 2D context
+ * @param palyer  - Player object which contains players map location.
+ * @param vpCtrX - ViewPort's center X position, adjusted to the UL corner of the center player tile.
+ * @param vpCtrY - ViewPort's center Y position, adjusted to the UL corner of the center player tile.
+ */
+function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	context.save();  //save position to return to later.
-	context.translate(-50,-50); //Move to point on map where player stands
-	context.drawImage(theMap, 0, 0);
-	context.restore(); //pop the canvas back to where it was which moves the map.
-
-	//add fake player sprite, centerd in middle of screen
-	playerImage = document.createElement('img');
-	playerImage.src = "res/player.png";
-	pX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tiel perhaps.
-	pY = CANVAS_HEIGHT/2-(tileHeight/2);
-
-	context.drawImage(playerImage, pX, pY); //stick player in the middle
-	//adjustViewPort(context,x,y);  //TODO: build from above test.
 	
+	context.translate(vpCtrX-player.location.x,vpCtrY-player.location.y); //Move to point on map where player stands
+
+	//TODO: Refactor: consider drawing palyer onto the map then just move the map..	This is how other things will be drawn. 
+	context.drawImage(theMap, 0, 0);
+	//Draw expected point of player UL.
+	context.fillStyle = 'rgb(255, 255, 51)' ;
+	context.fillRect(player.location.x, player.location.y, 2, 2) ;
+	context.restore(); //pop the canvas back to where it was which moves the map.
+	console.log(player.toString());
+	context.drawImage(player.spriteImg, vpX, vpY); //Draws player sprite in the middle of VP
+	 //Draws player sprite in the middle of VP
+	if(showGrid) {
+		paintGrid(context);
+	}
+}
+
+function paintGrid(context) {
+//TODO finsh up drawing grid
+	context.strokeStyle = 'rgb(255, 255, 51)' ;
+	context.lineWidth = "1.0";
+	drawLine(context,32,0,32,CANVAS_HEIGHT);
+}
+
+function drawLine(contextO, startx, starty, endx, endy) {
+  contextO.beginPath();
+  contextO.moveTo(startx, starty);
+  contextO.lineTo(endx, endy);
+  contextO.closePath();
+  contextO.stroke();
 }
 
 /**
  * Simple player stub begging for more definition.
  */
-function Player(name, spriteImg) {
-	this.name = name;
+function Player(pname, spriteImg) {
+	this.name = pname;
+	this.location = {"x":0, "y":0};
+	this.spriteImg = spriteImg;
 	//spriteManager =  
+	
+}
+
+Player.prototype.toString =  function() {
+	out =  "[Player] name="+ this.name + " location="+ this.location.x + "," + this.location.y;
+	return out;
 }
 
 /**
@@ -147,7 +201,7 @@ TiledMap.prototype.renderMap = function() {
  */
 TiledMap.prototype.renderMapSection = function(viewPortWidth, viewPortHeight, referencePoint) {
 	//TODO: need to decide how to specify ref point, assume centering for now.
-	
+	//TODO:  Remove this?
 }
 
 TiledMap.prototype.setMapData = function(){
@@ -169,7 +223,10 @@ function Tile() {
 
 /**
  * @object SpriteTileManager
- * Manages Retriaval of sprites from a single img source.
+ * Manages Retriaval of sprites from a single img source. 
+ * 
+ * TODO: For performance reasons it might be best if one SpriteManager was created per game 
+ *		 and all sprites were in one image file, would this be best for download? Research.
  */
 function SpriteTileManager(config, tileW, tileH, src) {
 	if(config){
