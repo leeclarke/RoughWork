@@ -71,7 +71,8 @@ function windowReady() {
 	//TODO: think over something isnt quite right.
 	
 	//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
-
+	//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
+	
 	//TODO: internalize this into the function, shouldnt be determined here. Could come from the spriteManager. 
 	//      It will be needed for all game Entities for placement. SpriteManager is probably more apropreate location.
 	// 		This would allow all Entities to render themselves if wanted to at least provide the info for a single render to do it.
