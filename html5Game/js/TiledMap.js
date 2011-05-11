@@ -58,19 +58,27 @@ function windowReady() {
 	tiledMap.tileMapManager = tileMapManager;
 	
 	theMap = tiledMap.renderMap();
-	//draw to canvas
-	//context.translate(-50,-50);
-	//adjustViewPort(context,x,y);
+	//draw to canvas	
 	
-	//add fake player
+
+	//TODO: consider movement and collission, will this method cause a problem?
+	//move should be done ahead of time and fail if not legal so when we get here the player position should be correct...
+	//TODOL think over something isnt quite right.
+	
+	context.save();  //save position to return to later.
+	context.translate(-50,-50); //Move to point on map where player stands
+	context.drawImage(theMap, 0, 0);
+	context.restore(); //pop the canvas back to where it was which moves the map.
+
+	//add fake player sprite, centerd in middle of screen
 	playerImage = document.createElement('img');
 	playerImage.src = "res/player.png";
-	pX = 340;
-	pY = 250;
+	pX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tiel perhaps.
+	pY = CANVAS_HEIGHT/2-(tileHeight/2);
+
+	context.drawImage(playerImage, pX, pY); //stick player in the middle
+	//adjustViewPort(context,x,y);  //TODO: build from above test.
 	
-	context.drawImage(theMap, 0, 0);
-	context.drawImage(playerImage, pX, pY);
-	//context.translate(-50,-50);
 }
 
 /**
