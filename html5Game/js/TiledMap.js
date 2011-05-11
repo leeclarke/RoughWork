@@ -59,9 +59,27 @@ function windowReady() {
 	
 	theMap = tiledMap.renderMap();
 	//draw to canvas
+	//context.translate(-50,-50);
+	//adjustViewPort(context,x,y);
+	
+	//add fake player
+	playerImage = document.createElement('img');
+	playerImage.src = "res/player.png";
+	pX = 340;
+	pY = 250;
+	
 	context.drawImage(theMap, 0, 0);
+	context.drawImage(playerImage, pX, pY);
+	//context.translate(-50,-50);
 }
 
+/**
+ * Simple player stub begging for more definition.
+ */
+function Player(name, spriteImg) {
+	this.name = name;
+	//spriteManager =  
+}
 
 /**
  * @object TiledMap
