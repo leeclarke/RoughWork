@@ -1,7 +1,12 @@
 //The goal here is to work out tile map rendering for eventual API.
 
-//TODO: enable player move.
+//TODO: develop the map collision. see line 14ish
+//TODO: - make named tile definition indicate blocking. blocking = 1.
+//TODO: - have tiledMap recognize blocking and build collision map.(Moving in pixels really reaquires mappign by px not tiles.)
+//TODO: - Implement collision Map interface and add to Mover Stub.
 //TODO: finish grid
+//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
+//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
 //TODO: convert data input for map layout into ints (IDs)
 //TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
@@ -12,7 +17,7 @@
 //		var myImageData = context.getImageData(left, top, width, height);
 //		ex.  blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
 // 3. Create my own int[width][height] array with 0 for open and 1 for blocking pixel.
-// 4. look at other JS games fo rother ideas.
+// 4. look at other JS games for other ideas.
 
 //window.onload = windowReady;
 var CANVAS_WIDTH = 600;
@@ -75,19 +80,9 @@ function windowReady() {
 	theMap = tiledMap.renderMap();
 	//draw to canvas	
 	
-	//TODO: consider movement and collission, will this method cause a problem?
-	//move should be done ahead of time and fail if not legal so when we get here the player position should be correct...
-	//TODO: think over something isnt quite right.
-	
-	//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
-	//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
-	
 	//TODO: internalize this into the function, shouldnt be determined here. Could come from the spriteManager. 
 	//      It will be needed for all game Entities for placement. SpriteManager is probably more apropreate location.
 	// 		This would allow all Entities to render themselves if wanted to at least provide the info for a single render to do it.
-	/*vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tile perhaps.
-	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
-	console.log("vpX ="+vpX +" vpY=" +vpY )*/
 	player = new Player("Test",playerImage);
 	player.location.x = 128;
 	player.location.y = 96;
@@ -105,6 +100,52 @@ function render() {
 	renderViewPort(context, theMap, player, vpX,vpY);  
 }
 
+//TODO: REMOVE this is for testing only.  add key_status.js to html page for actual support.
+$(function() {
+  window.keydown = {};
+  
+  function keyName(event) {
+    return jQuery.hotkeys.specialKeys[event.which] ||
+      String.fromCharCode(event.which).toLowerCase();
+  }
+  
+  $(document).bind("keydown", function(event) {
+    keydown[keyName(event)] = true;
+    fakeLoop();
+  });
+  
+  $(document).bind("keyup", function(event) {
+    keydown[keyName(event)] = false;
+    fakeLoop(); //Forcing an update outside of thread loop
+  });
+});
+
+function fakeLoop() {
+	update();
+	render();
+}
+//REMOVE: TESTING only
+
+/**
+ * Update player postion based on input.
+ */
+function update() {
+  if (keydown.left) {
+    player.location.x -= 32; //TODO: implement a Mover that handles collision.
+  }
+
+  if (keydown.right) {
+    player.location.x += 32;
+  }
+  
+  if (keydown.up) {
+      player.location.y -= 32;
+  }
+  
+  if (keydown.down) {
+        player.location.y += 32;
+  }
+}
 
 /**
  * Paints the game map then centers the viewport on the player sprite.
