@@ -1,9 +1,11 @@
 //The goal here is to work out tile map rendering for eventual API.
 
 //TODO: develop the map collision. see line 14ish
-//TODO: - make named tile definition indicate blocking. blocking = 1.
-//TODO: - have tiledMap recognize blocking and build collision map.(Moving in pixels really reaquires mappign by px not tiles.)
-//TODO: - Implement collision Map interface and add to Mover Stub.
+//DONE: * make named tile definition indicate blocking. blocking = 1.
+//TODO: -> have tiledMap recognize blocking and update code for improved data object
+//TODO: - build collision arrays.(Moving in pixels really reaquires mappign by px not tiles.)
+//TODO: - Implement collision Map interface 
+//TODO: - Implement Mover Stub.
 //TODO: finish grid
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
 //TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
@@ -62,6 +64,7 @@ function windowReady() {
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
 //TODO: define constants or something Strings to messy and long. not good for storage, ints better.
+//TODO: need to move to new format [{"id":"WALL1", "moveAttr":1}]
 	tiledMap.tiles = [['WALL1',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
 				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
@@ -277,6 +280,8 @@ TiledMap.prototype.setMapData = function(){
  * Must track all data on each tile inorder to manage collision etc. 
  */
 function Tile() {
+	movementAttributes = { 0:"unpassable",1:"open", 2:"locked", 3:"slow", 4:"blocked", 5:"trapped", 6:"stairsUp", 7:"stairsDown", 8:"portal"}
+	//TODO: might not need this.
 	this.blocking = false; //indicates if the tile is passable floors are not blocking and walls are true etc..
 	this.type = "";
 	
@@ -287,16 +292,18 @@ function Tile() {
  * @object SpriteTileManager
  * Manages Retriaval of sprites from a single img source. 
  * 
- * TODO: For performance reasons it might be best if one SpriteManager was created per game 
- *		 and all sprites were in one image file, would this be best for download? Research.
+ * TODO: RESEARCH: For performance reasons it might be best if one SpriteManager was created per game 
+ *		 and all sprites were in one image file, would this be best for download? 
  */
 function SpriteTileManager(config, tileW, tileH, src) {
+	
+	
 	if(config){
 		this.tileWidth = (config.tileWidth)?config.tileWidth:0;
 		this.tileHeight = (config.tileHeight)?config.tileHeight:0;
 		this.namedTiles = (config.namedTiles)?config.namedTiles:[];
 		this.spriteImage = document.createElement('img');
-		this.spriteImage.src = (config.src)?config.src:"";	
+		this.spriteImage.src = (config.src)?config.src:"";		
 	} else{
 		this.tileWidth = (tileW)?tileW:0;
 		this.tileHeight = (tileH)?tileH:0;
