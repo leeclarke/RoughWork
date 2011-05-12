@@ -1,15 +1,26 @@
 //The goal here is to work out tile map rendering for eventual API.
-//DONE: Built a Map loader! see TODOs below for finishing touches.
-//TODO: make scrollable maps..and/or linking maps
-//TODO: need to be able to center scrollable map on a map point
+
+//TODO: enable player move.
+//TODO: finish grid
 //TODO: convert data input for map layout into ints (IDs)
 //TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
+
+//TODO: collision detection. 
+// 1. Tile bounding boxes, checking oavelap.
+// 2. Using a mask and checking for blue color which would indicate blocking
+//		var myImageData = context.getImageData(left, top, width, height);
+//		ex.  blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
+// 3. Create my own int[width][height] array with 0 for open and 1 for blocking pixel.
+// 4. look at other JS games fo rother ideas.
 
 //window.onload = windowReady;
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;
 var showGrid = true;
+var player;
+var theMap;
+var context;
 
 /**
  *  WindowReady used for testing functionality of the TiledMap object. 
@@ -19,12 +30,10 @@ var showGrid = true;
  */
 function windowReady() {
 	//console.log("Start painting");
-	
-
 	//Create canvas
 	var canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                       "' height='" + CANVAS_HEIGHT + "'></canvas>");
-	var context = canvasElement.get(0).getContext("2d");
+	context = canvasElement.get(0).getContext("2d");
 	canvasElement.appendTo('body');
 	//Set up background.
 	context.fillStyle = 'rgb(0, 0, 0)' ;
@@ -32,7 +41,7 @@ function windowReady() {
 	
 	tileWidth = 32;
 	tileHeight = 32;
-	var tiledMap = new TiledMap(CANVAS_WIDTH,CANVAS_HEIGHT,tileWidth,tileHeight);
+	tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
 
 	//add fake player sprite, centerd in middle of screen
 	playerImage = document.createElement('img');
@@ -51,9 +60,9 @@ function windowReady() {
 	tiledMap.tiles = [['WALL1',''],
 				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
 				['','DOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
-				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','WALL1'],
-				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
-				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
+				['','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','FLOOR1','FLOOR1','FLOOR1','DOOR2','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','DOOR1'],
+				['','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1',],
 				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
 				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
 				['','','','','','','','','','WALL1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','FLOOR1','WALL1'],
@@ -76,15 +85,26 @@ function windowReady() {
 	//TODO: internalize this into the function, shouldnt be determined here. Could come from the spriteManager. 
 	//      It will be needed for all game Entities for placement. SpriteManager is probably more apropreate location.
 	// 		This would allow all Entities to render themselves if wanted to at least provide the info for a single render to do it.
-	vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tile perhaps.
+	/*vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tile perhaps.
 	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
-	console.log("vpX ="+vpX +" vpY=" +vpY )
+	console.log("vpX ="+vpX +" vpY=" +vpY )*/
 	player = new Player("Test",playerImage);
 	player.location.x = 128;
 	player.location.y = 96;
-	renderViewPort(context, theMap, player, vpX,vpY);  
+	//renderViewPort(context, theMap, player, vpX,vpY);  
 	
+	render();
 }
+
+function render() {
+	vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //centers the player sprite, this will move the sprite off the tile perhaps.
+	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
+	console.log("vpX ="+vpX +" vpY=" +vpY )
+	context.fillStyle = 'rgb(0, 0, 0)' ;
+	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
+	renderViewPort(context, theMap, player, vpX,vpY);  
+}
+
 
 /**
  * Paints the game map then centers the viewport on the player sprite.
