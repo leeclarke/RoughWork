@@ -51,6 +51,28 @@ TiledMap.prototype.getMapSize = function() {
 }
 
 /**
+ * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
+ */
+TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight) {
+	resp =[];
+	
+	if(startRow > -1 && startCol >-1 && tileWidth > -1 && tileHeight > -1){
+		maxRow = ((startRow+tileHeight)>this.tiles.length)?this.tiles.length:(startRow+tileHeight);
+		
+		for(var rows = startRow; rows < maxRow ;rows++)		{
+			maxCol = ((startCol+tileWidth)>this.tiles[rows].length)?this.tiles[rows].length:(startCol+tileWidth) ;
+			for(var cols = startCol; cols < maxCol; cols++) {
+				aTile = this.tiles[rows][cols];
+				aTile.x = (cols*this.tileMapManager.tileWidth); aTile.y = (rows*this.tileMapManager.tileHeight); aTile.width = this.tileMapManager.tileWidth; aTile.height = this.tileMapManager.tileHeight;
+				aTile.col = cols; aTile.row = rows;
+				resp.push(aTile);
+			}
+		}
+	}
+	return resp;
+}
+
+/**
  * Returns a rendered Map Canvas ready for display on a game canvas. This is cached in a buffer 
  * canvas to speed up rendering.  
  */
@@ -78,6 +100,7 @@ TiledMap.prototype.setMapData = function(){
 	//TODO: add
 	console.log("setMapData not implemented.");	
 }
+
 /********** TiledMap END **********/
 
 /**

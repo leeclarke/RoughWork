@@ -26,3 +26,10 @@
 		}
 		return false;
 	}
+	
+	/**
+	 * REturn from Tests to ensure consistant output
+	 */
+	function evalTest(info, resp) {
+		return (info +" "+ ((resp)?"Success":"Failed")); 
+	}

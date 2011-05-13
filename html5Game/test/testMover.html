@@ -1,0 +1,136 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>TiledMap Test</title> 
+    <script type="text/javascript" src="../js/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="unitTest.js"></script> 
+    <script type="text/javascript" src="../js/TiledMap.js"></script> 
+    <script type="text/javascript" src="../js/gameConsoleTest.js"></script> 
+    <script type="text/javascript" src="../js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="../js/key_status.js"></script>
+    <style>
+		html {
+			background: #CCCCCC;
+		}
+    </style>
+    <script>
+		tileWidth = 32;
+		tileHeight = 32;
+		tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
+
+		//add fake player sprite, centerd in middle of screen
+		playerImage = document.createElement('img');
+		playerImage.src = "res/player.png";
+
+		testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
+			{"id":0,"name":"WALL1","col":0,"row":0},
+			{"id":1,"name":"FLOOR1","col":1,"row":8},
+			{"id":2,"name":"DOOR1","col":4,"row":2},
+			{"id":3,"name":"DOOR2","col":1,"row":6}
+		]}
+		
+		tileMapManager = new SpriteTileManager(testManagerConfig);
+
+		tiledMap.tiles = [
+					[{},{}],
+					[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
+					[{},{"id":2, "type":2},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
+					[{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+					[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
+
+			];
+		tiledMap.tileMapManager = tileMapManager;
+		
+		theMap = tiledMap.renderMap();
+		//draw to canvas	
+
+		player = new Player("Test",playerImage);
+		player.x = 128;
+		player.y = 64;
+		//renderViewPort(context, theMap, player, vpX,vpY);  
+		
+		//Dont intersect
+		rec1 = {"x":2,"y":3, "width":4, "height":4};
+		rec2 = {"x":3,"y":8, "width":4, "height":4};
+		
+		//Intersect/collide with each other.
+		rec3 = {"x":3,"y":4, "width":4, "height":4};
+		rec4 = {"x":3,"y":4, "width":4, "height":4};
+		
+		/**
+		 * 
+		 */
+		function testCheckCollision_NoCollision(){
+			info = "",resp = false;
+			try {
+				mover = new Mover();
+				resp_noCol = mover.checkCollision(rec1,rec2);
+				console.log("No - Colision="+resp_noCol);
+				//expect False
+				resp = !resp_noCol;
+			} catch(err) {
+				info = "ERROR: "+err;
+				console.log(info);
+				resp = false;
+			}	
+			return evalTest(info, resp);
+		}
+		
+		function testCheckCollision_Collision() {
+			info = "",resp = false;
+			try {
+				mover = new Mover();
+				
+				resp = mover.checkCollision(rec3,rec4);
+				console.log("Colision="+resp);
+				//resp// = true;
+			} catch(err) {
+				info = "ERROR: "+err;
+				console.log(info);
+				resp = false;
+			}	
+			return evalTest(info, resp);
+		}
+		
+		/**
+		 * 
+		 */
+		function testMovePlayer(){
+			info = "",resp = false;
+			try {
+				mover = new Mover();
+				resp_noCol = mover.movePlayer(player, 0,32); //test moving left no collide// moving up will collide
+				console.log("No - Colision="+resp_noCol);
+				//expect False
+				resp = !resp_noCol;
+			} catch(err) {
+				info = "ERROR: "+err;
+				console.log(info);
+				resp = false;
+			}	
+			return evalTest(info, resp);
+		}
+		
+		function test() {
+		
+			report("testCheckCollision_NoCollision",testCheckCollision_NoCollision());	
+			report("testCheckCollision_Collision",testCheckCollision_Collision());	
+			report("testMovePlayer",testMovePlayer());
+		}
+		
+		
+		$(document).ready(test);
+		
+    </script>
+  </head> 
+  <body> 
+    <div class="debug">Testing TiledMap</div><br>
+  </body> 
+</html>
+
