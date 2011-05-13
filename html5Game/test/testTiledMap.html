@@ -22,17 +22,18 @@
 	
 		tileMapManager = new SpriteTileManager(testManagerConfig);
 		
-		tiledMap.tiles = [[{},{}],
-				[{},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0}],
-				[{},{'DOOR1',2},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},'WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1','WALL1'],
-				[{},'WALL1',{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'DOOR2',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'DOOR2',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{},{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{},{},{},{},{},{},{},{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{},{},{},{},{},{},{},{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{},{},{},{},{},{},{},{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{},{},{},{},{},{},{},{},{'WALL1',0},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'FLOOR1',1},{'WALL1',0}],
-				[{},{},{},{},{},{},{},{},{},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0},{'WALL1',0}]
+		tiledMap.tiles = [
+				[{},{}],
+				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
+				[{},{"id":'DOOR1', "type":2},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
+				[{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 
 		];
 		tiledMap.tileMapManager = tileMapManager;
