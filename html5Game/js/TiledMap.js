@@ -1,26 +1,9 @@
 //The goal here is to work out tile map rendering for eventual API.
 
-//TODO: develop the map collision. see line 14ish
-//DONE: * make named tile definition indicate blocking. blocking = 1.
-//TODO: * have tiledMap recognize blocking and update code for improved data object
-//TODO: -> build collision arrays.(Moving in pixels really reaquires mappign by px not tiles.)
-//TODO: - Implement collision Map interface 
-//TODO: - Implement Mover Stub.
-//TODO: - Add Clamping to map so that ViewPort wont scroll past the boundries of the map like < 0,0  etc...
-//TODO: finish grid
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
 //TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
-//TODO: convert data input for map layout into ints (IDs)
 //TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
-
-//TODO: collision detection. 
-// 1. Tile bounding boxes, checking oavelap.
-// 2. Using a mask and checking for blue color which would indicate blocking
-//		var myImageData = context.getImageData(left, top, width, height);
-//		ex.  blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
-// 3. Create my own int[width][height] array with 0 for open and 1 for blocking pixel.
-// 4. look at other JS games for other ideas.
 
 //window.onload = windowReady;
 
