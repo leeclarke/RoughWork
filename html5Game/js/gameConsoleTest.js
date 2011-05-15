@@ -1,9 +1,22 @@
-var CANVAS_WIDTH = 600;
-var CANVAS_HEIGHT = 400;
+//TODO: Build map maker
+//TODO: Work out Entity, component relationships
+//TODO: Work out gui status display 
+//TODO: Work out getting a message back to gui.. like whena door is locked.
+//TODO: Begin building Player, Monsters and other Entities
+//TODO: Implement Mover for Monsters
+//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
+//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
+//TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
+//      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
+//TODO: need to come up with image loader to detect when images are loaded and start rendering. display loading.. thing.
+
+var CANVAS_WIDTH = 800;
+var CANVAS_HEIGHT = 600;
 var showGrid = true;
 var player;
 var theMap;
 var context;
+var manager = new EntityManager();
 
 /**
  * WindowReady used for starting up the game prototype.
@@ -25,8 +38,14 @@ function windowReady() {
 	tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
 
 	//add fake player sprite, centerd in middle of screen
-	playerImage = document.createElement('img');
-	playerImage.src = "res/player.png";
+	player = manager.createEntity('Player');
+	player.x = 128;
+	player.y = 64;
+	player.name = "Lee";
+	player.spriteImg.src = "res/player.png";
+	
+	//playerImage = document.createElement('img');
+	//playerImage.src = "res/player.png";
 
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
@@ -56,15 +75,40 @@ function windowReady() {
 	theMap = tiledMap.renderMap();
 	//draw to canvas	
 
-	player = new Player("Test",playerImage);
-	player.x = 128;
-	player.y = 64;
+	//player = new Player("Test",playerImage);
+	//player.x = 128;
+	//player.y = 64;
 	//renderViewPort(context, theMap, player, vpX,vpY);  
 	
 	render();
 }
 
 window.onload = windowReady;
+
+/**
+ * Draws the status display overlay. 
+ */
+function buildStatusDisplay() {
+	//position in upper left corner
+	statWidth = 150;
+	
+	statusImg = document.createElement('canvas');
+	statCtx = map.getContext('2d');
+	
+	statCtx.strokeStyle = 'rgb(255, 255, 51)' ;
+	
+	statCtx.lineWidth = "0.5";
+	//gridWidth = ~~(mapWidth/tileWidth);
+	//gridHeight = ~~(mapHeight/tileHeight);
+	
+	//drawFrame
+	statCtx.strokeRect(5,5,(statWidth-10),CANVAS_HEIGHT-10);
+	
+	//mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
+	
+	context.drawImage(statCtx.canvas, 0, 0);
+	//TODO: finish! Not rendering ATM
+}
 
 /**
  * Responsable for rendering the ViewPort or Camera of the game.
@@ -75,7 +119,9 @@ function render() {
 	console.log("vpX ="+vpX +" vpY=" +vpY )
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
-	renderViewPort(context, theMap, player, vpX,vpY);  
+	renderViewPort(context, theMap, player, vpX,vpY); 
+	 //TODO: having problems here, do I need to save and translate to 0?
+	//buildStatusDisplay();
 }
 
 //TODO: REMOVE this is for testing only,  with out running a game loop.  add key_status.js to html page for actual support.
@@ -215,59 +261,4 @@ Player.prototype.toString =  function() {
 	return out;
 }
 
-function Mover(){
-	
-}
 
-/**
- * xDir, yDir pos or neg value to move.
- */
-Mover.prototype.movePlayer = function(player, xDir, yDir) {
-	//use player location to get row,col of surrounding tiles.
-	playerOldX = player.x;
-	playerOldY = player.y;
-	player.x += xDir;
-	player.y += yDir;
-	
-	if(this.offMap(player, tiledMap)) {
-		player.x = playerOldX;
-		player.y = playerOldY;
-		return;
-	}
-	
-	mapCol = ~~(player.x/tileWidth)
-	mapRow = ~~(player.y/tileHeight)
-	//get 8 surrounding tiles and check for collision.
-	surroundingTile = tiledMap.getRange(mapRow,mapCol, 3,3);
-	//Look for collision if so see if blocked.
-	for(t in surroundingTile){
-		tile = surroundingTile[t];
-		colls = this.checkCollision(player, tile);
-		if(colls) {
-			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
-			//if collision, see if blocked.
-			if(!tile.hasOwnProperty('type') || tile.type == 0) {
-				//blocked
-				player.x = playerOldX;
-				player.y = playerOldY;
-				break;
-			}
-		}
-	}
-	
-}
-
-/**
- * clamp object to map so it cant ever get outside the map bounds.
- * @return true if if  
- */
-Mover.prototype.offMap = function(entity, tiledMap){
-	return (entity.x <0 || entity.y <0 || entity.x > tiledMap.width || entity.y > tiledMap.height);
-}
-
-Mover.prototype.checkCollision = function(a, b) {
-  return a.x < b.x + b.width &&
-         a.x + a.width > b.x &&
-         a.y < b.y + b.height &&
-         a.y + a.height > b.y;
-}

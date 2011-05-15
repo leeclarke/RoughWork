@@ -1,13 +1,6 @@
-//The goal here is to work out tile map rendering for eventual API.
-
-//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
-//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
-//TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
-//      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
-
-//window.onload = windowReady;
-
-
+/**
+ * Here's where we build and manage the Map, also included in this fiel is the SpriteManager.
+ */
 
 /**
  * @object TiledMap

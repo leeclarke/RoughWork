@@ -31,5 +31,5 @@
 	 * REturn from Tests to ensure consistant output
 	 */
 	function evalTest(info, resp) {
-		return (info +" "+ ((resp)?"Success":"Failed")); 
+		return ( ((resp)?"<div class=\"success\">Success</div>":"<div class=\"fail\">Failed</div>") + " " +info); 
 	}
