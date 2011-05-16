@@ -1,16 +1,17 @@
 //TODO: Build map maker
-//TODO: Work out Entity, component relationships
-//TODO: Work out gui status display 
-//TODO: Work out getting a message back to gui.. like whena door is locked.
-//TODO: Begin building Player, Monsters and other Entities
+
+//TODO: figure out creature rendering.
 //TODO: Implement Mover for Monsters
+//TODO: implement game structure from old game.
+//TODO: Work out getting a message back to gui.. like whena door is locked.
+
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
 //TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
 //TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
 //      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
 //TODO: need to come up with image loader to detect when images are loaded and start rendering. display loading.. thing.
 
-var CANVAS_WIDTH = 800;
+var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 600;
 var showGrid = true;
 var player;
@@ -43,9 +44,6 @@ function windowReady() {
 	player.y = 64;
 	player.name = "Lee";
 	player.spriteImg.src = "res/player.png";
-	
-	//playerImage = document.createElement('img');
-	//playerImage.src = "res/player.png";
 
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
@@ -74,12 +72,6 @@ function windowReady() {
 	
 	theMap = tiledMap.renderMap();
 	//draw to canvas	
-
-	//player = new Player("Test",playerImage);
-	//player.x = 128;
-	//player.y = 64;
-	//renderViewPort(context, theMap, player, vpX,vpY);  
-	
 	render();
 }
 
@@ -88,26 +80,27 @@ window.onload = windowReady;
 /**
  * Draws the status display overlay. 
  */
-function buildStatusDisplay() {
+function buildStatusDisplay(context) {
 	//position in upper left corner
 	statWidth = 150;
 	
-	statusImg = document.createElement('canvas');
-	statCtx = map.getContext('2d');
+	context.save();
+	context.translate(0,0);
 	
-	statCtx.strokeStyle = 'rgb(255, 255, 51)' ;
-	
-	statCtx.lineWidth = "0.5";
-	//gridWidth = ~~(mapWidth/tileWidth);
-	//gridHeight = ~~(mapHeight/tileHeight);
+	context.strokeStyle = 'rgb(255, 255, 51)' ;
+	context.lineWidth = "0.5";
 	
 	//drawFrame
-	statCtx.strokeRect(5,5,(statWidth-10),CANVAS_HEIGHT-10);
+	context.strokeRect(5,5,(statWidth-10),CANVAS_HEIGHT-10);
+	context.fillStyle = "rgba(204, 204, 204, 0.1)";
+	context.fillRect(6,6,(statWidth-12),CANVAS_HEIGHT-12);
 	
-	//mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
+	//Write some text for Debugging
+	context.fillStyle = "#FFFF33"; // Set color to black
+	context.fillText("Player", 8, 20);
+	context.fillText("x:"+player.x+" y:"+player.y, 8, 40);
 	
-	context.drawImage(statCtx.canvas, 0, 0);
-	//TODO: finish! Not rendering ATM
+	context.restore();
 }
 
 /**
@@ -116,12 +109,9 @@ function buildStatusDisplay() {
 function render() {
 	vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //viewPort Center.
 	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
-	console.log("vpX ="+vpX +" vpY=" +vpY )
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
 	renderViewPort(context, theMap, player, vpX,vpY); 
-	 //TODO: having problems here, do I need to save and translate to 0?
-	//buildStatusDisplay();
 }
 
 //TODO: REMOVE this is for testing only,  with out running a game loop.  add key_status.js to html page for actual support.
@@ -187,78 +177,15 @@ function update() {
  */
 function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	context.save();  //save position to return to later.
-	
 	context.translate(vpCtrX-player.x,vpCtrY-player.y); //Move to point on map where player stands
-
-	//TODO: Refactor: consider drawing palyer onto the map then just move the map..	This is how other things will be drawn. 
 	context.drawImage(theMap, 0, 0);
-	//Draw expected point of player UL.
-	//context.fillStyle = 'rgb(255, 255, 51)' ;
-	//context.fillRect(player.x, player.y, 2, 2) ;
+
 	if(showGrid) {
 		paintGrid(context, theMap.width, theMap.height);
 	}
 	context.restore(); //pop the canvas back to where it was which moves the map.
-	console.log(player.toString());
-	context.drawImage(player.spriteImg, vpX, vpY); //Draws player sprite in the middle of VP
-	 //Draws player sprite in the middle of VP
-	
-}
-
-function paintGrid(context, mapWidth, mapHeight) {
-	context.strokeStyle = 'rgb(255, 255, 51)' ;
-	
-	context.lineWidth = "0.5";
-	gridWidth = ~~(mapWidth/tileWidth);
-	gridHeight = ~~(mapHeight/tileHeight);
-	
-	//drawFrame
-	context.strokeRect(0,0,mapWidth,mapHeight);
-	
-	context.lineWidth = "0.25";
-	//drawVert
-	for(x = 0; x<= gridWidth; x++) {
-		xPos = tileWidth*x;
-		drawLine(context,xPos,0,xPos,mapHeight);
-		context.fillRect(xPos,2, 2, 2) ;
-	}
-	
-	//drawHorz
-	for(y = 0; y<= gridWidth; y++) {
-		yPos = tileHeight*y;
-		drawLine(context,0,yPos,mapWidth,yPos);
-		context.fillRect(xPos,2, 2, 2) ;
-	}
-}
-
-/**
- * Line Drawing Helper
- */
-function drawLine(contextO, startx, starty, endx, endy) {
-  contextO.beginPath();
-  contextO.moveTo(startx, starty);
-  contextO.lineTo(endx, endy);
-  contextO.closePath();
-  contextO.stroke();
-}
-
-/**
- * Simple player stub begging for more definition.
- */
-function Player(pname, spriteImg) {
-	this.name = pname;
-	this.x = 0;
-	this.y = 0;
-	this.spriteImg = spriteImg;
-	this.width = 32;
-	this.height = 32;
-	//spriteManager =  
-	
-}
-
-Player.prototype.toString =  function() {
-	out =  "[Player] name="+ this.name + " location="+ this.x + "," + this.y;
-	return out;
+	buildStatusDisplay(context);
+	context.drawImage(player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
 }
 
 

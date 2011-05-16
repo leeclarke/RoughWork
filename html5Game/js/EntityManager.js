@@ -48,7 +48,6 @@ function toString() {
 			out += (prop + " = " + this[prop] + " , ");
 		}
 	}
-	//out =  "["+ this.entityType +"] name="+ this.name + " location="+ this.x + "," + this.y;
 	return out;
 }
 
@@ -56,4 +55,13 @@ function renderable(entity) {
 	entity.spriteImg = document.createElement('img');
 	entity.width = 32;
 	entity.height = 32;
+	entity.renderImg = renderImg;
+}
+
+/**
+ * Technically doesn't render but returns the correct image for rendering, controls animation output.
+ */
+function renderImg(){
+	//TODO: convert to anamation with an array of sprites
+	return this.spriteImg;
 }
