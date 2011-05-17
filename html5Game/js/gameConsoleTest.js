@@ -2,7 +2,6 @@
 
 //TODO: figure out creature rendering.
 //TODO: Implement Mover for Monsters
-//TODO: implement game structure from old game.
 //TODO: Work out getting a message back to gui.. like whena door is locked.
 
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
@@ -18,6 +17,7 @@ var player;
 var theMap;
 var context;
 var manager = new EntityManager();
+var monsters =[];
 
 /**
  * WindowReady used for starting up the game prototype.
@@ -44,6 +44,25 @@ function windowReady() {
 	player.y = 64;
 	player.name = "Lee";
 	player.spriteImg.src = "res/player.png";
+	
+	//Test Monster
+	dragon = manager.createCreature('Green Dragon');
+	dragon.x = 12*32;
+	dragon.y = 8*32;
+	dragon.name = "Green Dragon";
+	dragon.spriteImg.src = "res/dragon.png";
+	dragon.agression = 7; //yikes!
+
+	monsters.push(dragon);
+	
+	
+	dragon2 = manager.createCreature('Green Dragon');
+	dragon2.x = 3*32;
+	dragon2.y = 4*32;
+	dragon2.name = "Green Dragon2";
+	dragon2.spriteImg.src = "res/dragon.png";
+	dragon2.agression = 2;
+	monsters.push(dragon2);
 
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
@@ -165,6 +184,15 @@ function update() {
         //player.y += 32;
         mover.movePlayer(player, 0,32);
   }
+  
+  //TODO: have monsters scan for player
+}
+
+function moveMonster() {
+	//loop monster and check range for player..
+	//if spoted 
+		//M has range weapon and in range ? attack : move
+		
 }
 
 /**
@@ -179,6 +207,11 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	context.save();  //save position to return to later.
 	context.translate(vpCtrX-player.x,vpCtrY-player.y); //Move to point on map where player stands
 	context.drawImage(theMap, 0, 0);
+
+	//Draw monsters
+	for(m in monsters){
+		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
+	}
 
 	if(showGrid) {
 		paintGrid(context, theMap.width, theMap.height);

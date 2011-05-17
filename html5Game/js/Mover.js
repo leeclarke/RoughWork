@@ -38,6 +38,17 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 				player.y = playerOldY;
 				break;
 			}
+			
+			//check monster Collision.
+			for(m in monsters) {
+				if(this.checkCollision(player,monsters[m])) {
+					//blocked
+					player.x = playerOldX;
+					player.y = playerOldY;
+					break;
+				}
+			}
+			
 		}
 	}
 	
