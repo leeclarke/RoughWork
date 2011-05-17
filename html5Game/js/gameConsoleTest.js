@@ -1,8 +1,9 @@
 //TODO: Build map maker
 
+//TODO: MAke map tiles into an Entity and build loader for it.
 //TODO: figure out creature rendering.
 //TODO: Implement Mover for Monsters
-//TODO: Work out getting a message back to gui.. like whena door is locked.
+//TODO: Work out getting a message back to gui.. like when a door is locked.
 
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
 //TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.

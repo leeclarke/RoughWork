@@ -1,9 +1,10 @@
 //TODO: add monster move function here, it should dosight,  pathing and then move position.
+
 /**
  * 
  */
 function EntityManager() {
-	EntityTypes = {'Player':'Player','Arrow':'Arrow', 'Creature':'Creature'};
+	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature'};
 }
 
 function Entity(type){
@@ -29,6 +30,10 @@ EntityManager.prototype.createEntity = function(entityType){
 			alive(entity);
 			entity.toString = toString;
 			renderable(entity);
+			return entity;
+		case 'MapTile':
+			entity = new Entity(entityType);
+			entity.init = initMapTile;
 			return entity;
 		case 'Arrow':
 			entity = new Entity(entityType);
@@ -97,4 +102,12 @@ function renderable(entity) {
 function renderImg(){
 	//TODO: convert to anamation with an array of sprites
 	return this.spriteImg;
+}
+
+
+/**
+ * Initialize the map from stored data.
+ */
+function initMapTile(data) {
+	//TODO: finish this
 }
