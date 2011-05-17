@@ -90,6 +90,7 @@ function toString() {
 }
 
 function renderable(entity) {
+//TODO: clean up
 	entity.spriteImg = document.createElement('img');
 	entity.width = 32;
 	entity.height = 32;
@@ -110,4 +111,5 @@ function renderImg(){
  */
 function initMapTile(data) {
 	//TODO: finish this
+	return true;
 }

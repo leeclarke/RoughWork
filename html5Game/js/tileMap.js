@@ -65,15 +65,15 @@ function TiledMap(width, height) {
 	mapImage;
 	tileManager = new SpriteTileManager();
 	
-	this.setMapData(){
-		
-	}
+	//this.setMapData(){
+//		
+//	}
 	
 	/**
 	 * Returns a rendered Map Canvas ready for display on a game canvas. This is cached in a buffer 
 	 * canvas to speed up rendering.  
 	 */
-	this.renderMap() {
+	/*this.renderMap() {
 		
 		
 		//draw at the 0,0 position 
@@ -81,7 +81,7 @@ function TiledMap(width, height) {
 		// draw to game canvas like so source 
 		//ctx.drawImage(mapCtx.canvas, x, y);
 		return mapCtx.canvas;
-	}
+	}*/
 	
 }
 
