@@ -48,6 +48,8 @@ TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight
 	return resp;
 }
 
+TiledMap.prototype.movementAttributes = { 0:"unpassable",1:"open", 2:"locked", 3:"slow", 4:"blocked", 5:"trapped", 6:"stairsUp", 7:"stairsDown", 8:"portal"}
+
 /**
  * Returns a rendered Map Canvas ready for display on a game canvas. This is cached in a buffer 
  * canvas to speed up rendering.  
@@ -76,21 +78,6 @@ TiledMap.prototype.setMapData = function(){
 	//TODO: add
 	console.log("setMapData not implemented.");	
 }
-
-/********** TiledMap END **********/
-
-/**
- * @object  Tile
- * Must track all data on each tile inorder to manage collision etc. 
- */
-function Tile() {
-	movementAttributes = { 0:"unpassable",1:"open", 2:"locked", 3:"slow", 4:"blocked", 5:"trapped", 6:"stairsUp", 7:"stairsDown", 8:"portal"}
-	//TODO: might not need this.
-	this.blocking = false; //indicates if the tile is passable floors are not blocking and walls are true etc..
-	this.type = "";
-	
-}
-/********** Tile END **********/
 
 /**
  * @object SpriteTileManager
