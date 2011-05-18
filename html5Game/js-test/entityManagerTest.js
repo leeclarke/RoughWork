@@ -23,8 +23,15 @@ EntityManagerTest.prototype.testGetCreature = function() {
 
 
 EntityManagerTest.prototype.testInitMapTile = function() {
+	testTileData = {"id":2, "type":2};
 	mapTile = manager.createEntity('MapTile');
+	
 	assertNotNull('MapTile should not be null',mapTile);
 	assertTrue('mapTile should have initMapTile function.actual==',(typeof mapTile.init == 'function'));
+	//Test loading of data.
+	mapTile.init(testTileData);
+	assertTrue('MapTile should have property "id".',mapTile.hasOwnProperty('id'));
+	assertTrue('MapTile should have property "type".',mapTile.hasOwnProperty('type'));
 	
 }
+

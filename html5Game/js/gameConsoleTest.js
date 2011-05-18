@@ -1,6 +1,6 @@
 //TODO: Build map maker
 
-//TODO: MAke map tiles into an Entity and build loader for it.
+//TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
 //TODO: figure out creature rendering.
 //TODO: Implement Mover for Monsters
 //TODO: Work out getting a message back to gui.. like when a door is locked.
@@ -70,10 +70,11 @@ function windowReady() {
 		{"id":1,"name":"FLOOR1","col":1,"row":8},
 		{"id":2,"name":"DOOR1","col":4,"row":2},
 		{"id":3,"name":"DOOR2","col":1,"row":6}
-	]}
+	]};
 	
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
+	//TODO: Why is tere and id and type and both set to the same number?
 	tiledMap.tiles = [
 				[{},{}],
 				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],

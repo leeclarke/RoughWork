@@ -12,7 +12,7 @@ function Entity(type){
 }
 
  /**
-  * 
+  * Creates an Entity of the requested type. Types are publicly defined in EntityManager.EtityTypes Map.
   */
 EntityManager.prototype.createEntity = function(entityType){
 	
@@ -52,6 +52,9 @@ EntityManager.prototype.createCreature = function(creatureType){
 	return creature;
 }
 
+/**
+ * Give the Entity the Monster component set.
+ */
 function monster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
@@ -77,6 +80,9 @@ function stats(entity) {
 	entity.name = "";
 }
 
+/**
+ * Add to any entity for debugging.
+ */
 function toString() {
 	out =  "["+ this.entityType +"] ";
 	for(var prop in this)
@@ -89,6 +95,9 @@ function toString() {
 	return out;
 }
 
+/**
+ * Entity is able to be rendered to the screen.
+ */
 function renderable(entity) {
 	entity.spriteImg = document.createElement('img');
 	entity.width = 32;
@@ -97,7 +106,7 @@ function renderable(entity) {
 }
 
 /**
- * Technically doesn't render but returns the correct image for rendering, controls animation output.
+ * Technically doesn't render but, returns the correct image for rendering, controls animation output.
  */
 function renderImg(){
 	//TODO: convert to anamation with an array of sprites
@@ -106,9 +115,10 @@ function renderImg(){
 
 
 /**
- * Initialize the map from stored data.
+ * Initiallize the map from stored data which should be int he format of {"id":0, "type":0}
+ * Note: id should indicate the sprite image id. no idea what type ought to be..
  */
 function initMapTile(data) {
-	//TODO: finish this
-	return true;
+	this.id = data.id;
+	this.type = data.type;
 }
