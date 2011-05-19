@@ -1,8 +1,14 @@
 //TODO: Build map maker
+//TODO: Implement Mover for Monsters
+//		- port A* code to js
+//		- it should do sight,  pathing and then update move position.
+//		- add move process into game loop code.
+//		- build move function and add component to Entity Manager
 
+//		Hold on ties til know requirements
 //TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
 //TODO: figure out creature rendering.
-//TODO: Implement Mover for Monsters
+
 //TODO: Work out getting a message back to gui.. like when a door is locked.
 
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
@@ -74,7 +80,7 @@ function windowReady() {
 	
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
-	//TODO: Why is tere and id and type and both set to the same number?
+	//TODO: Why is there an id and type and both set to the same number?
 	tiledMap.tiles = [
 				[{},{}],
 				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
@@ -168,22 +174,18 @@ function fakeLoop() {
 function update() {
 	mover = new Mover();
   if (keydown.left) {
-    //player.x -= 32; //TODO: implement a Mover that handles collision.
     mover.movePlayer(player, -32,0);
   }
 
   if (keydown.right) {
-    //player.x += 32;
     mover.movePlayer(player, 32,0);
   }
   
   if (keydown.up) {
-      //player.y -= 32;
       mover.movePlayer(player, 0,-32);
   }
   
   if (keydown.down) {
-        //player.y += 32;
         mover.movePlayer(player, 0,32);
   }
   
@@ -191,10 +193,9 @@ function update() {
 }
 
 function moveMonster() {
-	//loop monster and check range for player..
-	//if spoted 
-		//M has range weapon and in range ? attack : move
-		
+	for(m in this.monsters) {
+		this.monsters[m].move();
+	}	
 }
 
 /**

@@ -3,6 +3,7 @@
  */
 function Mover(){
 	
+	
 }
 
 /**
@@ -51,7 +52,19 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 			
 		}
 	}
+}
+
+Mover.prototype.moveMonster_ = function() {
+	//simply iterate the monsters and if distance is under range then do path
+	//need to consider line of sight, when waking up a monster. a direct unblocked path is needed.
 	
+	
+	
+	//TODO: move code into EntityManager
+	//check range for player..
+	//if spoted 
+		//M has range weapon and in range ? attack : move
+		
 }
 
 /**

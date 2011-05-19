@@ -30,6 +30,7 @@ EntityManager.prototype.createEntity = function(entityType){
 			alive(entity);
 			entity.toString = toString;
 			renderable(entity);
+			//entity.move = Move.moveMonster;
 			return entity;
 		case 'MapTile':
 			entity = new Entity(entityType);

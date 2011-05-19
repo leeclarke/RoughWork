@@ -63,3 +63,11 @@ MoverTest.prototype.testMovePlayer = function() {
 	mover = new Mover();
 	resp_noCol = mover.movePlayer(player, 0,32);
 }
+
+MoverTest.prototype.testMoveMonster = function() {
+	mover = new Mover();
+	entityMan = new EntityManager();
+	monster = entityMan.createEntity('Creature');
+	
+	//resp_noCol = mover.movePlayer(player, 0,32);
+}
