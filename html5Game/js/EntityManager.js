@@ -4,7 +4,7 @@
  * 
  */
 function EntityManager() {
-	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature'};
+	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature'}
 }
 
 function Entity(type){
@@ -19,17 +19,18 @@ EntityManager.prototype.createEntity = function(entityType){
 	switch(entityType) {
 		case 'Player':
 			entity = new Entity(entityType);
-			location(entity);
+			addLocation(entity);
 			alive(entity);
 			entity.toString = toString;
 			renderable(entity);
 			return entity;
 		case 'Creature':
 			entity = new Entity(entityType);
-			location(entity);
+			addLocation(entity);
 			alive(entity);
 			entity.toString = toString;
 			renderable(entity);
+			addMonster(entity);
 			//entity.move = Move.moveMonster;
 			return entity;
 		case 'MapTile':
@@ -54,9 +55,17 @@ EntityManager.prototype.createCreature = function(creatureType){
 }
 
 /**
+ * 
+ */
+function addLocation(entity) {
+	entity.x = 0; //test
+	entity.y = 0;
+}
+
+/**
  * Give the Entity the Monster component set.
  */
-function monster(entity) {
+function addMonster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
 }
@@ -71,11 +80,7 @@ function alive(entity) {
 	entity.aggression = 0; //non-agressive @ 0
 }
 
-function location(entity) {
-	entity.x = 0;
-	entity.y = 0;
-	
-}
+
 
 function stats(entity) {
 	entity.name = "";

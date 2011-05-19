@@ -9,6 +9,8 @@
  */
 function TiledMap(width, height, tileWidth, tileHeight) {
 	map = document.createElement('canvas');
+	rows = 0;
+	cols = 0;
 	height = (~~(height/tileHeight))*tileHeight;
 	width = (~~(width/tileWidth))*tileWidth;
 	map.width = (~~(width/tileWidth))*tileWidth; //faster then calling floor
@@ -49,6 +51,26 @@ TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight
 }
 
 TiledMap.prototype.movementAttributes = { 0:"unpassable",1:"open", 2:"locked", 3:"slow", 4:"blocked", 5:"trapped", 6:"stairsUp", 7:"stairsDown", 8:"portal"}
+
+/**
+ * Use to provide control over updating internals when the map layout data changes.
+ * Use in place of setting tiles directly!
+ */
+TiledMap.prototype.updateMap = function(mapData) {
+	this.tiles = mapData;
+	this.rows = this.tiles.length;
+	this.cols = this.getCols();
+}
+
+TiledMap.prototype.getCols = function() {
+	colCnt = 0;
+	for(x in this.tiles.length) {
+		if(this.tiles[x].length> colCnt){
+			colCnt = this.tiles[x].length;
+		}
+	}
+	return colCnt;
+}
 
 /**
  * Returns a rendered Map Canvas ready for display on a game canvas. This is cached in a buffer 

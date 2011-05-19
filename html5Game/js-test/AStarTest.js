@@ -1,20 +1,18 @@
-MoverTest = TestCase("MoverTest");
+AStarTest = TestCase("AStarTest");
+var manager = new AStarTest();
 
-//TODO: clean out this stuff.. cant really need all of it...
-tileWidth = 32;
-tileHeight = 32;
-tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
+aStar_tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
 
-testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
+aStar_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 	{"id":0,"name":"WALL1","col":0,"row":0},
 	{"id":1,"name":"FLOOR1","col":1,"row":8},
 	{"id":2,"name":"DOOR1","col":4,"row":2},
 	{"id":3,"name":"DOOR2","col":1,"row":6}
 ]}
 
-tileMapManager = new SpriteTileManager(testManagerConfig);
+aStar_tileMapManager = new SpriteTileManager(testManagerConfig);
 
-tiledMap.tiles = [
+aStar_tiledMap.tiles = [
 				[{},{}],
 				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
 				[{"id":1, "type":1},{"id":2, "type":2},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
@@ -28,74 +26,11 @@ tiledMap.tiles = [
 				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 
 		];
-tiledMap.tileMapManager = tileMapManager;
-
-//theMap = tiledMap.renderMap();
-//draw to canvas	
-
-
-
-//Dont intersect
-rec1 = {"x":2,"y":3, "width":4, "height":4};
-rec2 = {"x":3,"y":8, "width":4, "height":4};
-
-//Intersect/collide with each other.
-rec3 = {"x":3,"y":4, "width":4, "height":4};
-rec4 = {"x":3,"y":4, "width":4, "height":4};
 		
-MoverTest.prototype.testCheckCollision_NoCollision = function() {
-	assertFalse(mover.checkCollision(rec1,rec2));
-}
+aStar_tiledMap.tileMapManager = aStar_tileMapManager;
 
-
-MoverTest.prototype.testCheckCollision_Collision = function() {
-	assertTrue(mover.checkCollision(rec3,rec4));
-}
-
-MoverTest.prototype.testMovePlayer = function() {
-	player = manager.createEntity('Player');
-	player.x = 4*32;
-	player.y = 2*32;
-	mover = new Mover();
-	resp_noCol = mover.movePlayer(player, 0,32);
-}
-
-/**
- * Testing out of range move, the monster locations should stay the same and isHostile = false.
- */
-MoverTest.prototype.testMoveMonsterOutOfRange = function() {
-	mover = new Mover();
-	entityMan = new EntityManager();
-	monster = entityMan.createEntity('Creature');
-	monster.x = 8*32;
-	monster.y = 6*32;
-	monster.range = 4;
-	
-	
-	player = manager.createEntity('Player');
-	player.x = 4*32;
-	player.y = 2*32;
-	
-	mover.moveMonster(monster, player);
-	assertEquals(8*32, monster.x);
-	assertEquals(6*32, monster.y);
-	assertFalse(monster.isHostile);
-}
-
-
-MoverTest.prototype.testDistanceToPoint= function() {
-	entityMan = new EntityManager();
-	creature = entityMan.createEntity('Creature');
-	creature.x = 8*32;
-	creature.y = 6*32;
-	
-	mover = new Mover();
-	
-	player = manager.createEntity('Player');
-	player.x = 4*32;
-	player.y = 2*32;
-	
-	dist = mover.getRange(player, creature);
-	assertEquals('Expected distance between points should be 128',5,dist);
+AStarTest.prototype.testA_star = function() {
+	//simple function call no object.
+	path = a_star(entity, mapTile, aStar_tiledMap);
 	
 }

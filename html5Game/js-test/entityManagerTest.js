@@ -14,8 +14,9 @@ EntityManagerTest.prototype.testGetPlayerEntity = function() {
 EntityManagerTest.prototype.testGetCreature = function() {
 	creature = manager.createEntity('Creature');
 	assertNotNull('creature should not be null',creature);
-	assertTrue('creature obj chould have x,y properties',(creature.hasOwnProperty('x') && creature.hasOwnProperty('y')));
-	assertTrue('creature obj chould have deadImg, hp properties from alive component',(creature.hasOwnProperty('deadImg') && creature.hasOwnProperty('hp')));
+	assertTrue('creature obj should have x,y properties',(creature.hasOwnProperty('x') && creature.hasOwnProperty('y')));
+	assertTrue('creature obj should have deadImg, hp properties from alive component',(creature.hasOwnProperty('deadImg') && creature.hasOwnProperty('hp')));
+	assertTrue('creature obj should have range, isHostile properties',(creature.hasOwnProperty('range') && creature.hasOwnProperty('isHostile')));
 	
 	//FYI - console provided by jstestdriver!
 	jstestdriver.console.log("EntityManagerTest", "Hello World!");

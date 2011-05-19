@@ -54,17 +54,41 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	}
 }
 
-Mover.prototype.moveMonster_ = function() {
-	//simply iterate the monsters and if distance is under range then do path
+Mover.prototype.moveMonster = function(monster, player) {
+	//if distance is under range then do path
 	//need to consider line of sight, when waking up a monster. a direct unblocked path is needed.
 	
 	
+	//.1 get disntance to player.
+	dist = this.getRange(player,monster);
+	if(dist <= monster.range) {
+		if(!monster.isHostile ) {
+			//check line of sight and if in sight flip to hostile.
+			monster.isHostile = true;
+		}
+		
+		//Call aStar to get path and make first step
+		
+	}
 	
 	//TODO: move code into EntityManager
 	//check range for player..
 	//if spoted 
 		//M has range weapon and in range ? attack : move
 		
+}
+
+/**
+ * This returns the distance to the other point rounded down if not a whole number. This just helps determine if 
+ * the creature could even see the player before trying to determine a path, hopefully saving time in computing 
+ * when there are many monsters on the map.
+ * 
+ */
+Mover.prototype.getRange = function (point1,point2){
+	 dx = (point2.x/32)-(point1.x/32);
+	 dy = (point2.y/32)-(point1.y/32);
+	 dist = Math.sqrt((dx*dx) + (dy*dy));
+	 return ~~(dist);
 }
 
 /**
