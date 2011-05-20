@@ -31,7 +31,6 @@ EntityManager.prototype.createEntity = function(entityType){
 			entity.toString = toString;
 			renderable(entity);
 			addMonster(entity);
-			//entity.move = Move.moveMonster;
 			return entity;
 		case 'MapTile':
 			entity = new Entity(entityType);
@@ -68,6 +67,10 @@ function addLocation(entity) {
 function addMonster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
+	/*entity.move = function () {
+		mover = new Mover();
+		//This just wont work because the object needs access to the player to determine move.
+	}*/
 }
 
 /**

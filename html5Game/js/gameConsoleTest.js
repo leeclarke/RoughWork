@@ -190,11 +190,13 @@ function update() {
   }
   
   //TODO: have monsters scan for player
+  moveMonsters();
 }
 
-function moveMonster() {
+function moveMonsters() {
+	mover = new Mover();
 	for(m in this.monsters) {
-		this.monsters[m].move();
+		mover.moveMonster(this.monsters[m],player);
 	}	
 }
 

@@ -26,13 +26,23 @@ tile_Maptiles = [
 
 tile_tiledMap.tileMapManager = tile_tileMapManager;
 
+/**
+ * Added map data load function and new row/cols values for use by aStar. 
+ */
 TiledMapTest.prototype.testUpdateMap = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);
 	assertTrue(tile_tiledMap.tiles.length > 1);
-	assertTrue('TiledMap obj should have rows properties',	creature.hasOwnProperty('rows'));
-	assertTrue('TiledMap obj should have cols properties',creature.hasOwnProperty('cols'));
+	assertTrue('TiledMap obj should have rows properties',	tile_tiledMap.hasOwnProperty('rows'));
+	assertTrue('TiledMap obj should have cols properties',tile_tiledMap.hasOwnProperty('cols'));
 	
-	jstestdriver.console.log("TiledMapTest", "wtf?");	
+	jstestdriver.console.log("TiledMapTest", tile_tiledMap.rows + "," + tile_tiledMap.cols);	
+	assertEquals(11,tile_tiledMap.rows);
+	assertEquals(16,tile_tiledMap.cols);
+}
+
+TiledMapTest.prototype.testMoveAtt = function() {	
+	tile_tiledMap.updateMap(tile_Maptiles);
+	assertEquals(1,tile_tiledMap.movementAttributes["open"]);
 }
 
 //TODO: Build better tests

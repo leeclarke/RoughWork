@@ -44,11 +44,13 @@ rec3 = {"x":3,"y":4, "width":4, "height":4};
 rec4 = {"x":3,"y":4, "width":4, "height":4};
 		
 MoverTest.prototype.testCheckCollision_NoCollision = function() {
+	mover = new Mover();
 	assertFalse(mover.checkCollision(rec1,rec2));
 }
 
 
 MoverTest.prototype.testCheckCollision_Collision = function() {
+	mover = new Mover();
 	assertTrue(mover.checkCollision(rec3,rec4));
 }
 
@@ -80,6 +82,29 @@ MoverTest.prototype.testMoveMonsterOutOfRange = function() {
 	assertEquals(8*32, monster.x);
 	assertEquals(6*32, monster.y);
 	assertFalse(monster.isHostile);
+}
+
+/**
+ * Testing out of range move, the monster locations should stay the same and isHostile = false.
+ */
+MoverTest.prototype.testMoveMonsterInRange = function() {
+	mover = new Mover();
+	entityMan = new EntityManager();
+	monster = entityMan.createEntity('Creature');
+	monster.x = 12*32;
+	monster.y = 8*32;
+	monster.range = 6;
+	
+	
+	player = manager.createEntity('Player');
+	player.x = 11*32;
+	player.y = 3*32;
+	
+	mover.moveMonster(monster, player);
+	assertTrue(monster.isHostile);
+	assertEquals(12, monster.x/32);
+	assertEquals(8, monster.y/32);
+	
 }
 
 

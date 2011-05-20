@@ -50,7 +50,7 @@ TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight
 	return resp;
 }
 
-TiledMap.prototype.movementAttributes = { 0:"unpassable",1:"open", 2:"locked", 3:"slow", 4:"blocked", 5:"trapped", 6:"stairsUp", 7:"stairsDown", 8:"portal"}
+TiledMap.prototype.movementAttributes = { "unpassable":0,"open":1, "locked":2, "slow":3, "blocked":4, "trapped":5, "stairsUp":6, "stairsDown":7, "portal":8}
 
 /**
  * Use to provide control over updating internals when the map layout data changes.
@@ -64,7 +64,7 @@ TiledMap.prototype.updateMap = function(mapData) {
 
 TiledMap.prototype.getCols = function() {
 	colCnt = 0;
-	for(x in this.tiles.length) {
+	for(x in this.tiles) {
 		if(this.tiles[x].length> colCnt){
 			colCnt = this.tiles[x].length;
 		}

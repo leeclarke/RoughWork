@@ -7,13 +7,16 @@
  */
 function a_star(entity, mapTile, tiledMap, columns, rows)
 {
-	if(!columns ) {
-		
+	tileWidth = tiledMap.tileMapManager.tileWidth;
+	tileHeight = tiledMap.tileMapManager.tileHeight;
+	if(!columns || !rows) {
+		columns = tiledMap.cols;
+		rows = tiledMap.rows;
 	}
 	
 	//Create start and destination as true nodes
-	start = new node(entity.x, entity.y, -1, -1, -1, -1);
-	destination = new node(mapTile.x, mapTile.y, -1, -1, -1, -1);
+	start = new node((entity.x/tileWidth), (entity.y/tileHeight), -1, -1, -1, -1);
+	destination = new node((mapTile.x/tileWidth), (mapTile.y/tileHeight), -1, -1, -1, -1);
 
 	var open = []; //List of open nodes (nodes to be inspected)
 	var closed = []; //List of closed nodes (nodes we've already inspected)
@@ -72,7 +75,7 @@ function a_star(entity, mapTile, tiledMap, columns, rows)
 		for (var new_node_x = Math.max(0, current_node.x-1); new_node_x <= Math.min(columns-1, current_node.x+1); new_node_x++)
 			for (var new_node_y = Math.max(0, current_node.y-1); new_node_y <= Math.min(rows-1, current_node.y+1); new_node_y++)
 			{
-				if (tiledMap.tiles[new_node_x][new_node_y] == 0 //If the new node is open
+				if (tiledMap.tiles[new_node_y] && tiledMap.tiles[new_node_y][new_node_x] && tiledMap.tiles[new_node_y][new_node_x].type == tiledMap.movementAttributes["open"] //If the new node is open
 					|| (destination.x == new_node_x && destination.y == new_node_y)) //or the new node is our destination
 				{
 					//See if the node is already in our closed list. If so, skip it.
