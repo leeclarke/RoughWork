@@ -41,6 +41,26 @@ AStarTest.prototype.testA_star = function() {
 	path = a_star(entity, mapTile[0], aStar_tiledMap);
 	assertNotNull('Path expected but none was found', path);
 	assertTrue(path.length > 0);
-	jstestdriver.console.log("TiledMapTest", "path=" + path);	
+	jstestdriver.console.log("AStarTest", "path=" + path);	
+	
+}
+
+/**
+ * No path returned if adjacent.
+ */
+AStarTest.prototype.testA_star_Adjacent = function() {
+	aStar_tiledMap.updateMap(aStar_tiles);
+	mapTile = aStar_tiledMap.getRange(3,11,1,1);
+	assertTrue(mapTile.length == 1);
+	
+	puff = manager.createCreature('Puff the Dragon');
+	puff.x = mapTile.x+32;
+	puff.y = mapTile.y;
+	
+	
+	path = a_star(entity, mapTile[0], aStar_tiledMap);
+	assertNotNull('Path expected but none was found', path);
+	assertTrue(path.length === 0);
+	jstestdriver.console.log("AStarTest", "path=" + path);	
 	
 }

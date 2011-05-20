@@ -54,6 +54,9 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	}
 }
 
+/**
+ * Move the monster towards the player if in range or attack if can.
+ */
 Mover.prototype.moveMonster = function(monster, player) {
 	//if distance is under range then do path
 	//need to consider line of sight, when waking up a monster. a direct unblocked path is needed.
@@ -66,11 +69,14 @@ Mover.prototype.moveMonster = function(monster, player) {
 		}
 		
 		//Call aStar to get path and make first step
-		path = a_star(entity, mapTile[0], aStar_tiledMap);
+		path = a_star(monster, player, tiledMap);
 //TODO: M has range weapon and in range ? attack : move
 		if(path && path.length >0){
 			monster.x = path[0].x;
 			monster.y = path[0].y;
+		} else {
+			//If path length is 0 then adjacent to player, club him!
+//TODO:
 		}
 	}		
 }
@@ -96,6 +102,9 @@ Mover.prototype.offMap = function(entity, tiledMap){
 	return (entity.x <0 || entity.y <0 || entity.x > tiledMap.width || entity.y > tiledMap.height);
 }
 
+/**
+ * Returns true if two entities collide or overlap.
+ */
 Mover.prototype.checkCollision = function(a, b) {
   return a.x < b.x + b.width &&
          a.x + a.width > b.x &&

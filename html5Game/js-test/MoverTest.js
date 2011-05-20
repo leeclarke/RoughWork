@@ -107,8 +107,31 @@ MoverTest.prototype.testMoveMonsterInRange = function() {
 	
 }
 
+/**
+ * Testing out of range move, the monster locations should stay the same and isHostile = false.
+ */
+MoverTest.prototype.testMoveMonsterInRange_Adjacent = function() {
+	mover = new Mover();
+	entityMan = new EntityManager();
+	monster = entityMan.createEntity('Creature');
+	monster.x = 12*32;
+	monster.y = 3*32;
+	monster.range = 6;
+	
+	
+	player = manager.createEntity('Player');
+	player.x = 11*32;
+	player.y = 3*32;
+	
+	mover.moveMonster(monster, player);
+	assertTrue(monster.isHostile);
+	assertEquals(12, monster.x/32);
+	assertEquals(3, monster.y/32); //Shouldent have moved because already there.
+	
+}
 
-MoverTest.prototype.testDistanceToPoint= function() {
+
+MoverTest.prototype.testGetRange= function() {
 	entityMan = new EntityManager();
 	creature = entityMan.createEntity('Creature');
 	creature.x = 8*32;
@@ -123,4 +146,12 @@ MoverTest.prototype.testDistanceToPoint= function() {
 	dist = mover.getRange(player, creature);
 	assertEquals('Expected distance between points should be 128',5,dist);
 	
+}
+
+/**
+ * See what's returned when items are adjacent both on axis and diaginal.
+ */
+MoverTest.prototype.testGetRange_AdjacentPoints= function() {
+
+//TODO: Test on axis and diaginal
 }

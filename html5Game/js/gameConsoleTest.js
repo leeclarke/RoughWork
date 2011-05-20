@@ -1,10 +1,7 @@
-//TODO: Build map maker
-//TODO: Implement Mover for Monsters
-//		- port A* code to js
-//		- it should do sight,  pathing and then update move position.
-//		- add move process into game loop code.
-//		- build move function and add component to Entity Manager
 
+//TODO: 1. debug creature movement in game, they arent moving. Might not be in render loop?
+//TODO: 2. Add line of sight checking for creatures.
+//TODO: Build map maker
 //		Hold on ties til know requirements
 //TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
 //TODO: figure out creature rendering.
