@@ -1,5 +1,7 @@
 /**
  * Mover, responsable for moving animate Entities.
+ * 
+ * Requires:  astar.js
  */
 function Mover(){
 	

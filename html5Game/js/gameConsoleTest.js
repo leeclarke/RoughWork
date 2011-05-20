@@ -1,6 +1,7 @@
 
 //TODO: 1. debug creature movement in game, they arent moving. Might not be in render loop?
 //TODO: 2. Add line of sight checking for creatures.
+//TODO: Put together Groovy script that builds a JS deployment.
 //TODO: Build map maker
 //		Hold on ties til know requirements
 //TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
