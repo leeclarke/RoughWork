@@ -60,22 +60,30 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
  * Move the monster towards the player if in range or attack if can.
  */
 Mover.prototype.moveMonster = function(monster, player) {
-	//if distance is under range then do path
 	//need to consider line of sight, when waking up a monster. a direct unblocked path is needed.
 
 	dist = this.getRange(player,monster);
 	if(dist <= monster.range) {
-		if(!monster.isHostile ) {
-			//TODO: check line of sight and if in sight flip to hostile.
-			monster.isHostile = true;
-		}
-		
-		//Call aStar to get path and make first step
 		path = a_star(monster, player, tiledMap);
+
 //TODO: M has range weapon and in range ? attack : move
-		if(path && path.length >0){
-			monster.x = path[0].x;
-			monster.y = path[0].y;
+		if(path && path.length >2 && path.length <= monster.range){
+			monster.isHostile = true;
+			///make sure there isnt a monster in the target location.. 
+			///Might be more efficent to mark the tile as occupied?
+			tileClear = true;
+			newPos = {"x":(path[1].x*tiledMap.tileMapManager.tileWidth), "y":(path[1].y*tiledMap.tileMapManager.tileHeight)};
+			for(mn in monsters) {
+				if(monsters[mn].x === newPos.x && monsters[mn].y === newPos.y){
+					tileClear = false; break;
+				}
+			}  
+			if(tileClear) { 
+				monster.x = path[1].x*tiledMap.tileMapManager.tileWidth;
+				monster.y = path[1].y*tiledMap.tileMapManager.tileHeight;
+			} else {
+				//Try ranged attack.
+			}
 		} else {
 			//If path length is 0 then adjacent to player, club him!
 //TODO:
@@ -92,8 +100,8 @@ Mover.prototype.moveMonster = function(monster, player) {
 Mover.prototype.getRange = function (point1,point2){
 	 dx = (point2.x/32)-(point1.x/32);
 	 dy = (point2.y/32)-(point1.y/32);
-	 dist = Math.sqrt((dx*dx) + (dy*dy));
-	 return ~~(dist);
+	 dist = ~~(Math.sqrt((dx*dx) + (dy*dy)));
+	 return dist;
 }
 
 /**
