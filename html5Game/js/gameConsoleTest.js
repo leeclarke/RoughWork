@@ -83,7 +83,7 @@ function windowReady() {
 	
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
-	//TODO: Why is there an id and type and both set to the same number? ID should be unique id and type == tp tile id.
+	//'is' is the sprite id and type is the 
 	mapTiles = [
 				[{},{}],
 				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],

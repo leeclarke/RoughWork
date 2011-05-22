@@ -35,7 +35,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 		if(colls) {
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
-			if(!tile.hasOwnProperty('type') || tile.type == 0) {
+			if(!tile.hasOwnProperty('type') || tile.type == tiledMap.movementAttributes["unpassable"]) {
 				//blocked
 				player.x = playerOldX;
 				player.y = playerOldY;
@@ -51,7 +51,6 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					break;
 				}
 			}
-			
 		}
 	}
 }

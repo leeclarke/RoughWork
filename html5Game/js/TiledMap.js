@@ -54,7 +54,8 @@ TiledMap.prototype.movementAttributes = { "unpassable":0,"open":1, "locked":2, "
 
 /**
  * Use to provide control over updating internals when the map layout data changes.
- * Use in place of setting tiles directly!
+ * Use in place of setting tiles directly or the row/col values wont be set!
+ * @param mapData  - data format is [[{"id":0,"type":0},{"id":0,"type":0}],[{"id":0,"type":0},{"id":0,"type":0}]]
  */
 TiledMap.prototype.updateMap = function(mapData) {
 	this.tiles = mapData;
@@ -94,11 +95,6 @@ TiledMap.prototype.renderMap = function() {
 		}
 	}
 	return mapCtx.canvas;
-}
-
-TiledMap.prototype.setMapData = function(){
-	//TODO: add
-	console.log("setMapData not implemented.");	
 }
 
 /**
