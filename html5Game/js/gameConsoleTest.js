@@ -1,4 +1,4 @@
-
+//TODO: Implelemnt attack v1, bump attack. (default attack method for now.)
 
 //TODO: 2. Add line of sight checking for creatures.
 //TODO: Put together Groovy script that builds a JS deployment.

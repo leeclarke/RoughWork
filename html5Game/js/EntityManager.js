@@ -21,6 +21,7 @@ EntityManager.prototype.createEntity = function(entityType){
 			entity = new Entity(entityType);
 			addLocation(entity);
 			alive(entity);
+			addPlayer(entity);
 			entity.toString = toString;
 			renderable(entity);
 			return entity;
@@ -49,7 +50,6 @@ EntityManager.prototype.createEntity = function(entityType){
  */
 EntityManager.prototype.createCreature = function(creatureType){
 	creature = this.createEntity('Creature');
-	
 	return creature;
 }
 
@@ -67,10 +67,16 @@ function addLocation(entity) {
 function addMonster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
-	/*entity.move = function () {
-		mover = new Mover();
-		//This just wont work because the object needs access to the player to determine move.
-	}*/
+	entity.attack = attackPlayer;
+}
+/**
+ * 
+ */
+function addPlayer(entity) {
+	entity.level = 1;
+	entity.levelMax = 1;
+	entity.pack = [];
+	entity.attack = attackMonster;
 }
 
 /**
@@ -79,6 +85,9 @@ function addMonster(entity) {
 function alive(entity) {
 	entity.alive = true;
 	entity.hp = 1;
+	entity.hpMax = 1;
+	entity.str = 1;
+	entity.strMax = 1;
 	entity.deadImg = document.createElement('img');
 	entity.aggression = 0; //non-agressive @ 0
 }
@@ -130,4 +139,18 @@ function renderImg(){
 function initMapTile(data) {
 	this.id = data.id;
 	this.type = data.type;
+}
+
+/**
+ * Resolves attacks by the player on monsters
+ */
+function attackMonster(monster) {
+	//TODO: Implement
+}
+
+/**
+ * Resolves attacks on the player
+ */
+function attackPlayer(player) {
+	//TODO: Implement	
 }

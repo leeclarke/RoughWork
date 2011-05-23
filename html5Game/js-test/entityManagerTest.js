@@ -17,9 +17,6 @@ EntityManagerTest.prototype.testGetCreature = function() {
 	assertTrue('creature obj should have x,y properties',(creature.hasOwnProperty('x') && creature.hasOwnProperty('y')));
 	assertTrue('creature obj should have deadImg, hp properties from alive component',(creature.hasOwnProperty('deadImg') && creature.hasOwnProperty('hp')));
 	assertTrue('creature obj should have range, isHostile properties',(creature.hasOwnProperty('range') && creature.hasOwnProperty('isHostile')));
-	
-	//FYI - console provided by jstestdriver!
-	jstestdriver.console.log("EntityManagerTest", "Hello World!");
 }
 
 

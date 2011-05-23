@@ -48,6 +48,8 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
+					//Do Bump attack for now, TODO: Add mouse click support.
+					player.attack(monsters[m]);
 					break;
 				}
 			}
