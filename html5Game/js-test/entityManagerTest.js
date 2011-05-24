@@ -1,5 +1,6 @@
 EntityManagerTest = TestCase("EntityManagerTest");
 var manager = new EntityManager();
+var eventMesgs = [];
 
 EntityManagerTest.prototype.testGetPlayerEntity = function() {
 	player = manager.createEntity('Player');
@@ -42,3 +43,28 @@ EntityManagerTest.prototype.testInitMapTile = function() {
 	
 }
 
+EntityManagerTest.prototype.testGEtWeapon= function() {
+	weapon = manager.createEntity('Weapon');
+	assertTrue('weapon obj should have property: name',weapon.hasOwnProperty('name'));
+	assertTrue('weapon obj should have property: description',weapon.hasOwnProperty('description'));
+	assertTrue('weapon obj should have property: weaponType',weapon.hasOwnProperty('weaponType'));
+	assertTrue('weapon obj should have property: damageThrown',weapon.hasOwnProperty('damageThrown'));
+	assertTrue('weapon obj should have property: damage',weapon.hasOwnProperty('damage'));
+	assertTrue('weapon obj should have property: magical',weapon.hasOwnProperty('magical'));
+	assertTrue('weapon obj should have property: attackAdj',weapon.hasOwnProperty('attackAdj'));
+	assertTrue('weapon obj should have property: toDMGMagicAdj',weapon.hasOwnProperty('toDMGMagicAdj'));
+	assertTrue('weapon obj should have property: toHitMagicAdj',weapon.hasOwnProperty('toHitMagicAdj'));
+	
+}
+
+EntityManagerTest.prototype.testAttackRules = function() {
+
+	testWeapon = manager.createEntity('Weapon')
+	player = manager.createEntity('Player');
+	player.weaponWielded = testWeapon;
+	
+	creature = manager.createEntity('Creature');
+	creature = testWeapon;
+	//TOOD: This failes int he tester for soe reason.
+	player.attack(creature);
+}

@@ -42,6 +42,14 @@ EntityManager.prototype.createEntity = function(entityType){
 			entity = new Entity(entityType);
 			
 			return entity;
+		case 'Weapon':
+			entity = new Entity(entityType);
+			addWeapon(entity);				
+			return entity;
+		case 'Armor':
+			entity = new Entity(entityType);
+					
+			return entity;
 	}
 }
 
@@ -55,6 +63,21 @@ EntityManager.prototype.createCreature = function(creatureType){
 }
 
 /**
+ * Adds a Weapon nature to the entity.
+ */
+function addWeapon(entity) {
+	entity.name = "Sword";
+	entity.description = "Plain old sword.";
+	entity.weaponType = "Sword";
+	entity.damageThrown = 0;
+	entity.damage = 8;
+	entity.magical = false;
+	entity.attackAdj = 0;
+	entity.toDMGMagicAdj = 0;
+	entity.toHitMagicAdj = 0;
+}
+
+/**
  * 
  */
 function addLocation(entity) {
@@ -64,31 +87,32 @@ function addLocation(entity) {
 
 function addCombatant(entity) {
 	entity.level =1;
-	entity.getWeaponWielded = function(){
-		
-	}
+	entity.weaponWielded = {};
 	entity.toHitAdj = function() {
 		//TODO:
+		return 0;
 	}
 	entity.getArmor = function() {
-		//TODO:
+		//TODO:might just be property with entity having armor value.
+		return 8;
 	}
 	entity.getAttackAdj = function() {
 		//TODO:
+		return 0;
 	}
 	entity.getMissiles = function() {
 		//TODO:
 	}
 	entity.strToDmgAdj = function() {
 		//TODO:
+		return 0;
 	}
 	entity.getToDMGMajicAdj = function() {
 		//TODO:
+		return 0;
 	}
-	
-	
-	 
-	entity.attack = attack;
+
+	entity.attack = attackRules;
 }
 
 /**
@@ -102,7 +126,6 @@ function addMonster(entity) {
  * 
  */
 function addPlayer(entity) {
-	entity.level = 1;
 	entity.levelMax = 1;
 	entity.pack = [];
 }
@@ -171,39 +194,31 @@ function initMapTile(data) {
 
 /**
  * All creatures get treated the same in combat though the implementation for stats will vary.
+ * places attack results string into games eventMesgs stack.
  */
-function attack(entity) {
-	/*
-	 * determine chance to hit
-	 * make roll
-	 * roll dmg
-	 * factor adjustments 
-	 * dole out dmg return resuts
-	 */
-	 hitRoll = Math.rollDice(1, 20) + monster.toHitAdj()
-				+ monster.getAttackAdj();
-	 thac0 = 21 - monster.level;
-	 if ((thac0 - this.getArmor()) < hitRoll)
+function attackRules(entity) {
+	 hitRoll = Math.rollDice(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
+	 thac0 = 21 - this.level;
+	 if ((thac0 - entity.getArmor()) < hitRoll)
 	 {
 		dmg = 0;
+		//TODO add check for weaponWielded == {} and assign bare hands.
 		if (isRangeAttack)
 		{
-			strAdj = ((this.getWeaponWielded().getWeaponType() == 'crossbow') ? 0 : this.strToDmgAdj());
+			strAdj = ((this.weaponWielded.weaponType == 'crossbow') ? 0 : this.strToDmgAdj());
 
 			dmgMislMod = 0;
-			if (this.getWeaponWielded().getWeaponType() == 'crossbow' || this.getWeaponWielded().getWeaponType() == 'bow')
+			if (this.weaponWielded.weaponType == 'crossbow' || this.weaponWielded.weaponType == 'bow')
 			{
-//TODO: add implied functions for armor,weapons etc
 				// Apply bolt/arrow adj
 				dmgMislMod += this.getMissiles().getAttackAdj();
 			}
-			dmg = Math.rollDice(this.getWeaponWielded().getDamageThrown()) + strAdj
-					+ this.getWeaponWielded().getAttackAdj() + dmgMislMod
-					+ this.getToDMGMajicAdj();
+			dmg = Math.rollDice(1,this.weaponWielded.damageThrown) + strAdj
+					+ this.weaponWielded.attackAdj + dmgMislMod + this.toDMGMajicAdj;
 		}
-		else
-			dmg = Math.rollDice(this.getWeaponWielded().getDamage()) + this.strToDmgAdj()
-					+ this.getWeaponWielded().getAttackAdj() + this.getToDMGMajicAdj();
+		else {
+			dmg = Math.rollDice(1,this.weaponWielded.damage()) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMajicAdj;
+		}
 		eventMesgs.push("You hit the monster for " + dmg + "!\n");
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
@@ -212,4 +227,3 @@ function attack(entity) {
 		}
 	 }
 }
-
