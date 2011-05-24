@@ -24,6 +24,7 @@ var theMap;
 var context;
 var manager = new EntityManager();
 var monsters =[];
+var eventMesgsStack = [];
 
 /**
  * WindowReady used for starting up the game prototype.

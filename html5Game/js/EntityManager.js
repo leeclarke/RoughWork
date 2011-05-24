@@ -4,7 +4,7 @@
  * 
  */
 function EntityManager() {
-	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature'}
+	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature', 'Weapon':'Weapon', 'Armor':'Armor'}
 }
 
 function Entity(type){
@@ -15,13 +15,13 @@ function Entity(type){
   * Creates an Entity of the requested type. Types are publicly defined in EntityManager.EtityTypes Map.
   */
 EntityManager.prototype.createEntity = function(entityType){
-	
 	switch(entityType) {
 		case 'Player':
 			entity = new Entity(entityType);
 			addLocation(entity);
 			alive(entity);
 			addPlayer(entity);
+			addCombatant(entity);
 			entity.toString = toString;
 			renderable(entity);
 			return entity;
@@ -29,6 +29,7 @@ EntityManager.prototype.createEntity = function(entityType){
 			entity = new Entity(entityType);
 			addLocation(entity);
 			alive(entity);
+			addCombatant(entity);
 			entity.toString = toString;
 			renderable(entity);
 			addMonster(entity);
@@ -61,13 +62,41 @@ function addLocation(entity) {
 	entity.y = 0;
 }
 
+function addCombatant(entity) {
+	entity.level =1;
+	entity.getWeaponWielded = function(){
+		
+	}
+	entity.toHitAdj = function() {
+		//TODO:
+	}
+	entity.getArmor = function() {
+		//TODO:
+	}
+	entity.getAttackAdj = function() {
+		//TODO:
+	}
+	entity.getMissiles = function() {
+		//TODO:
+	}
+	entity.strToDmgAdj = function() {
+		//TODO:
+	}
+	entity.getToDMGMajicAdj = function() {
+		//TODO:
+	}
+	
+	
+	 
+	entity.attack = attack;
+}
+
 /**
  * Give the Entity the Monster component set.
  */
 function addMonster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
-	entity.attack = attackPlayer;
 }
 /**
  * 
@@ -76,7 +105,6 @@ function addPlayer(entity) {
 	entity.level = 1;
 	entity.levelMax = 1;
 	entity.pack = [];
-	entity.attack = attackMonster;
 }
 
 /**
@@ -142,15 +170,46 @@ function initMapTile(data) {
 }
 
 /**
- * Resolves attacks by the player on monsters
+ * All creatures get treated the same in combat though the implementation for stats will vary.
  */
-function attackMonster(monster) {
-	//TODO: Implement
+function attack(entity) {
+	/*
+	 * determine chance to hit
+	 * make roll
+	 * roll dmg
+	 * factor adjustments 
+	 * dole out dmg return resuts
+	 */
+	 hitRoll = Math.rollDice(1, 20) + monster.toHitAdj()
+				+ monster.getAttackAdj();
+	 thac0 = 21 - monster.level;
+	 if ((thac0 - this.getArmor()) < hitRoll)
+	 {
+		dmg = 0;
+		if (isRangeAttack)
+		{
+			strAdj = ((this.getWeaponWielded().getWeaponType() == 'crossbow') ? 0 : this.strToDmgAdj());
+
+			dmgMislMod = 0;
+			if (this.getWeaponWielded().getWeaponType() == 'crossbow' || this.getWeaponWielded().getWeaponType() == 'bow')
+			{
+//TODO: add implied functions for armor,weapons etc
+				// Apply bolt/arrow adj
+				dmgMislMod += this.getMissiles().getAttackAdj();
+			}
+			dmg = Math.rollDice(this.getWeaponWielded().getDamageThrown()) + strAdj
+					+ this.getWeaponWielded().getAttackAdj() + dmgMislMod
+					+ this.getToDMGMajicAdj();
+		}
+		else
+			dmg = Math.rollDice(this.getWeaponWielded().getDamage()) + this.strToDmgAdj()
+					+ this.getWeaponWielded().getAttackAdj() + this.getToDMGMajicAdj();
+		eventMesgs.push("You hit the monster for " + dmg + "!\n");
+		entity.hp -= dmg;
+		if(entity.hp <= 0){
+			entity.alive = false; //Monsters get one last swing since the go second.
+			if(entity.type === 'creature') entity.oneLastSwing = true;
+		}
+	 }
 }
 
-/**
- * Resolves attacks on the player
- */
-function attackPlayer(player) {
-	//TODO: Implement	
-}
