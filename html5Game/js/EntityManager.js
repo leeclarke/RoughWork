@@ -90,7 +90,7 @@ function addCombatant(entity) {
 	entity.weaponWielded = {};
 	entity.toHitAdj = function() {
 		//TODO:
-		return 0;
+		return 10;
 	}
 	entity.getArmor = function() {
 		//TODO:might just be property with entity having armor value.
@@ -216,7 +216,7 @@ function attackRules(entity) {
 					+ this.weaponWielded.attackAdj + dmgMislMod + this.toDMGMajicAdj;
 		}
 		else {
-			dmg = Math.rollDice(1,this.weaponWielded.damage()) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
+			dmg = Math.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		eventMesgs.push("You hit the monster for " + dmg + "!\n");
 		entity.hp -= dmg;

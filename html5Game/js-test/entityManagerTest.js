@@ -65,10 +65,11 @@ EntityManagerTest.prototype.testAttackRules = function() {
 	
 	creature = manager.createEntity('Creature');
 	creature.weaponWielded = testWeapon;
-	//TOOD: This failes int he tester for soe reason.
+
 	player.attack(creature);
 	
-	for(e in eventMesgs) {
-		jstestdriver.console.log("EntityManagerTest", "Attack Results="+eventMesgs[e]);
+	while(eventMesgs.length >0) {
+		e = eventMesgs.pop();
+		jstestdriver.console.log("EntityManagerTest", "Attack Results=" + e);
 	}
 }
