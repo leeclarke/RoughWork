@@ -45,7 +45,15 @@ TiledMapTest.prototype.testMoveAtt = function() {
 	assertEquals(1,tile_tiledMap.movementAttributes["open"]);
 }
 
-//TODO: Build better tests
+TiledMapTest.prototype.testGetTile = function() {	
+	tTile = tile_tiledMap.getTile(2,1);
+	assertNotNull(tTile);
+	assertTrue('Tileobj should have id property',	tTile.hasOwnProperty('id'));
+	assertEquals(2,tTile.id);
+	assertEquals(2,tTile.type);
+}
+
+//TODO: Build better tests/ add getRange, getTile
 TiledMapTest.prototype.testRenderMap = function() {
 	//map = tiledMap.renderMap();
 	//assertNotNull(map);

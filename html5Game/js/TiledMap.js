@@ -29,6 +29,17 @@ TiledMap.prototype.getMapSize = function() {
 }
 
 /**
+ * Safely grab a single tile from map.
+ */
+TiledMap.prototype.getTile = function(startRow, startCol) {
+	rng = this.getRange(startRow, startCol,1,1);
+	if(rng.length >0)
+		return rng[0];
+	else
+		return null;	
+}
+
+/**
  * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
  */
 TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight) {
