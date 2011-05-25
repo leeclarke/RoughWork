@@ -65,6 +65,13 @@ Mover.prototype.moveMonster = function(monster, player) {
 
 	dist = this.getRange(player,monster);
 	if(dist <= monster.range) {
+		if(monster.alive === false){
+			if(monster.oneLastSwing === false) {
+				return;
+			} else {
+				monster.oneLastSwing === false;
+			}
+		}
 		path = a_star(monster, player, tiledMap);
 
 //TODO: M has range weapon and in range ? attack : move

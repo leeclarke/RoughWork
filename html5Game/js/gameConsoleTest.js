@@ -26,12 +26,14 @@ var manager = new EntityManager();
 var monsters =[];
 var eventMesgsStack = [];
 
+
 /**
  * WindowReady used for starting up the game prototype.
  *
  * This simulates an actual game client
  */
 function windowReady() {
+	Math.floor(1);  //force this to add the added on methods. TODO: change methods to GameEngine object.
 	//Create canvas
 	var canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
                       "' height='" + CANVAS_HEIGHT + "'></canvas>");
@@ -203,9 +205,15 @@ function update() {
         mover.movePlayer(player, 0,32);
         moveMonsters();
   }
-  
-  //TODO: have monsters scan for player
-  
+  writeStatus();
+}
+
+//TODO Add this to a status output window.
+function writeStatus() {
+	while(eventMesgsStack.length >0) {
+		e = eventMesgsStack.pop();
+		console.log("Attack Results=" + e);
+	}
 }
 
 function moveMonsters() {
@@ -229,7 +237,7 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	context.drawImage(theMap, 0, 0);
 
 	//Draw monsters
-	for(m in monsters){
+	for(m = 0; m < monsters.length; m++){
 		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
 	}
 

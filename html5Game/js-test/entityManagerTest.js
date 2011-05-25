@@ -11,6 +11,7 @@ EntityManagerTest.prototype.testGetPlayerEntity = function() {
 	assertTrue('player obj should have function.attack==',(typeof player.attack == 'function'));
 	assertTrue('player obj should have function.toHitAdj==',(typeof player.toHitAdj == 'function'));
 	assertTrue('player obj should have function.getArmor==',(typeof player.getArmor == 'function'));
+	assertTrue('player obj should have function.renderImg==',(typeof player.renderImg == 'function'));
 	assertTrue('player obj should have level property',player.hasOwnProperty('level'));
 	assertTrue('player obj should have function.getAttackAdj==',(typeof player.getAttackAdj == 'function'));
 }; 
@@ -27,6 +28,7 @@ EntityManagerTest.prototype.testGetCreature = function() {
 	assertTrue('creature obj should have function.getArmor==',(typeof creature.getArmor == 'function'));
 	assertTrue('creature obj should have level property',creature.hasOwnProperty('level'));
 	assertTrue('creature obj should have function.getAttackAdj==',(typeof creature.getAttackAdj == 'function'));
+	assertTrue('player obj should have function.renderImg==',(typeof player.renderImg == 'function'));
 }
 
 

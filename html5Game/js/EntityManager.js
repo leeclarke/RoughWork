@@ -118,6 +118,7 @@ function addCombatant(entity) {
 function addMonster(entity) {
 	entity.isHostile = false;
 	entity.range = 1; //Number of tiles creature can see
+	oneLastSwing = false;
 }
 /**
  * 
@@ -168,15 +169,14 @@ function renderable(entity) {
 	entity.spriteImg = document.createElement('img');
 	entity.width = 32;
 	entity.height = 32;
-	entity.renderImg = renderImg;
+	entity.renderImg = renderSprite;
 }
 
 /**
  * Technically doesn't render but, returns the correct image for rendering, controls animation output.
  */
-function renderImg(){
-	//TODO: convert to anamation with an array of sprites
-	return this.spriteImg;
+function renderSprite(){
+	return this.spriteImg; //TODO: convert to anamation with an array of sprites
 }
 
 
