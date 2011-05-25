@@ -41,7 +41,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 				//blocked
 				player.x = playerOldX;
 				player.y = playerOldY;
-				break;
+				return;
 			}
 			
 			//check monster Collision.
@@ -52,41 +52,11 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					player.y = playerOldY;
 					//Do Bump attack for now, TODO: Add mouse click support.
 					player.attack(monsters[m]);
-					break;
+					return;
 				}
 			}
 		}
 	}
-/*	
-	//get 8 surrounding tiles and check for collision.
-	surroundingTile = tiledMap.getRange(mapRow,mapCol, 3,3);
-	//Look for collision if so see if blocked.
-	for(t in surroundingTile){
-		tile = surroundingTile[t];
-		colls = this.checkCollision(player, tile);
-		if(colls) {
-			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
-			//if collision, see if blocked.
-			if(!tile.hasOwnProperty('type') || tile.type == tiledMap.movementAttributes["unpassable"]) {
-				//blocked
-				player.x = playerOldX;
-				player.y = playerOldY;
-				break;
-			}
-			
-			//check monster Collision.
-			for(m in monsters) {
-				if(this.checkCollision(player,monsters[m])) {
-					//blocked
-					player.x = playerOldX;
-					player.y = playerOldY;
-					//Do Bump attack for now, TODO: Add mouse click support.
-					player.attack(monsters[m]);
-					break;
-				}
-			}
-		}
-	}*/
 }
 
 /**
@@ -124,8 +94,10 @@ Mover.prototype.moveMonster = function(monster, player) {
 			} else {
 				//Try ranged attack.
 			}
-		} else {
-			//If path length is 0 then adjacent to player, club him!
+		} else if(path.length < 2){
+			//If path length is 1 then adjacent to player, club him!
+			//make hostile incase this is first encouter cuz of teleport etc..
+			monster.isHostile = true;
 //TODO:
 		}
 	}		
