@@ -97,19 +97,16 @@ function addCombatant(entity) {
 		return 8;
 	}
 	entity.getAttackAdj = function() {
-		//TODO:
-		return 0;
+		return 0;//TODO:
 	}
 	entity.getMissiles = function() {
 		//TODO:
 	}
 	entity.strToDmgAdj = function() {
-		//TODO:
-		return 0;
+		return 0; //TODO:
 	}
 	entity.getToDMGMajicAdj = function() {
-		//TODO:
-		return 0;
+		return 0; //TODO:
 	}
 
 	entity.attack = attackRules;
@@ -197,13 +194,15 @@ function initMapTile(data) {
  * places attack results string into games eventMesgs stack.
  */
 function attackRules(entity) {
-	 hitRoll = Math.rollDice(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
-	 thac0 = 21 - this.level;
-	 if ((thac0 - entity.getArmor()) < hitRoll)
-	 {
+	rangeAttack = false;
+	hitRoll = Math.diceRoll(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
+	thac0 = 21 - this.level;
+	console.log("hitRoll="+hitRoll + " thac0=" + thac0);
+	if ((thac0 - entity.getArmor()) <= hitRoll)
+	{
 		dmg = 0;
 		//TODO add check for weaponWielded == {} and assign bare hands.
-		if (isRangeAttack)
+		if (rangeAttack)
 		{
 			strAdj = ((this.weaponWielded.weaponType == 'crossbow') ? 0 : this.strToDmgAdj());
 
@@ -213,11 +212,11 @@ function attackRules(entity) {
 				// Apply bolt/arrow adj
 				dmgMislMod += this.getMissiles().getAttackAdj();
 			}
-			dmg = Math.rollDice(1,this.weaponWielded.damageThrown) + strAdj
+			dmg = Math.diceRoll(1,this.weaponWielded.damageThrown) + strAdj
 					+ this.weaponWielded.attackAdj + dmgMislMod + this.toDMGMajicAdj;
 		}
 		else {
-			dmg = Math.rollDice(1,this.weaponWielded.damage()) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMajicAdj;
+			dmg = Math.rollDice(1,this.weaponWielded.damage()) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		eventMesgs.push("You hit the monster for " + dmg + "!\n");
 		entity.hp -= dmg;
@@ -225,5 +224,5 @@ function attackRules(entity) {
 			entity.alive = false; //Monsters get one last swing since the go second.
 			if(entity.type === 'creature') entity.oneLastSwing = true;
 		}
-	 }
+	}
 }
