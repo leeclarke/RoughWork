@@ -95,10 +95,9 @@ Mover.prototype.moveMonster = function(monster, player) {
 				//Try ranged attack.
 			}
 		} else if(path.length < 2){
-			//If path length is 1 then adjacent to player, club him!
 			//make hostile incase this is first encouter cuz of teleport etc..
 			monster.isHostile = true;
-//TODO:
+			monster.attack(player);
 		}
 	}		
 }
