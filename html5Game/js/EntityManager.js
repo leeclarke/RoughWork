@@ -247,7 +247,11 @@ function attackRules(entity) {
 			dmg = Math.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		//TODO: Extract this to the Coming GameEngine object.
-		eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
+		if(this.entityType === 'Player'){
+			eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
+		} else {
+			eventMesgsStack.push("Monster hit you for " + dmg + "!\n");
+		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
 			entity.alive = false; //Monsters get one last swing since the go second.
