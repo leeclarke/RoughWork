@@ -152,6 +152,8 @@ function addPlayer(entity) {
 	entity.levelMax = 1;
 	entity.hp = 8;
 	entity.hpMax = 8;
+	entity.str = 16;
+	entity.strMax = 16;
 	entity.pack = [];
 }
 

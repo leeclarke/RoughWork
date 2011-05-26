@@ -67,6 +67,8 @@ function windowReady() {
 	dragon.spriteImg.src = "res/dragon.png";
 	dragon.agression = 7; //yikes!
 	dragon.range = 5;
+	dragon.hp = 8;
+ 	dragon.hpMax = 8;
 	
 	monsters.push(dragon);
 	
@@ -78,6 +80,8 @@ function windowReady() {
 	dragon2.spriteImg.src = "res/dragon.png";
 	dragon2.agression = 2;
 	dragon2.range = 4;
+	dragon2.hp = 8;
+ 	dragon2.hpMax = 8;
 	
 	monsters.push(dragon2);
 
