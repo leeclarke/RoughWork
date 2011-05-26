@@ -28,8 +28,8 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	mapRow = ~~(player.y/tileHeight)
 	
 	//get targeted tile.
-	mapColDir = ~~((player.x+xDir)/tileWidth);
-	mapRowDir = ~~((player.y+xDir)/tileHeight);
+	mapColDir = ~~((player.x)/tileWidth);
+	mapRowDir = ~~((player.y)/tileHeight);
 	//TODO: FIX: I know what direction to move why not just grab that tile and check for collisions?? 
 	targetTile = tiledMap.getTile(mapRowDir,mapColDir);
 	if(targetTile !== null) {
@@ -37,13 +37,12 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 		if(colls) {
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
-			if(!targetTile.hasOwnProperty('type') || targetTile.type == tiledMap.movementAttributes["unpassable"]) {
+			if(!targetTile.hasOwnProperty('type') || targetTile.type === tiledMap.movementAttributes["unpassable"]) {
 				//blocked
 				player.x = playerOldX;
 				player.y = playerOldY;
 				return;
 			}
-			
 			//check monster Collision.
 			for(m in monsters) {
 				if(this.checkCollision(player,monsters[m])) {

@@ -1,4 +1,5 @@
-//TODO: Implelemnt attack v1, bump attack. (default attack method for now.)
+//TODO: Update moveMonster & renderMonster to not render/move dead
+//TODO: Extract code in here into GameEngine
 
 //TODO: 2. Add line of sight checking for creatures.
 //TODO: Put together Groovy script that builds a JS deployment.
@@ -53,6 +54,7 @@ function windowReady() {
 	player.y = 64;
 	player.name = "Lee";
 	player.spriteImg.src = "res/player.png";
+	player.weaponWielded = manager.weaponFactory('Sword');
 	 
 	
 	//Test Monster

@@ -1,5 +1,3 @@
-//TODO: add monster move function here, it should dosight,  pathing and then move position.
-
 /**
  * 
  */
@@ -63,6 +61,33 @@ EntityManager.prototype.createCreature = function(creatureType){
 }
 
 /**
+ * Generates Factory based on type;
+ */
+EntityManager.prototype.weaponFactory = function(type) {
+	weapon = this.createEntity('Weapon');
+	switch(type) {
+		case 'Sword':
+			return weapon;
+		default:
+			//Return Hands, the default.
+			weapon.name = 'Bare Hands';
+			weapon.description = "Just empty handed";
+			weapon.weaponType = "Hands";
+			weapon.damageThrown = 0;
+			weapon.damage = 8;
+			return weapon;
+	}
+}
+
+/**
+ * 
+ */
+function getDefaultWeapon() {
+	eMan = new EntityManager();
+	return eMan.weaponFactory('Hands');	
+}
+
+/**
  * Adds a Weapon nature to the entity.
  */
 function addWeapon(entity) {
@@ -109,7 +134,7 @@ function addCombatant(entity) {
 		return 0; //TODO:
 	}
 
-	entity.attack = attackRules;
+	entity.attack = attackRules;	
 }
 
 /**
@@ -195,13 +220,16 @@ function initMapTile(data) {
  */
 function attackRules(entity) {
 	rangeAttack = false;
+	if(!this.weaponWielded.hasOwnProperty('type')){
+		this.weaponWielded = getDefaultWeapon('Hands');
+	}
 	hitRoll = Math.diceRoll(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
 	thac0 = 21 - this.level;
 	console.log("hitRoll="+hitRoll + " thac0=" + thac0);
 	if ((thac0 - entity.getArmor()) <= hitRoll)
 	{
 		dmg = 0;
-		//TODO add check for weaponWielded == {} and assign bare hands.
+		
 		if (rangeAttack)
 		{
 			strAdj = ((this.weaponWielded.weaponType == 'crossbow') ? 0 : this.strToDmgAdj());
@@ -218,7 +246,8 @@ function attackRules(entity) {
 		else {
 			dmg = Math.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
-		eventMesgs.push("You hit the monster for " + dmg + "!\n");
+		//TODO: Extract this to the Coming GameEngine object.
+		eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
 			entity.alive = false; //Monsters get one last swing since the go second.
