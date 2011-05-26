@@ -220,7 +220,7 @@ function writeStatus() {
 
 function moveMonsters() {
 	mover = new Mover();
-	for(m in this.monsters) {
+	for(m = 0; m < monsters.length; m++) {
 		mover.moveMonster(this.monsters[m],player);
 	}	
 }
@@ -241,6 +241,7 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	//Draw monsters
 	for(m = 0; m < monsters.length; m++){
 		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
+		//TODO: Check for dead monsters and draw dead img or skip if none.
 	}
 
 	if(showGrid) {

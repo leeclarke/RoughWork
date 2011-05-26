@@ -70,7 +70,10 @@ Mover.prototype.moveMonster = function(monster, player) {
 			if(monster.oneLastSwing === false) {
 				return;
 			} else {
+				monster.isHostile = true;
 				monster.oneLastSwing === false;
+				monster.attack(player);
+				return;
 			}
 		}
 		path = a_star(monster, player, tiledMap);
@@ -93,7 +96,7 @@ Mover.prototype.moveMonster = function(monster, player) {
 			} else {
 				//Try ranged attack.
 			}
-		} else if(path.length < 2){
+		} else if(path.length <= 2){
 			//make hostile incase this is first encouter cuz of teleport etc..
 			monster.isHostile = true;
 			monster.attack(player);
