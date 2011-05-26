@@ -150,6 +150,8 @@ function addMonster(entity) {
  */
 function addPlayer(entity) {
 	entity.levelMax = 1;
+	entity.hp = 8;
+	entity.hpMax = 8;
 	entity.pack = [];
 }
 
@@ -255,7 +257,7 @@ function attackRules(entity) {
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
 			entity.alive = false; //Monsters get one last swing since the go second.
-			if(entity.type === 'creature') entity.oneLastSwing = true;
+			if(entity.entityType === 'Creature') entity.oneLastSwing = true;
 		}
 	}
 }

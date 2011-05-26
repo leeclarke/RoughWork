@@ -30,7 +30,6 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	//get targeted tile.
 	mapColDir = ~~((player.x)/tileWidth);
 	mapRowDir = ~~((player.y)/tileHeight);
-	//TODO: FIX: I know what direction to move why not just grab that tile and check for collisions?? 
 	targetTile = tiledMap.getTile(mapRowDir,mapColDir);
 	if(targetTile !== null) {
 		colls = this.checkCollision(player, targetTile);
@@ -45,7 +44,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 			}
 			//check monster Collision.
 			for(m in monsters) {
-				if(this.checkCollision(player,monsters[m])) {
+				if(this.checkCollision(player,monsters[m]) && monsters[m].alive === true) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
@@ -67,12 +66,12 @@ Mover.prototype.moveMonster = function(monster, player) {
 	dist = this.getRange(player,monster);
 	if(dist <= monster.range) {
 		if(monster.alive === false){
-			if(monster.oneLastSwing === false) {
+			if(monster.oneLastSwing == true) {
+				monster.isHostile = true;
+				monster.oneLastSwing = false;
+				monster.attack(player);
 				return;
 			} else {
-				monster.isHostile = true;
-				monster.oneLastSwing === false;
-				monster.attack(player);
 				return;
 			}
 		}

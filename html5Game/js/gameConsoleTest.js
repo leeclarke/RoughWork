@@ -1,5 +1,7 @@
-//TODO: Update moveMonster & renderMonster to not render/move dead
+//TODO: add dead monster png and test dead render.
 //TODO: Extract code in here into GameEngine
+//TODO: Work out getting a message back to gui.. like when a door is locked, combat results.
+//TODO: display player name and hp
 
 //TODO: 2. Add line of sight checking for creatures.
 //TODO: Put together Groovy script that builds a JS deployment.
@@ -9,7 +11,7 @@
 //TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
 //TODO: figure out creature rendering.
 
-//TODO: Work out getting a message back to gui.. like when a door is locked.
+
 
 //TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
 //TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
@@ -131,7 +133,7 @@ function buildStatusDisplay(context) {
 	
 	context.strokeStyle = 'rgb(255, 255, 51)' ;
 	context.lineWidth = "0.5";
-	
+
 	//drawFrame
 	context.strokeRect(5,5,(statWidth-10),CANVAS_HEIGHT-10);
 	context.fillStyle = "rgba(204, 204, 204, 0.1)";
@@ -139,8 +141,9 @@ function buildStatusDisplay(context) {
 	
 	//Write some text for Debugging
 	context.fillStyle = "#FFFF33"; // Set color to black
-	context.fillText("Player", 8, 20);
-	context.fillText("x:"+player.x+" y:"+player.y, 8, 40);
+	context.fillText(player.name, 8, 20);
+	context.fillText("HP: "+player.hp, 8, 40);
+	context.fillText("x:"+player.x+" y:"+player.y, 8, 60);
 	
 	context.restore();
 }
@@ -240,8 +243,11 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 
 	//Draw monsters
 	for(m = 0; m < monsters.length; m++){
-		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
-		//TODO: Check for dead monsters and draw dead img or skip if none.
+		if(monsters[m].alive === true) {
+			context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
+		} else{
+			//TODO: Check for dead monsters and draw dead img or skip if none.
+		}
 	}
 
 	if(showGrid) {
