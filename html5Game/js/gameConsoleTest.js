@@ -1,27 +1,6 @@
-//TODO: add dead monster png and test dead render.
-//TODO: add Explored flag/render
-//TODO: Extract code in here into GameEngine
-//TODO: Work out getting a message back to gui.. like when a door is locked, combat results.
-//TODO: display player name and hp
-
-//TODO: 2. Add line of sight checking for creatures.
-//TODO: Put together Groovy script that builds a JS deployment.
-//TODO: seperate todo list into a real todo and add a sh script so I can manage todos properly!
-//TODO: Build map maker
-//		Hold on ties til know requirements
-//TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
-//TODO: figure out creature rendering.
-
-
-
-//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
-//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
-//TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
-//      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
-//TODO: need to come up with image loader to detect when images are loaded and start rendering. display loading.. thing.
-
 var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 600;
+var STATUS_WIDTH = 150;
 var showGrid = true;
 var player;
 var theMap;
@@ -133,9 +112,7 @@ window.onload = windowReady;
  * Draws the status display overlay. 
  */
 function buildStatusDisplay(context) {
-	//position in upper left corner
-	statWidth = 150;
-	
+	//position in upper left corner	
 	context.save();
 	context.translate(0,0);
 	
@@ -143,9 +120,9 @@ function buildStatusDisplay(context) {
 	context.lineWidth = "0.5";
 
 	//drawFrame
-	context.strokeRect(5,5,(statWidth-10),CANVAS_HEIGHT-10);
+	context.strokeRect(5,5,(STATUS_WIDTH-10),CANVAS_HEIGHT-10);
 	context.fillStyle = "rgba(204, 204, 204, 0.1)";
-	context.fillRect(6,6,(statWidth-12),CANVAS_HEIGHT-12);
+	context.fillRect(6,6,(STATUS_WIDTH-12),CANVAS_HEIGHT-12);
 	
 	//Write some text for Debugging
 	context.fillStyle = "#FFFF33"; // Set color to black
@@ -222,11 +199,30 @@ function update() {
 }
 
 //TODO Add this to a status output window.
-function writeStatus() {
+function writeStatus(context) {
+	statusMargin = 5;
+	statusHeight = 150;
+	//console.log("Attack Results=" + e);
+	//position in upper left corner
+	
+	context.save();
+	context.translate(0,0);
+	
+	context.strokeStyle = 'rgb(255, 255, 51)' ;
+	context.lineWidth = "0.5";
+
+	//drawFrame
+	context.strokeRect(STATUS_WIDTH+statusMargin,statusMargin,(CANVAS_WIDTH-10-STATUS_WIDTH),statusHeight-10);
+	context.fillStyle = "rgba(204, 204, 204, 0.1)";
+	context.fillRect(6,6,(STATUS_WIDTH-12),CANVAS_HEIGHT-12);
+	context.fillStyle = "#FFFF33";	
+	context.fillText("TEST", STATUS_WIDTH+statusMargin, statusMargin*2);
+	context.fillText("TEST2", STATUS_WIDTH+statusMargin, 20);
 	while(eventMesgsStack.length >0) {
 		e = eventMesgsStack.pop();
-		console.log("Attack Results=" + e);
+		context.fillText(e, STATUS_WIDTH+statusMargin, statusMargin*2);		
 	}
+	context.restore();
 }
 
 function moveMonsters() {
@@ -259,6 +255,8 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 	}
 	context.restore(); //pop the canvas back to where it was which moves the map.
 	buildStatusDisplay(context);
+	writeStatus(context);
+	
 	context.drawImage(player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
 }
 

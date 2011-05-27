@@ -1,0 +1,22 @@
+### TODOS ###
+
+//TODO: add Explored flag/render
+//TODO: Extract code in here into GameEngine
+//TODO: Work out getting a message back to gui.. like when a door is locked, combat results.
+//TODO: display player name and hp
+
+//TODO: 2. Add line of sight checking for creatures.
+//TODO: Put together Groovy script that builds a JS deployment.
+//TODO: seperate todo list into a real todo and add a sh script so I can manage todos properly!
+//TODO: Build map maker
+//		Hold on ties til know requirements
+//TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
+//TODO: figure out creature rendering.
+
+
+
+//TODO: look into new requestAnimationFrame() function which makes animation safer and accurate.
+//TODO: SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session.
+//TODO: DESIGN: When building a level editor it might be more efficent for it to save the level map as an image if the level isnt 
+//      dynamicly built.Would it work for the maps to be built on the back end by Node.js if they are generated?
+//TODO: need to come up with image loader to detect when images are loaded and start rendering. display loading.. thing.
