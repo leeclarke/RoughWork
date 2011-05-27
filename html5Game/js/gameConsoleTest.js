@@ -1,4 +1,5 @@
 //TODO: add dead monster png and test dead render.
+//TODO: add Explored flag/render
 //TODO: Extract code in here into GameEngine
 //TODO: Work out getting a message back to gui.. like when a door is locked, combat results.
 //TODO: display player name and hp
@@ -56,6 +57,7 @@ function windowReady() {
 	player.y = 64;
 	player.name = "Lee";
 	player.spriteImg.src = "res/player.png";
+	player.deadImg.src = "res/bones.png";
 	player.weaponWielded = manager.weaponFactory('Sword');
 	 
 	
@@ -65,6 +67,7 @@ function windowReady() {
 	dragon.y = 8*32;
 	dragon.name = "Green Dragon";
 	dragon.spriteImg.src = "res/dragon.png";
+	dragon.deadImg.src = "res/bones.png";
 	dragon.agression = 7; //yikes!
 	dragon.range = 5;
 	dragon.hp = 8;
@@ -78,6 +81,7 @@ function windowReady() {
 	dragon2.y = 4*32;
 	dragon2.name = "Green Dragon2";
 	dragon2.spriteImg.src = "res/dragon.png";
+	dragon2.deadImg.src = "res/bones.png";
 	dragon2.agression = 2;
 	dragon2.range = 4;
 	dragon2.hp = 8;
@@ -247,11 +251,7 @@ function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
 
 	//Draw monsters
 	for(m = 0; m < monsters.length; m++){
-		if(monsters[m].alive === true) {
-			context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
-		} else{
-			//TODO: Check for dead monsters and draw dead img or skip if none.
-		}
+		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
 	}
 
 	if(showGrid) {

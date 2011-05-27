@@ -205,6 +205,8 @@ function renderable(entity) {
  * Technically doesn't render but, returns the correct image for rendering, controls animation output.
  */
 function renderSprite(){
+	if(this.alive == false)
+		return this.deadImg;
 	return this.spriteImg; //TODO: convert to anamation with an array of sprites
 }
 
