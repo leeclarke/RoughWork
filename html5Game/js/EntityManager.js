@@ -1,5 +1,5 @@
 /**
- * 
+ * Entity Factory responsable for creating all types of game objects by injecting components and object nature.
  */
 function EntityManager() {
 	EntityTypes = {'Player':'Player','MapTile':'MapTile','Arrow':'Arrow', 'Creature':'Creature', 'Weapon':'Weapon', 'Armor':'Armor'}
@@ -12,7 +12,7 @@ function Entity(type){
  /**
   * Creates an Entity of the requested type. Types are publicly defined in EntityManager.EtityTypes Map.
   */
-EntityManager.prototype.createEntity = function(entityType){
+EntityManager.createEntity = function(entityType){
 	switch(entityType) {
 		case 'Player':
 			entity = new Entity(entityType);
@@ -55,7 +55,7 @@ EntityManager.prototype.createEntity = function(entityType){
  * Factory method which creates a Monster of the type requested. All Entities are of the type 'Creature' but 
  * are then configured to the Creature type.
  */
-EntityManager.prototype.createCreature = function(creatureType){
+EntityManager.createCreature = function(creatureType){
 	creature = this.createEntity('Creature');
 	return creature;
 }
@@ -63,7 +63,7 @@ EntityManager.prototype.createCreature = function(creatureType){
 /**
  * Generates Factory based on type;
  */
-EntityManager.prototype.weaponFactory = function(type) {
+EntityManager.weaponFactory = function(type) {
 	weapon = this.createEntity('Weapon');
 	switch(type) {
 		case 'Sword':
@@ -83,8 +83,7 @@ EntityManager.prototype.weaponFactory = function(type) {
  * 
  */
 function getDefaultWeapon() {
-	eMan = new EntityManager();
-	return eMan.weaponFactory('Hands');	
+	return EntityManager.weaponFactory('Hands');	
 }
 
 /**

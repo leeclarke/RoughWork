@@ -1,9 +1,11 @@
 EntityManagerTest = TestCase("EntityManagerTest");
-var manager = new EntityManager();
+
 var eventMesgs = [];
 
+//TODO: Add createEntityTest for each Type.
+
 EntityManagerTest.prototype.testGetPlayerEntity = function() {
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	assertNotNull('Player should not be null',player);
 	assertTrue('Player obj chould have x,y properties',(player.hasOwnProperty('x') && player.hasOwnProperty('y')));
 	assertTrue('player should have spriteImg property.',player.hasOwnProperty('spriteImg'));
@@ -16,9 +18,8 @@ EntityManagerTest.prototype.testGetPlayerEntity = function() {
 	assertTrue('player obj should have function.getAttackAdj==',(typeof player.getAttackAdj == 'function'));
 }; 
 
-
-EntityManagerTest.prototype.testGetCreature = function() {
-	creature = manager.createEntity('Creature');
+EntityManagerTest.prototype.testCreateCreature = function() {
+	creature = EntityManager.createCreature('Creature');
 	assertNotNull('creature should not be null',creature);
 	assertTrue('creature obj should have x,y properties',(creature.hasOwnProperty('x') && creature.hasOwnProperty('y')));
 	assertTrue('creature obj should have deadImg, hp properties from alive component',(creature.hasOwnProperty('deadImg') && creature.hasOwnProperty('hp')));
@@ -28,13 +29,13 @@ EntityManagerTest.prototype.testGetCreature = function() {
 	assertTrue('creature obj should have function.getArmor==',(typeof creature.getArmor == 'function'));
 	assertTrue('creature obj should have level property',creature.hasOwnProperty('level'));
 	assertTrue('creature obj should have function.getAttackAdj==',(typeof creature.getAttackAdj == 'function'));
-	assertTrue('player obj should have function.renderImg==',(typeof player.renderImg == 'function'));
+	assertTrue('creature obj should have function.renderImg==',(typeof player.renderImg == 'function'));
 }
 
 
 EntityManagerTest.prototype.testInitMapTile = function() {
 	testTileData = {"id":2, "type":2};
-	mapTile = manager.createEntity('MapTile');
+	mapTile = EntityManager.createEntity('MapTile');
 	
 	assertNotNull('MapTile should not be null',mapTile);
 	assertTrue('mapTile should have initMapTile function.actual==',(typeof mapTile.init == 'function'));
@@ -45,8 +46,8 @@ EntityManagerTest.prototype.testInitMapTile = function() {
 	
 }
 
-EntityManagerTest.prototype.testGEtWeapon= function() {
-	weapon = manager.createEntity('Weapon');
+EntityManagerTest.prototype.testWeaponFactory= function() {
+	weapon = EntityManager.weaponFactory('Weapon');
 	assertTrue('weapon obj should have property: name',weapon.hasOwnProperty('name'));
 	assertTrue('weapon obj should have property: description',weapon.hasOwnProperty('description'));
 	assertTrue('weapon obj should have property: weaponType',weapon.hasOwnProperty('weaponType'));
@@ -61,11 +62,11 @@ EntityManagerTest.prototype.testGEtWeapon= function() {
 
 EntityManagerTest.prototype.testAttackRules = function() {
 
-	testWeapon = manager.createEntity('Weapon')
-	player = manager.createEntity('Player');
+	testWeapon = EntityManager.createEntity('Weapon');
+	player = EntityManager.createEntity('Player');
 	player.weaponWielded = testWeapon;
 	
-	creature = manager.createEntity('Creature');
+	creature = EntityManager.createEntity('Creature');
 	creature.weaponWielded = testWeapon;
 
 	player.attack(creature);

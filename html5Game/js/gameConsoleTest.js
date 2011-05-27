@@ -5,7 +5,6 @@ var showGrid = true;
 var player;
 var theMap;
 var context;
-var manager = new EntityManager();
 var monsters =[];
 var eventMesgsStack = [];
 
@@ -31,17 +30,17 @@ function windowReady() {
 	tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
 
 	//add fake player sprite, centerd in middle of screen
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 128;
 	player.y = 64;
 	player.name = "Lee";
 	player.spriteImg.src = "res/player.png";
 	player.deadImg.src = "res/bones.png";
-	player.weaponWielded = manager.weaponFactory('Sword');
+	player.weaponWielded = EntityManager.weaponFactory('Sword');
 	 
 	
 	//Test Monster
-	dragon = manager.createCreature('Green Dragon');
+	dragon = EntityManager.createCreature('Green Dragon');
 	dragon.x = 12*32;
 	dragon.y = 8*32;
 	dragon.name = "Green Dragon";
@@ -55,7 +54,7 @@ function windowReady() {
 	monsters.push(dragon);
 	
 	
-	dragon2 = manager.createCreature('Green Dragon');
+	dragon2 = EntityManager.createCreature('Green Dragon');
 	dragon2.x = 3*32;
 	dragon2.y = 4*32;
 	dragon2.name = "Green Dragon2";
