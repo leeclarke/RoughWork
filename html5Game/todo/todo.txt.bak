@@ -1,0 +1,14 @@
+(A) Add Explored flag/render +API-MapRender
+(B) Get display size and size gamePortal to fit properly. +API-Display
+(C) Build Object around display for api offering +API-Display
+(B) Build Monster Generator +API-GameEgine
+(B) Develop SPrite Annimation +API-Entity-SpriteManager
+(C) Build Status object to manage message life etc +UI-GameEngine
+(A) Build GameEngine object +API-GameEngine
+(B) Develop deployment Script in groovy/Python +Deployment +DevTools
+x 2011-05-27 Move TODO list into todo app +DevTools
+(B) Build Map Maker Tool +DevTools
+(A) Decide if Tiles need to be Entity and convert if yes +API-Display
+Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
+SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research
+(C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager

@@ -1,0 +1,4 @@
+## Sample alias for dodev
+alias dodev='todo.sh -d /c/dev/RoughWork/html5game/todo/todo_dev.cfg'
+
+#provides a seperate from personal todo list rooted in the project.
