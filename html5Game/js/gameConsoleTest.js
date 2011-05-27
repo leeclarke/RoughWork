@@ -128,7 +128,8 @@ function buildStatusDisplay(context) {
 	context.fillStyle = "#FFFF33"; // Set color to black
 	context.fillText(player.name, 8, 20);
 	context.fillText("HP: "+player.hp, 8, 40);
-	context.fillText("x:"+player.x+" y:"+player.y, 8, 60);
+	context.fillText("AC: "+player.getArmor(), 8, 60);
+	context.fillText("x:"+player.x+" y:"+player.y, 8, 80);
 	
 	context.restore();
 }
@@ -160,7 +161,7 @@ $(function() {
   
   $(document).bind("keyup", function(event) {
     keydown[keyName(event)] = false;
-    fakeLoop(); //Forcing an update outside of thread loop
+    //fakeLoop(); //Forcing an update outside of thread loop
   });
 });
 
@@ -169,7 +170,6 @@ function fakeLoop() {
 	render();
 }
 //REMOVE: TESTING only
-
 
 /**
  * Update player postion based on input.
@@ -195,16 +195,13 @@ function update() {
         mover.movePlayer(player, 0,32);
         moveMonsters();
   }
-  writeStatus();
 }
 
-//TODO Add this to a status output window.
 function writeStatus(context) {
 	statusMargin = 5;
 	statusHeight = 150;
-	//console.log("Attack Results=" + e);
-	//position in upper left corner
-	
+
+	//position in upper left corner	
 	context.save();
 	context.translate(0,0);
 	
@@ -216,12 +213,15 @@ function writeStatus(context) {
 	context.fillStyle = "rgba(204, 204, 204, 0.1)";
 	context.fillRect(6,6,(STATUS_WIDTH-12),CANVAS_HEIGHT-12);
 	context.fillStyle = "#FFFF33";	
-	context.fillText("TEST", STATUS_WIDTH+statusMargin, statusMargin*2);
-	context.fillText("TEST2", STATUS_WIDTH+statusMargin, 20);
+	msgCt = 1;
+	vertPosStart = 20;
+	//context.fillText("TEST2", STATUS_WIDTH+(statusMargin*2), 30);
 	while(eventMesgsStack.length >0) {
 		e = eventMesgsStack.pop();
-		context.fillText(e, STATUS_WIDTH+statusMargin, statusMargin*2);		
+		context.fillText(e, STATUS_WIDTH+statusMargin, vertPosStart*msgCt);	
+		msgCt++;	
 	}
+	
 	context.restore();
 }
 

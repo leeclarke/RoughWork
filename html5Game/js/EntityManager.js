@@ -115,7 +115,7 @@ function addCombatant(entity) {
 	entity.weaponWielded = {};
 	entity.toHitAdj = function() {
 		//TODO:
-		return 10;
+		return 0;
 	}
 	entity.getArmor = function() {
 		//TODO:might just be property with entity having armor value.

@@ -1,17 +1,19 @@
 ### TODOS ###
 
+
 //TODO: add Explored flag/render
-//TODO: Extract code in here into GameEngine
-//TODO: Work out getting a message back to gui.. like when a door is locked, combat results.
-//TODO: display player name and hp
+//TODO: get display size and size gamePortal to fit properly.
+//TODO: build Monster Generators.
+//TODO: Animation
+//TODO: Status object with msg life
+//TODO: Extract code GameTest script into GameEngine Obj
+
 
 //TODO: 2. Add line of sight checking for creatures.
-//TODO: Put together Groovy script that builds a JS deployment.
-//TODO: seperate todo list into a real todo and add a sh script so I can manage todos properly!
+//TODO: Put together Groovy/Python script that builds a JS deployment.
+//TODO: Move this  list in todo and make sh file for it.
 //TODO: Build map maker
-//		Hold on ties til know requirements
-//TODO: Work out implelemntation of MapTile and the expected datatypes. It would save processing time to set the height/width etc at creation.
-//TODO: figure out creature rendering.
+//TODO: Decide if Tiles needs to be an entity and convert if so.
 
 
 
