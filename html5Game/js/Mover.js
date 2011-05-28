@@ -43,13 +43,13 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 				return;
 			}
 			//check monster Collision.
-			for(m in monsters) {
-				if(this.checkCollision(player,monsters[m]) && monsters[m].alive === true) {
+			for(m in GameEngine.monsters) {
+				if(this.checkCollision(GameEngine.player,GameEngine.monsters[m]) && GameEngine.monsters[m].alive === true) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
 					//Do Bump attack for now, TODO: Add mouse click support.
-					player.attack(monsters[m]);
+					player.attack(GameEngine.monsters[m]);
 					return;
 				}
 			}
@@ -84,8 +84,8 @@ Mover.prototype.moveMonster = function(monster, player) {
 			///Might be more efficent to mark the tile as occupied?
 			tileClear = true;
 			newPos = {"x":(path[1].x*tiledMap.tileMapManager.tileWidth), "y":(path[1].y*tiledMap.tileMapManager.tileHeight)};
-			for(mn in monsters) {
-				if(monsters[mn].x === newPos.x && monsters[mn].y === newPos.y){
+			for(mn in GameEngine.monsters) {
+				if(GameEngine.monsters[mn].x === newPos.x && GameEngine.monsters[mn].y === newPos.y){
 					tileClear = false; break;
 				}
 			}  

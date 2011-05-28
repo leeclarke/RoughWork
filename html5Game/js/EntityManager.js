@@ -253,14 +253,20 @@ function attackRules(entity) {
 		}
 		//TODO: Extract this to the Coming GameEngine object.
 		if(this.entityType === 'Player'){
-			eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
+			GameEngine.eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
 		} else {
-			eventMesgsStack.push("Monster hit you for " + dmg + "!\n");
+			GameEngine.eventMesgsStack.push("Monster hit you for " + dmg + "!\n");
 		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
 			entity.alive = false; //Monsters get one last swing since the go second.
 			if(entity.entityType === 'Creature') entity.oneLastSwing = true;
+		}
+	} else {
+		if(this.entityType === 'Player'){
+			GameEngine.eventMesgsStack.push("Your attack missed!");
+		} else {
+			GameEngine.eventMesgsStack.push("Monster missed!\n");
 		}
 	}
 }

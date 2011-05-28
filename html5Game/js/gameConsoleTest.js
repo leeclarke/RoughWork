@@ -1,12 +1,15 @@
 var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 600;
-var STATUS_WIDTH = 150;
+
+GameEngine.CANVAS_WIDTH = 1000;
+GameEngine.CANVAS_HEIGHT = 600;
+
+GameEngine.STATUS_WIDTH = 150;
+
 var showGrid = true;
-var player;
 var theMap;
 var context;
-var monsters =[];
-var eventMesgsStack = [];
+
 
 
 /**
@@ -17,26 +20,26 @@ var eventMesgsStack = [];
 function windowReady() {
 	Math.floor(1);  //force this to add the added on methods. TODO: change methods to GameEngine object.
 	//Create canvas
-	var canvasElement = $("<canvas width='" + CANVAS_WIDTH + 
-                      "' height='" + CANVAS_HEIGHT + "'></canvas>");
+	var canvasElement = $("<canvas width='" + GameEngine.CANVAS_WIDTH + 
+                      "' height='" + GameEngine.CANVAS_HEIGHT + "'></canvas>");
 	context = canvasElement.get(0).getContext("2d");
 	canvasElement.appendTo('body');
 	//Set up background.
 	context.fillStyle = 'rgb(0, 0, 0)' ;
-	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
+	context.fillRect(0, 0, GameEngine.CANVAS_WIDTH, GameEngine.CANVAS_HEIGHT ) ;
 	
 	tileWidth = 32;
 	tileHeight = 32;
-	tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
+	tiledMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,tileWidth,tileHeight);
 
 	//add fake player sprite, centerd in middle of screen
-	player = EntityManager.createEntity('Player');
-	player.x = 128;
-	player.y = 64;
-	player.name = "Lee";
-	player.spriteImg.src = "res/player.png";
-	player.deadImg.src = "res/bones.png";
-	player.weaponWielded = EntityManager.weaponFactory('Sword');
+	GameEngine.player = EntityManager.createEntity('Player');
+	GameEngine.player.x = 128;
+	GameEngine.player.y = 64;
+	GameEngine.player.name = "Lee";
+	GameEngine.player.spriteImg.src = "res/player.png";
+	GameEngine.player.deadImg.src = "res/bones.png";
+	GameEngine.player.weaponWielded = EntityManager.weaponFactory('Sword');
 	 
 	
 	//Test Monster
@@ -51,7 +54,7 @@ function windowReady() {
 	dragon.hp = 8;
  	dragon.hpMax = 8;
 	
-	monsters.push(dragon);
+	GameEngine.monsters.push(dragon);
 	
 	
 	dragon2 = EntityManager.createCreature('Green Dragon');
@@ -65,7 +68,7 @@ function windowReady() {
 	dragon2.hp = 8;
  	dragon2.hpMax = 8;
 	
-	monsters.push(dragon2);
+	GameEngine.monsters.push(dragon2);
 
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
@@ -102,47 +105,11 @@ function windowReady() {
 	
 	theMap = tiledMap.renderMap();
 	//draw to canvas	
-	render();
+	GameEngine.render();
 }
 
 window.onload = windowReady;
 
-/**
- * Draws the status display overlay. 
- */
-function buildStatusDisplay(context) {
-	//position in upper left corner	
-	context.save();
-	context.translate(0,0);
-	
-	context.strokeStyle = 'rgb(255, 255, 51)' ;
-	context.lineWidth = "0.5";
-
-	//drawFrame
-	context.strokeRect(5,5,(STATUS_WIDTH-10),CANVAS_HEIGHT-10);
-	context.fillStyle = "rgba(204, 204, 204, 0.1)";
-	context.fillRect(6,6,(STATUS_WIDTH-12),CANVAS_HEIGHT-12);
-	
-	//Write some text for Debugging
-	context.fillStyle = "#FFFF33"; // Set color to black
-	context.fillText(player.name, 8, 20);
-	context.fillText("HP: "+player.hp, 8, 40);
-	context.fillText("AC: "+player.getArmor(), 8, 60);
-	context.fillText("x:"+player.x+" y:"+player.y, 8, 80);
-	
-	context.restore();
-}
-
-/**
- * Responsable for rendering the ViewPort or Camera of the game.
- */
-function render() {
-	vpX = (CANVAS_WIDTH/2)-(tileWidth/2); //viewPort Center.
-	vpY = (CANVAS_HEIGHT/2)-(tileHeight/2);
-	context.fillStyle = 'rgb(0, 0, 0)' ;
-	context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT ) ;
-	renderViewPort(context, theMap, player, vpX,vpY); 
-}
 
 //TODO: REMOVE this is for testing only,  with out running a game loop.  add key_status.js to html page for actual support.
 $(function() {
@@ -166,7 +133,7 @@ $(function() {
 
 function fakeLoop() {
 	update();
-	render();
+	GameEngine.render();
 }
 //REMOVE: TESTING only
 
@@ -176,87 +143,30 @@ function fakeLoop() {
 function update() {
 	mover = new Mover();
   if (keydown.left) {
-    mover.movePlayer(player, -32,0);
-    moveMonsters();
+    mover.movePlayer(GameEngine.player, -32,0);
+    GameEngine.moveMonsters();
   }
 
   if (keydown.right) {
-    mover.movePlayer(player, 32,0);
-    moveMonsters();
+    mover.movePlayer(GameEngine.player, 32,0);
+    GameEngine.moveMonsters();
   }
   
   if (keydown.up) {
-      mover.movePlayer(player, 0,-32);
-      moveMonsters();
+		mover.movePlayer(GameEngine.player, 0,-32);
+		GameEngine.moveMonsters();
   }
   
   if (keydown.down) {
-        mover.movePlayer(player, 0,32);
-        moveMonsters();
+		mover.movePlayer(GameEngine.player, 0,32);
+		GameEngine.moveMonsters();
   }
 }
 
-function writeStatus(context) {
-	statusMargin = 5;
-	statusHeight = 150;
 
-	//position in upper left corner	
-	context.save();
-	context.translate(0,0);
-	
-	context.strokeStyle = 'rgb(255, 255, 51)' ;
-	context.lineWidth = "0.5";
 
-	//drawFrame
-	context.strokeRect(STATUS_WIDTH+statusMargin,statusMargin,(CANVAS_WIDTH-10-STATUS_WIDTH),statusHeight-10);
-	context.fillStyle = "rgba(204, 204, 204, 0.1)";
-	context.fillRect(6,6,(STATUS_WIDTH-12),CANVAS_HEIGHT-12);
-	context.fillStyle = "#FFFF33";	
-	msgCt = 1;
-	vertPosStart = 20;
-	//context.fillText("TEST2", STATUS_WIDTH+(statusMargin*2), 30);
-	while(eventMesgsStack.length >0) {
-		e = eventMesgsStack.pop();
-		context.fillText(e, STATUS_WIDTH+statusMargin, vertPosStart*msgCt);	
-		msgCt++;	
-	}
-	
-	context.restore();
-}
 
-function moveMonsters() {
-	mover = new Mover();
-	for(m = 0; m < monsters.length; m++) {
-		mover.moveMonster(this.monsters[m],player);
-	}	
-}
 
-/**
- * Paints the game map then centers the viewport on the player sprite.
- *
- * @param contest - ViewPort's 2D context
- * @param palyer  - Player object which contains players map location.
- * @param vpCtrX - ViewPort's center X position, adjusted to the UL corner of the center player tile.
- * @param vpCtrY - ViewPort's center Y position, adjusted to the UL corner of the center player tile.
- */
-function renderViewPort(context, theMap, player, vpCtrX, vpCtrY) {
-	context.save();  //save position to return to later.
-	context.translate(vpCtrX-player.x,vpCtrY-player.y); //Move to point on map where player stands
-	context.drawImage(theMap, 0, 0);
 
-	//Draw monsters
-	for(m = 0; m < monsters.length; m++){
-		context.drawImage(monsters[m].renderImg(), monsters[m].x, monsters[m].y);
-	}
-
-	if(showGrid) {
-		paintGrid(context, theMap.width, theMap.height);
-	}
-	context.restore(); //pop the canvas back to where it was which moves the map.
-	buildStatusDisplay(context);
-	writeStatus(context);
-	
-	context.drawImage(player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
-}
 
 

@@ -12,4 +12,5 @@ Look into new requestAnimationFrame function which makes animation safer and acc
 SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 build Player Generator +API-EntityManager
-Fill out Unit TEsts for EntityManager +API-EntityManager
+(B) Fill out Unit TEsts for EntityManager +API-EntityManager
+(A) Fix dead player can still move +API-Mover
