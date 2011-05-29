@@ -69,7 +69,17 @@ TiledMap.prototype.movementAttributes = { "unpassable":0,"open":1, "locked":2, "
  * @param mapData  - data format is [[{"id":0,"type":0},{"id":0,"type":0}],[{"id":0,"type":0},{"id":0,"type":0}]]
  */
 TiledMap.prototype.updateMap = function(mapData) {
+	//TODO:  convert mapData into a collection of entity objects.
 	this.tiles = mapData;
+	for(var rows = 0; rows < mapData.length ;rows++)
+	{
+		for(var cols = 0; cols < mapData[rows].length; cols++){
+			tile = EntityManager.createEntity('MapTile')
+			tile.init(mapData[rows][cols]);
+			this.tiles[rows][cols] = tile;	
+		}		
+	}
+	
 	this.rows = this.tiles.length;
 	this.cols = this.getCols();
 }

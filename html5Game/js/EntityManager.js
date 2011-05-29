@@ -34,6 +34,13 @@ EntityManager.createEntity = function(entityType){
 			return entity;
 		case 'MapTile':
 			entity = new Entity(entityType);
+			entity.explored = false;
+			entity.x = 0;
+			entity.y = 0;
+			entity.col = 0;
+			entity.row = 0;
+			entity.width = 0;
+			entity.height = 0;
 			entity.init = initMapTile;
 			return entity;
 		case 'Arrow':
@@ -215,8 +222,9 @@ function renderSprite(){
  * Note: id should indicate the sprite image id. no idea what type ought to be..
  */
 function initMapTile(data) {
-	this.id = data.id;
-	this.type = data.type;
+	this.id = (data.hasOwnProperty('id'))?data.id:-1;
+	this.type = (data.hasOwnProperty('type'))?data.type:-1;
+		
 }
 
 /**

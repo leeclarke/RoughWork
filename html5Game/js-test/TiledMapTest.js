@@ -51,6 +51,14 @@ TiledMapTest.prototype.testGetTile = function() {
 	assertTrue('Tileobj should have id property',	tTile.hasOwnProperty('id'));
 	assertEquals(2,tTile.id);
 	assertEquals(2,tTile.type);
+	assertTrue('MapTile should have property "y".',tTile.hasOwnProperty('y'));
+	assertTrue('tTile should have property "x".',tTile.hasOwnProperty('x'));
+	assertTrue('tTile should have property "col".',tTile.hasOwnProperty('col'));
+	assertTrue('tTile should have property "row".',tTile.hasOwnProperty('row'));
+	assertTrue('tTile should have property "width".',tTile.hasOwnProperty('width'));
+	assertTrue('tTile should have property "height".',tTile.hasOwnProperty('height'));
+	assertTrue('tTile should have property "explored".',tTile.hasOwnProperty('explored'));
+	assertEquals(32,tTile.width);
 }
 
 //TODO: Build better tests/ add getRange, getTile

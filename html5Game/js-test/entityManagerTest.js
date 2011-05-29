@@ -38,11 +38,21 @@ EntityManagerTest.prototype.testInitMapTile = function() {
 	mapTile = EntityManager.createEntity('MapTile');
 	
 	assertNotNull('MapTile should not be null',mapTile);
-	assertTrue('mapTile should have initMapTile function.actual==',(typeof mapTile.init == 'function'));
+	assertTrue('mapTile should have function.init==',(typeof mapTile.init == 'function'));
 	//Test loading of data.
 	mapTile.init(testTileData);
 	assertTrue('MapTile should have property "id".',mapTile.hasOwnProperty('id'));
 	assertTrue('MapTile should have property "type".',mapTile.hasOwnProperty('type'));
+	assertTrue('MapTile should have property "y".',mapTile.hasOwnProperty('y'));
+	assertTrue('MapTile should have property "x".',mapTile.hasOwnProperty('x'));
+	assertTrue('MapTile should have property "col".',mapTile.hasOwnProperty('col'));
+	assertTrue('MapTile should have property "row".',mapTile.hasOwnProperty('row'));
+	assertTrue('MapTile should have property "width".',mapTile.hasOwnProperty('width'));
+	assertTrue('MapTile should have property "height".',mapTile.hasOwnProperty('height'));
+	assertTrue('MapTile should have property "explored".',mapTile.hasOwnProperty('explored'));
+	
+	assertEquals(2,mapTile.id);
+	assertEquals(2,mapTile.type);
 	
 }
 
