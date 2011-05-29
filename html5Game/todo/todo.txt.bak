@@ -6,11 +6,10 @@
 (C) Build Status object to manage message life etc +UI-GameEngine
 (B) Develop deployment Script in groovy/Python +Deployment +DevTools
 (B) Build Map Maker Tool +DevTools
-(A) Decide if Tiles need to be Entity and convert if yes +API-Display
+x 2011-05-29 Decide if Tiles need to be Entity and convert if yes +API-Display
 Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
 SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 build Player Generator +API-EntityManager
 (B) Fill out Unit TEsts for EntityManager +API-EntityManager
-x 2011-05-28 Fix dead player can still move +API-Mover
 (B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
