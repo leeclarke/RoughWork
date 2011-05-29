@@ -3,10 +3,8 @@ var CANVAS_HEIGHT = 600;
 
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
-
 GameEngine.STATUS_WIDTH = 150;
-
-var showGrid = true;
+GameEngine.DisplayGrid = true;
 var theMap;
 var context;
 

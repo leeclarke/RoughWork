@@ -7,6 +7,7 @@ function GameEngine(){
 GameEngine.CANVAS_WIDTH = 0;
 GameEngine.CANVAS_HEIGHT = 0;
 GameEngine.STATUS_WIDTH = 0;
+GameEngine.DisplayGrid = false;
 GameEngine.player = {};
 GameEngine.monsters = [];
 GameEngine.eventMesgsStack = [];
@@ -46,7 +47,7 @@ GameEngine.renderViewPort = function(context, theMap, vpCtrX, vpCtrY) {
 		context.drawImage(GameEngine.monsters[m].renderImg(), GameEngine.monsters[m].x, GameEngine.monsters[m].y);
 	}
 
-	if(showGrid) {
+	if(this.DisplayGrid) {
 		paintGrid(context, theMap.width, theMap.height);
 	}
 	context.restore(); //pop the canvas back to where it was which moves the map.
