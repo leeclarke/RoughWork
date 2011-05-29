@@ -1,1 +1,3 @@
 x 2011-05-27 Move TODO list into todo app +DevTools
+x 2011-05-28 Build GameEngine object +API-GameEngine
+x 2011-05-28 Fix dead player can still move +API-Mover

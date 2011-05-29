@@ -1,4 +1,4 @@
-.**
+/**
  * GameEngine runs the show, this is the game controller.
  */
 function GameEngine(){
@@ -113,22 +113,22 @@ GameEngine.buildStatusDisplay = function(context) {
 /**
  * Generate rnd number between 2 numbers including the from and to values.
  */
-Math.randomInt = function(from, to) {
+GameEngine.randomInt = function(from, to) {
    return Math.floor(Math.random() * (to - from + 1) + from);
 };
 
 /**
  * Random number gen that simulates dice rolls just for simple understanding..
  */
-Math.diceRoll = function( sides, numDice) {
-	return Math.randomInt(sides, sides*numDice);       
+GameEngine.diceRoll = function( sides, numDice) {
+	return this.randomInt(sides, sides*numDice);       
 };
 
 /**
  * Select random item from an Array.
  */
 Array.prototype.ramdomItem =  function(){	
-	return this[Math.randomInt(0, this.length - 1)];
+	return this[this.randomInt(0, this.length - 1)];
 };
 
 /**

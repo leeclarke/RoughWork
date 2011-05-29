@@ -13,6 +13,8 @@ function Mover(){
  */
 Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	//use player location to get row,col of surrounding tiles.
+	if(player.alive == false)
+		return;
 	playerOldX = player.x;
 	playerOldY = player.y;
 	player.x += xDir;

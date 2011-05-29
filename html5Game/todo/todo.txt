@@ -4,7 +4,6 @@
 (B) Build Monster Generator +API-GameEgine
 (B) Develop SPrite Annimation +API-Entity-SpriteManager
 (C) Build Status object to manage message life etc +UI-GameEngine
-(A) Build GameEngine object +API-GameEngine
 (B) Develop deployment Script in groovy/Python +Deployment +DevTools
 (B) Build Map Maker Tool +DevTools
 (A) Decide if Tiles need to be Entity and convert if yes +API-Display
@@ -13,4 +12,4 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 build Player Generator +API-EntityManager
 (B) Fill out Unit TEsts for EntityManager +API-EntityManager
-(A) Fix dead player can still move +API-Mover
+(B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate

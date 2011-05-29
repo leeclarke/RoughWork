@@ -228,7 +228,7 @@ function attackRules(entity) {
 	if(!this.weaponWielded.hasOwnProperty('type')){
 		this.weaponWielded = getDefaultWeapon('Hands');
 	}
-	hitRoll = Math.diceRoll(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
+	hitRoll = GameEngine.diceRoll(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
 	thac0 = 21 - this.level;
 	console.log("hitRoll="+hitRoll + " thac0=" + thac0);
 	if ((thac0 - entity.getArmor()) <= hitRoll)
@@ -245,11 +245,11 @@ function attackRules(entity) {
 				// Apply bolt/arrow adj
 				dmgMislMod += this.getMissiles().getAttackAdj();
 			}
-			dmg = Math.diceRoll(1,this.weaponWielded.damageThrown) + strAdj
+			dmg = GameEngine.diceRoll(1,this.weaponWielded.damageThrown) + strAdj
 					+ this.weaponWielded.attackAdj + dmgMislMod + this.toDMGMajicAdj;
 		}
 		else {
-			dmg = Math.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
+			dmg = GameEngine.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		//TODO: Extract this to the Coming GameEngine object.
 		if(this.entityType === 'Player'){
