@@ -55,7 +55,7 @@ MoverTest.prototype.testCheckCollision_Collision = function() {
 }
 
 MoverTest.prototype.testMovePlayer = function() {
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 4*32;
 	player.y = 2*32;
 	mover = new Mover();
@@ -67,14 +67,13 @@ MoverTest.prototype.testMovePlayer = function() {
  */
 MoverTest.prototype.testMoveMonsterOutOfRange = function() {
 	mover = new Mover();
-	entityMan = new EntityManager();
-	monster = entityMan.createEntity('Creature');
+	monster = EntityManager.createEntity('Creature');
 	monster.x = 8*32;
 	monster.y = 6*32;
 	monster.range = 4;
 	
 	
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 4*32;
 	player.y = 2*32;
 	
@@ -89,14 +88,13 @@ MoverTest.prototype.testMoveMonsterOutOfRange = function() {
  */
 MoverTest.prototype.testMoveMonsterInRange = function() {
 	mover = new Mover();
-	entityMan = new EntityManager();
-	monster = entityMan.createEntity('Creature');
+	monster = EntityManager.createEntity('Creature');
 	monster.x = 12*32;
 	monster.y = 8*32;
 	monster.range = 6;
 	
 	
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 11*32;
 	player.y = 3*32;
 	
@@ -112,14 +110,13 @@ MoverTest.prototype.testMoveMonsterInRange = function() {
  */
 MoverTest.prototype.testMoveMonsterInRange_Adjacent = function() {
 	mover = new Mover();
-	entityMan = new EntityManager();
-	monster = entityMan.createEntity('Creature');
+	monster = EntityManager.createEntity('Creature');
 	monster.x = 12*32;
 	monster.y = 3*32;
 	monster.range = 6;
 	
 	
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 11*32;
 	player.y = 3*32;
 	
@@ -132,14 +129,13 @@ MoverTest.prototype.testMoveMonsterInRange_Adjacent = function() {
 
 
 MoverTest.prototype.testGetRange= function() {
-	entityMan = new EntityManager();
-	creature = entityMan.createEntity('Creature');
+	creature = EntityManager.createEntity('Creature');
 	creature.x = 8*32;
 	creature.y = 6*32;
 	
 	mover = new Mover();
 	
-	player = manager.createEntity('Player');
+	player = EntityManager.createEntity('Player');
 	player.x = 4*32;
 	player.y = 2*32;
 	

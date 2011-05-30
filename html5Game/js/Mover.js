@@ -25,14 +25,9 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 		player.y = playerOldY;
 		return;
 	}
-	
-	mapCol = ~~(player.x/tileWidth)
-	mapRow = ~~(player.y/tileHeight)
-	
+
 	//get targeted tile.
-	mapColDir = ~~((player.x)/tileWidth);
-	mapRowDir = ~~((player.y)/tileHeight);
-	targetTile = tiledMap.getTile(mapRowDir,mapColDir);
+	targetTile = tiledMap.getTile(player.getRow(),player.getCol());
 	if(targetTile !== null) {
 		colls = this.checkCollision(player, targetTile);
 		if(colls) {
@@ -55,6 +50,13 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					return;
 				}
 			}
+		} else {
+			//update visable range
+			viewRange = theMap.getRange(player.getCol(),player.getRow(),player.vision,player.vision);
+			for(v in viewRange) {
+				tile = viewRange[v].explored = true;
+			}
+			//TODO: Not setting the tiles to visable! Maybe this should be in render?
 		}
 	}
 }

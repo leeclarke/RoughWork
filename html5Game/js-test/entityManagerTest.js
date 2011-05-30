@@ -1,6 +1,11 @@
 EntityManagerTest = TestCase("EntityManagerTest");
 
 var eventMesgs = [];
+//SetUp
+if(GameEngine.currentMap == null) {
+	GameEngine.currentMap = new TiledMap(600, 600, 32, 32);
+	GameEngine.currentMap.tileMapManager = new SpriteTileManager(null,32,32);
+}
 
 //TODO: Add createEntityTest for each Type.
 
@@ -16,6 +21,14 @@ EntityManagerTest.prototype.testGetPlayerEntity = function() {
 	assertTrue('player obj should have function.renderImg==',(typeof player.renderImg == 'function'));
 	assertTrue('player obj should have level property',player.hasOwnProperty('level'));
 	assertTrue('player obj should have function.getAttackAdj==',(typeof player.getAttackAdj == 'function'));
+	assertTrue('player obj should have function.getCol==',(typeof player.getCol == 'function'));
+	assertTrue('player obj should have function.getRow==',(typeof player.getRow == 'function'));
+	
+	//test get col/row
+	player.x = (3*32);
+	player.y = (4*32);
+	assertEquals('getCol expected col 3',3,player.getCol());
+	assertEquals('getCol expected col 4',4,player.getRow());
 }; 
 
 EntityManagerTest.prototype.testCreateCreature = function() {

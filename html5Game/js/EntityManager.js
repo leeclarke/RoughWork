@@ -114,6 +114,12 @@ function addWeapon(entity) {
 function addLocation(entity) {
 	entity.x = 0; //test
 	entity.y = 0;
+	entity.getCol = function() {
+		return ~~(this.x/GameEngine.currentMap.getTileWidth())
+	}
+	entity.getRow = function() {
+		return ~~(this.y/GameEngine.currentMap.getTileHeight())
+	}
 }
 
 function addCombatant(entity) {
@@ -152,7 +158,7 @@ function addMonster(entity) {
 	oneLastSwing = false;
 }
 /**
- * 
+ * Add player components to entity.
  */
 function addPlayer(entity) {
 	entity.levelMax = 1;
@@ -161,6 +167,7 @@ function addPlayer(entity) {
 	entity.str = 16;
 	entity.strMax = 16;
 	entity.pack = [];
+	entity.vision = GameEngine.playerDefaltVisonRange; //number of tiles the player can see in any direction
 }
 
 /**

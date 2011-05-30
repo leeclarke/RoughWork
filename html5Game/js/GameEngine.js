@@ -7,10 +7,13 @@ function GameEngine(){
 GameEngine.CANVAS_WIDTH = 0;
 GameEngine.CANVAS_HEIGHT = 0;
 GameEngine.STATUS_WIDTH = 0;
+GameEngine.playerDefaltVisonRange = 5;
 GameEngine.DisplayGrid = false;
+GameEngine.lightsOn = false; //Toggles visability, true makes whole map explored.
 GameEngine.player = {};
 GameEngine.monsters = [];
 GameEngine.eventMesgsStack = [];
+GameEngine.currentMap = null;
 
 GameEngine.moveMonsters = function() {
 	mover = new Mover();
@@ -23,11 +26,11 @@ GameEngine.moveMonsters = function() {
  * Responsable for rendering the ViewPort or Camera of the game.
  */
 GameEngine.render = function() {
-	vpX = (this.CANVAS_WIDTH/2)-(tileWidth/2); //viewPort Center.
-	vpY = (this.CANVAS_HEIGHT/2)-(tileHeight/2);
+	vpX = (this.CANVAS_WIDTH/2)-(this.currentMap.getTileWidth()/2); //viewPort Center.
+	vpY = (this.CANVAS_HEIGHT/2)-(this.currentMap.getTileHeight()/2);
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT ) ;
-	this.renderViewPort(context, theMap, vpX,vpY); 
+	this.renderViewPort(context, vpX,vpY); 
 }
 
 /**
@@ -37,10 +40,11 @@ GameEngine.render = function() {
  * @param vpCtrX - ViewPort's center X position, adjusted to the UL corner of the center player tile.
  * @param vpCtrY - ViewPort's center Y position, adjusted to the UL corner of the center player tile.
  */
-GameEngine.renderViewPort = function(context, theMap, vpCtrX, vpCtrY) {
+GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
+	renderedMap = GameEngine.currentMap.renderMap();
 	context.save();  //save position to return to later.
 	context.translate(vpCtrX-GameEngine.player.x,vpCtrY-GameEngine.player.y); //Move to point on map where player stands
-	context.drawImage(theMap, 0, 0);
+	context.drawImage(renderedMap, 0, 0);
 
 	//Draw monsters
 	for(m = 0; m < GameEngine.monsters.length; m++){
@@ -48,7 +52,7 @@ GameEngine.renderViewPort = function(context, theMap, vpCtrX, vpCtrY) {
 	}
 
 	if(this.DisplayGrid) {
-		paintGrid(context, theMap.width, theMap.height);
+		paintGrid(context, renderedMap.width, renderedMap.height);
 	}
 	context.restore(); //pop the canvas back to where it was which moves the map.
 	this.buildStatusDisplay(context);

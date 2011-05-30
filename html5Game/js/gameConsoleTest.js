@@ -1,14 +1,13 @@
 var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 600;
 
+//Set Static Values on the GameEngine
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
 GameEngine.STATUS_WIDTH = 150;
-GameEngine.DisplayGrid = true;
-var theMap;
+GameEngine.DisplayGrid = false;
+GameEngine.lightsOn = true;
 var context;
-
-
 
 /**
  * WindowReady used for starting up the game prototype.
@@ -26,9 +25,7 @@ function windowReady() {
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, GameEngine.CANVAS_WIDTH, GameEngine.CANVAS_HEIGHT ) ;
 	
-	tileWidth = 32;
-	tileHeight = 32;
-	tiledMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,tileWidth,tileHeight);
+	tiledMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,32,32);
 
 	//add fake player sprite, centerd in middle of screen
 	GameEngine.player = EntityManager.createEntity('Player');
@@ -77,7 +74,7 @@ function windowReady() {
 	
 	tileMapManager = new SpriteTileManager(testManagerConfig);
 
-	//'is' is the sprite id and type is the 
+	//'id' is the sprite id and type is the 
 	mapTiles = [
 				[{},{}],
 				[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
@@ -101,8 +98,9 @@ function windowReady() {
 	tiledMap.updateMap(mapTiles);
 	tiledMap.tileMapManager = tileMapManager;
 	
-	theMap = tiledMap.renderMap();
-	//draw to canvas	
+	GameEngine.currentMap = tiledMap;
+	
+	//draw to canvas		
 	GameEngine.render();
 }
 

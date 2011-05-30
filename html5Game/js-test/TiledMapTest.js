@@ -61,6 +61,11 @@ TiledMapTest.prototype.testGetTile = function() {
 	assertEquals(32,tTile.width);
 }
 
+TiledMapTest.prototype.testGetTileHeightWidth = function() {	
+	assertEquals(32,tile_tiledMap.getTileWidth());
+	assertEquals(32,tile_tiledMap.getTileHeight());
+}
+
 //TODO: Build better tests/ add getRange, getTile
 TiledMapTest.prototype.testRenderMap = function() {
 	//map = tiledMap.renderMap();

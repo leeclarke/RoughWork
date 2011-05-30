@@ -5,7 +5,6 @@
 /**
  * @object TiledMap
  * Manages a Game Map, both the data and rendered images.
- * Note the Map width/height will be set to a whole number that is <= to the canvas (w/h) / tile (w/h) 
  */
 function TiledMap(width, height, tileWidth, tileHeight) {
 	map = document.createElement('canvas');
@@ -19,6 +18,20 @@ function TiledMap(width, height, tileWidth, tileHeight) {
 	tiles = [];
 	BLANK_TILE = '';
 	tileMapManager = "";	
+}
+
+/**
+ * Conveniance wrapper method
+ */
+TiledMap.prototype.getTileWidth = function() {
+	return this.tileMapManager.tileWidth;
+}
+
+/**
+ * Conveniance wrapper method
+ */
+TiledMap.prototype.getTileHeight = function() {
+	return this.tileMapManager.tileHeight;
 }
 
 /**
@@ -69,7 +82,6 @@ TiledMap.prototype.movementAttributes = { "unpassable":0,"open":1, "locked":2, "
  * @param mapData  - data format is [[{"id":0,"type":0},{"id":0,"type":0}],[{"id":0,"type":0},{"id":0,"type":0}]]
  */
 TiledMap.prototype.updateMap = function(mapData) {
-	//TODO:  convert mapData into a collection of entity objects.
 	this.tiles = mapData;
 	for(var rows = 0; rows < mapData.length ;rows++)
 	{
@@ -102,13 +114,20 @@ TiledMap.prototype.renderMap = function() {
 	for(var rows = 0; rows < this.tiles.length ;rows++)
 	{
 		for(var cols = 0; cols < this.tiles[rows].length; cols++){
-			tileType = this.tiles[rows][cols];
-			if(tileType.hasOwnProperty('id') && tileType.hasOwnProperty('type')) {
-				sprPos = tileMapManager.namedTileOrgPoint(tileType.id);
+			currTile = this.tiles[rows][cols];
+			if(currTile.hasOwnProperty('id') && currTile.hasOwnProperty('type')) {
+				sprPos = tileMapManager.namedTileOrgPoint(currTile.id);
 				if(!sprPos) {
-					console.log("Bad Tile named: "+ tileType.id);
+					if(currTile.id != -1) { //-1 is a blank
+						console.log("Bad Tile named: "+ currTile.id);
+					}
 					continue;
 				}
+				if(GameEngine.lightsOn == false && currTile.explored == false){
+					//not visable yet, skip render
+					continue;
+				}
+				
 				tileX = cols*tileMapManager.tileWidth;
 				tileY = rows*tileMapManager.tileHeight;
 				mapCtx.drawImage(tileMapManager.spriteImage, sprPos.xPos, sprPos.yPos, tileMapManager.tileWidth, tileMapManager.tileHeight, tileX,tileY, tileMapManager.tileWidth, tileMapManager.tileHeight);
