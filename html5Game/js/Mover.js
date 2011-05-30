@@ -52,11 +52,12 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 			}
 		} else {
 			//update visable range
-			viewRange = theMap.getRange(player.getCol(),player.getRow(),player.vision,player.vision);
+			viewRange = GameEngine.currentMap.getRange(player.getCol(),player.getRow(),player.vision,player.vision);
 			for(v in viewRange) {
 				tile = viewRange[v].explored = true;
 			}
 			//TODO: Not setting the tiles to visable! Maybe this should be in render?
+			//Maybe just move to render?
 		}
 	}
 }

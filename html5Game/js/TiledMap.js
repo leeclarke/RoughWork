@@ -64,6 +64,8 @@ TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight
 		for(var rows = startRow; rows < maxRow ;rows++)		{
 			maxCol = ((startCol+tileWidth)>this.tiles[rows].length)?this.tiles[rows].length:(startCol+tileWidth) ;
 			for(var cols = startCol; cols < maxCol; cols++) {
+				//TODO: why doesnt that work in the explored loop??
+				
 				aTile = this.tiles[rows][cols];
 				aTile.x = (cols*this.tileMapManager.tileWidth); aTile.y = (rows*this.tileMapManager.tileHeight); aTile.width = this.tileMapManager.tileWidth; aTile.height = this.tileMapManager.tileHeight;
 				aTile.col = cols; aTile.row = rows;
