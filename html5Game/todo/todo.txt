@@ -17,3 +17,4 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (A) Remove getRange and test +API-TiledMap
 (A) Monsters show up in unexplored tailes, add visable flag and enforce. +API-MapRender
 Make Status view hidden when no status info. +UI-GameEngine
+(A) Set up Nodester Account +API-Research
