@@ -113,6 +113,7 @@ TiledMap.prototype.getCols = function() {
  * canvas to speed up rendering.  
  */
 TiledMap.prototype.renderMap = function() {	
+	this.exploreTiles();
 	for(var rows = 0; rows < this.tiles.length ;rows++)
 	{
 		for(var cols = 0; cols < this.tiles[rows].length; cols++){
@@ -137,6 +138,18 @@ TiledMap.prototype.renderMap = function() {
 		}
 	}
 	return mapCtx.canvas;
+}
+
+/**
+ * Make tiles in range visable.
+ */
+TiledMap.prototype.exploreTiles = function() {	
+	viewRange = GameEngine.currentMap.getRange(GameEngine.player.getCol(),GameEngine.player.getRow(),GameEngine.player.vision,GameEngine.player.vision);
+	for(v in viewRange) {
+		tile = viewRange[v].explored = true;
+	}
+	//TODO: Not setting the tiles to visable! Maybe this should be in render?
+	//Maybe just move to render?
 }
 
 /**

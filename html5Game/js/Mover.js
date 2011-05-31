@@ -30,7 +30,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 	targetTile = tiledMap.getTile(player.getRow(),player.getCol());
 	if(targetTile !== null) {
 		colls = this.checkCollision(player, targetTile);
-		if(colls) {
+		if(colls) {//looks like there would always be a collision so the question is, does this offer anything?
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
 			if(!targetTile.hasOwnProperty('type') || targetTile.type === tiledMap.movementAttributes["unpassable"]) {
@@ -50,15 +50,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					return;
 				}
 			}
-		} else {
-			//update visable range
-			viewRange = GameEngine.currentMap.getRange(player.getCol(),player.getRow(),player.vision,player.vision);
-			for(v in viewRange) {
-				tile = viewRange[v].explored = true;
-			}
-			//TODO: Not setting the tiles to visable! Maybe this should be in render?
-			//Maybe just move to render?
-		}
+		} 
 	}
 }
 
