@@ -113,41 +113,26 @@ TiledMapTest.prototype.testSurroundingTiles_NearBottomRight = function() {
 	assertEquals(tile_tiledMap.rows,tileArea.bottomRight.row);
 }
 
-//TODO: There is a bug in the range, maybe or is it how its called?
-TiledMapTest.prototype.testGetRange = function() {	
+TiledMapTest.prototype.testExploreTiles = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);
-	startX = 5;
-	startY = 4;
-	rangeX = 3;
-	rangeY = 3;
-	/*range = tile_tiledMap.getRange(startX, startY, rangeX, rangeY);
-	range.sort(function(a,b) {
-		yVal = a.y - b.y;
-		if(yVal == 0) {
-			return a.x - b.x;
-		} else {
-			return yVal;
-		}
-	});
-		*/
-//	for(y = 0; range.length; y++) {
-	//	tile = range[y];
-		
-//		for(x = 0; range[y].length; x++) {
-			
-	//	}
-	//}
+	//Set player location so that exploreTiles can function.
+	GameEngine.player = EntityManager.createEntity('Player');
+	GameEngine.player.x = (3*32);
+	GameEngine.player.y = (4*32);
+	tile_tiledMap.exploreTiles();
 	
+	//Now tiles should be explored. grab them and verify.
+	tileArea = tile_tiledMap.getSurroundingTiles(GameEngine.player.getRow(), GameEngine.player.getCol(), GameEngine.player.vision, GameEngine.player.vision);
+	assertNotNull('The Area retrieved to validate test is invalid check getSurroundingTiles()',tileArea);
 	
+	//TODO:Finish
+	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[0][0].explored);
+	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[4][3].explored);
+	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[7][6].explored);
+	assertFalse("The upper left should have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision][3+GameEngine.player.vision+1].explored);
+	assertFalse("The upper left should have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision+1][3+GameEngine.player.vision].explored);
+	assertFalse("The tile 10,9 should NOT have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision+1][3+GameEngine.player.vision+1].explored)
 }
-
-
-TiledMapTest.prototype.testGetRange_offMap = function() {	
-	//tile_tiledMap.updateMap(tile_Maptiles);
-	//assertEquals(1,tile_tiledMap.movementAttributes["open"]);
-	
-}
-
 
 TiledMapTest.prototype.testGetTile = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);

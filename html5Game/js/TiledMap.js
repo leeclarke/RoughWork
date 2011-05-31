@@ -57,6 +57,7 @@ TiledMap.prototype.getTile = function(row, col) {
 }
 
 /**
+//TODO This should be removed then tested.
  * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
  * //TODO: evaluate the need for this.. it is not being used by any objects currently.
  * Perhaps getRange should just return a rectangle of tile coordinates for use when working with tiles?
@@ -181,12 +182,15 @@ TiledMap.prototype.renderMap = function() {
 
 /**
  * Make tiles in player range visable.
+ {"upperLeft":{"row":0,"col":0},"bottomRight":{"row":0,"col":0}}
  */
 TiledMap.prototype.exploreTiles = function() {	
-	
 	expArea = this.getSurroundingTiles(GameEngine.player.getRow(),GameEngine.player.getCol(),GameEngine.player.vision,GameEngine.player.vision);
-	for(e = 0; e < expAv in viewRange) {
-		tile = viewRange[v].explored = true;
+	for(var rows = expArea.upperLeft.row; rows < expArea.bottomRight.row ;rows++) {
+		bRight = (expArea.bottomRight.col>this.tiles[rows].length)?this.tiles[rows].length:expArea.bottomRight.col
+		for(var cols = expArea.upperLeft.col; cols < bRight; cols++){
+			this.tiles[rows][cols].explored = true;	
+		}
 	}
 }
 
