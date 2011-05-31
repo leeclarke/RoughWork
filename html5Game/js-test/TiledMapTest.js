@@ -45,6 +45,73 @@ TiledMapTest.prototype.testMoveAtt = function() {
 	assertEquals(1,tile_tiledMap.movementAttributes["open"]);
 }
 
+//TODO: Add map edge tests at top and bottom rt.
+
+TiledMapTest.prototype.testSurroundingTiles = function() {	
+	tile_tiledMap.updateMap(tile_Maptiles);
+	startCol = 5;
+	startRow = 4;
+	rangeCol = 3;
+	rangeRow = 3;
+	tileArea = tile_tiledMap.getSurroundingTiles(startRow, startCol, rangeRow, rangeCol);
+	
+	assertNotNull(tileArea);
+	assertTrue('getSurroundingTiles result obj should have upperLeft property',	  tileArea.hasOwnProperty('upperLeft'));
+	assertTrue('getSurroundingTiles result obj should have bottomRight property', tileArea.hasOwnProperty('bottomRight'));
+	assertTrue('getSurroundingTiles result obj.upperLeft should have col/row properties',	  tileArea.upperLeft.hasOwnProperty('col') && tileArea.upperLeft.hasOwnProperty('row'));
+	assertTrue('getSurroundingTiles result obj.bottomRight should have col/row properties',	  tileArea.bottomRight.hasOwnProperty('col') && tileArea.bottomRight.hasOwnProperty('row'));
+	
+	//got whats expected now test values.
+	assertEquals(2,tileArea.upperLeft.col);
+	assertEquals(1,tileArea.upperLeft.row);
+	assertEquals(8,tileArea.bottomRight.col);
+	assertEquals(7,tileArea.bottomRight.row);
+}
+
+TiledMapTest.prototype.testSurroundingTiles_NearTop = function() {	
+	tile_tiledMap.updateMap(tile_Maptiles);
+	startCol = 1;
+	startRow = 1;
+	rangeCol = 3;
+	rangeRow = 3;
+	tileArea = tile_tiledMap.getSurroundingTiles(startRow, startCol, rangeRow, rangeCol);
+	
+	assertNotNull(tileArea);
+	assertTrue('getSurroundingTiles result obj should have upperLeft property',	  tileArea.hasOwnProperty('upperLeft'));
+	assertTrue('getSurroundingTiles result obj should have bottomRight property', tileArea.hasOwnProperty('bottomRight'));
+	assertTrue('getSurroundingTiles result obj.upperLeft should have col/row properties',	  tileArea.upperLeft.hasOwnProperty('col') && tileArea.upperLeft.hasOwnProperty('row'));
+	assertTrue('getSurroundingTiles result obj.bottomRight should have col/row properties',	  tileArea.bottomRight.hasOwnProperty('col') && tileArea.bottomRight.hasOwnProperty('row'));
+	
+	//got whats expected now test values.
+	assertEquals(0,tileArea.upperLeft.col);
+	assertEquals(0,tileArea.upperLeft.row);
+	assertEquals(4,tileArea.bottomRight.col);
+	assertEquals(4,tileArea.bottomRight.row);
+}
+
+/**
+ * Place the point right next to edge of map and ensure the area is narrowed appropratly
+ */
+TiledMapTest.prototype.testSurroundingTiles_NearBottomRight = function() {	
+	tile_tiledMap.updateMap(tile_Maptiles);
+	startCol = tile_tiledMap.cols-1;
+	startRow = tile_tiledMap.rows-1;
+	rangeCol = 3;
+	rangeRow = 3;
+	tileArea = tile_tiledMap.getSurroundingTiles(startRow, startCol, rangeRow, rangeCol);
+	
+	assertNotNull(tileArea);
+	assertTrue('getSurroundingTiles result obj should have upperLeft property',	  tileArea.hasOwnProperty('upperLeft'));
+	assertTrue('getSurroundingTiles result obj should have bottomRight property', tileArea.hasOwnProperty('bottomRight'));
+	assertTrue('getSurroundingTiles result obj.upperLeft should have col/row properties',	  tileArea.upperLeft.hasOwnProperty('col') && tileArea.upperLeft.hasOwnProperty('row'));
+	assertTrue('getSurroundingTiles result obj.bottomRight should have col/row properties',	  tileArea.bottomRight.hasOwnProperty('col') && tileArea.bottomRight.hasOwnProperty('row'));
+	
+	//got whats expected now test values.
+	assertEquals(startCol-rangeCol,tileArea.upperLeft.col);
+	assertEquals(startRow-rangeRow,tileArea.upperLeft.row);
+	assertEquals(tile_tiledMap.cols,tileArea.bottomRight.col);
+	assertEquals(tile_tiledMap.rows,tileArea.bottomRight.row);
+}
 
 //TODO: There is a bug in the range, maybe or is it how its called?
 TiledMapTest.prototype.testGetRange = function() {	
@@ -53,8 +120,8 @@ TiledMapTest.prototype.testGetRange = function() {
 	startY = 4;
 	rangeX = 3;
 	rangeY = 3;
-	range = tile_tiledMap.getRange(startX, startY, rangeX, rangeY);
-	/*range.sort(function(a,b) {
+	/*range = tile_tiledMap.getRange(startX, startY, rangeX, rangeY);
+	range.sort(function(a,b) {
 		yVal = a.y - b.y;
 		if(yVal == 0) {
 			return a.x - b.x;
@@ -83,6 +150,7 @@ TiledMapTest.prototype.testGetRange_offMap = function() {
 
 
 TiledMapTest.prototype.testGetTile = function() {	
+	tile_tiledMap.updateMap(tile_Maptiles);
 	tTile = tile_tiledMap.getTile(2,1);
 	assertNotNull(tTile);
 	assertTrue('Tileobj should have id property',	tTile.hasOwnProperty('id'));

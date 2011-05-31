@@ -38,22 +38,28 @@ TiledMap.prototype.getTileHeight = function() {
  * Returns the size of the canvas containing the map. This size is adjusted to fit the tile size.
  */
 TiledMap.prototype.getMapSize = function() {
-	return {"width":this.width, "height": this.height};
+	return {"width":this.map.width, "height": this.map.height};
 }
 
 /**
  * Safely grab a single tile from map.
  */
-TiledMap.prototype.getTile = function(startRow, startCol) {
-	rng = this.getRange(startRow, startCol,1,1);
-	if(rng.length >0)
-		return rng[0];
-	else
-		return null;	
+TiledMap.prototype.getTile = function(row, col) {
+	if(row <0 || col <0 || row > this.rows || col > this.cols){
+		return null;
+	} else {
+		if(col > this.tiles[row].length) {
+			return null;
+		} 
+		return this.tiles[row][col];
+	}
+		
 }
 
 /**
  * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
+ * //TODO: evaluate the need for this.. it is not being used by any objects currently.
+ * Perhaps getRange should just return a rectangle of tile coordinates for use when working with tiles?
  */
 TiledMap.prototype.getRange = function(startRow, startCol, tileHeight, tileWidth) {
 	resp =[];
@@ -81,6 +87,27 @@ TiledMap.prototype.getRange = function(startRow, startCol, tileHeight, tileWidth
 	return resp;
 }
 
+/**
+ * Returns a rectangle of tile points around a given map tile, not exceeding the boundry of the map. 
+ * 		Values exceeding will be set to the min/max
+ * @return rectangle Object with upperLeft and bottomRight points or rectangle. 
+ *		ex: {"upperLeft":{"row":0,"col":0},"bottomRight":{"row":0,"col":0}}
+ */
+TiledMap.prototype.getSurroundingTiles = function(startRow, startCol, radialHeight, radialWidth) {
+	if(!radialHeight || radialHeight < 0) radialHeight = 0;
+	if(!radialWidth  || radialWidth < 0) radialWidth = 0;
+	
+	leftTopPoint = {"row":(startRow-radialHeight),"col":(startCol-radialWidth)}
+	rightBottomPoint = {"row":(startRow+radialHeight),"col":(startCol+radialWidth)}
+	if(leftTopPoint.row <0) leftTopPoint.row = 0;
+	if(leftTopPoint.col <0) leftTopPoint.col = 0;
+	if(rightBottomPoint.row > this.rows) rightBottomPoint.row = this.rows;
+	if(rightBottomPoint.col > this.cols) rightBottomPoint.col = this.cols;
+	
+	return 	{"upperLeft":leftTopPoint,"bottomRight":rightBottomPoint}
+}
+
+
 TiledMap.prototype.movementAttributes = { "unpassable":0,"open":1, "locked":2, "slow":3, "blocked":4, "trapped":5, "stairsUp":6, "stairsDown":7, "portal":8}
 
 /**
@@ -107,6 +134,9 @@ TiledMap.prototype.updateMap = function(mapData) {
 	this.cols = this.getCols();
 }
 
+/**
+ * Returns the max Cols for all rows.
+ */
 TiledMap.prototype.getCols = function() {
 	colCnt = 0;
 	for(x in this.tiles) {
@@ -150,15 +180,14 @@ TiledMap.prototype.renderMap = function() {
 }
 
 /**
- * Make tiles in range visable.
+ * Make tiles in player range visable.
  */
 TiledMap.prototype.exploreTiles = function() {	
-	viewRange = GameEngine.currentMap.getRange(GameEngine.player.getCol(),GameEngine.player.getRow(),GameEngine.player.vision,GameEngine.player.vision);
-	for(v in viewRange) {
+	
+	expArea = this.getSurroundingTiles(GameEngine.player.getRow(),GameEngine.player.getCol(),GameEngine.player.vision,GameEngine.player.vision);
+	for(e = 0; e < expAv in viewRange) {
 		tile = viewRange[v].explored = true;
 	}
-	//TODO: Not setting the tiles to visable! Maybe this should be in render?
-	//Maybe just move to render?
 }
 
 /**
