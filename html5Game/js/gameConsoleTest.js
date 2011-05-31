@@ -5,8 +5,8 @@ var CANVAS_HEIGHT = 600;
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
 GameEngine.STATUS_WIDTH = 150;
-GameEngine.DisplayGrid = true;
-GameEngine.lightsOn = true;
+GameEngine.DisplayGrid = false;
+GameEngine.lightsOn = false;
 var context;
 
 /**
@@ -95,9 +95,9 @@ function windowReady() {
 				[{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],		
 				[{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 		];
-	tiledMap.updateMap(mapTiles);
 	tiledMap.tileMapManager = tileMapManager;
-	
+	tiledMap.updateMap(mapTiles);
+		
 	GameEngine.currentMap = tiledMap;
 	
 	//draw to canvas		

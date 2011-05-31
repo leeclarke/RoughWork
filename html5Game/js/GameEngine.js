@@ -63,7 +63,7 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 
 GameEngine.writeStatus = function(context) {
 	statusMargin = 5;
-	statusHeight = 150;
+	statusHeight = 100;
 
 	//position in upper left corner	
 	context.save();
