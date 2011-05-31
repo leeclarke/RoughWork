@@ -45,32 +45,35 @@ TiledMapTest.prototype.testMoveAtt = function() {
 	assertEquals(1,tile_tiledMap.movementAttributes["open"]);
 }
 
+
 //TODO: There is a bug in the range, maybe or is it how its called?
 TiledMapTest.prototype.testGetRange = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);
 	startX = 5;
-	StartY = 4;
+	startY = 4;
 	rangeX = 3;
 	rangeY = 3;
 	range = tile_tiledMap.getRange(startX, startY, rangeX, rangeY);
-	range.sort(sortXY);
-	for(y = 0; range.length; y++) {
-		tile = range[y];
+	/*range.sort(function(a,b) {
+		yVal = a.y - b.y;
+		if(yVal == 0) {
+			return a.x - b.x;
+		} else {
+			return yVal;
+		}
+	});
+		*/
+//	for(y = 0; range.length; y++) {
+	//	tile = range[y];
 		
 //		for(x = 0; range[y].length; x++) {
 			
 	//	}
-	}
+	//}
+	
+	
 }
 
-fuction sortXY(a,b){
-	yVal = a.y - b.y;
-	if(yVal == 0) {
-		return a.x - b.x;
-	} else {
-		return yVal;
-	}
-}	
 
 TiledMapTest.prototype.testGetRange_offMap = function() {	
 	//tile_tiledMap.updateMap(tile_Maptiles);

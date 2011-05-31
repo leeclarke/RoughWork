@@ -55,24 +55,29 @@ TiledMap.prototype.getTile = function(startRow, startCol) {
 /**
  * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
  */
-TiledMap.prototype.getRange = function(startRow, startCol, tileWidth, tileHeight) {
+TiledMap.prototype.getRange = function(startRow, startCol, tileHeight, tileWidth) {
 	resp =[];
+	//TODO: Doesnt work!
+	//Should first determine the upper left point to start from , correcting for -1 nums by settign to 0.
+	leftTopPoint = {"row":(startRow-tileHeight),"col":(startCol-tileWidth)}
+	rightBottomPoint = {"row":(startRow+tileHeight),"col":(startCol+tileWidth)}
+	if(leftTopPoint.row <0) leftTopPoint.row = 0;
+	if(leftTopPoint.col <0) leftTopPoint.row = 0;
+	if(tileHeight < 0) tileHeight = 0;
+	if(tileWidth < 0) tileWidth = 0;
 	
-	if(startRow > -1 && startCol >-1 && tileWidth > -1 && tileHeight > -1){
-		maxRow = ((startRow+tileHeight)>this.tiles.length)?this.tiles.length:(startRow+tileHeight);
-		
-		for(var rows = startRow; rows < maxRow ;rows++)		{
-			maxCol = ((startCol+tileWidth)>this.tiles[rows].length)?this.tiles[rows].length:(startCol+tileWidth) ;
-			for(var cols = startCol; cols < maxCol; cols++) {
-				//TODO: why doesnt that work in the explored loop??
-				
-				aTile = this.tiles[rows][cols];
-				aTile.x = (cols*this.tileMapManager.tileWidth); aTile.y = (rows*this.tileMapManager.tileHeight); aTile.width = this.tileMapManager.tileWidth; aTile.height = this.tileMapManager.tileHeight;
-				aTile.col = cols; aTile.row = rows;
-				resp.push(aTile);
-			}
+	//TODO: Make sure dont exceed sizes of rows or cols.	
+	for(var rows = leftTopPoint.row; rows <= rightBottomPoint.row ;rows++)		{
+		maxCol = (rightBottomPoint.col>this.tiles[rows].length)?this.tiles[rows].length:(rightBottomPoint.col) ;
+		for(var cols = leftTopPoint.col; cols < maxCol; cols++) {
+			
+			aTile = this.tiles[rows][cols];
+			//Shouldnt need below. verify its already correct.
+			aTile.col = cols; aTile.row = rows;
+			resp.push(aTile);
 		}
 	}
+	//}*/
 	return resp;
 }
 
@@ -90,6 +95,10 @@ TiledMap.prototype.updateMap = function(mapData) {
 		for(var cols = 0; cols < mapData[rows].length; cols++){
 			tile = EntityManager.createEntity('MapTile')
 			tile.init(mapData[rows][cols]);
+			tile.col = cols;
+			tile.row = rows;
+			tile.x = (cols*this.tileMapManager.tileWidth); tile.y = (rows*this.tileMapManager.tileHeight); 
+			tile.width = this.tileMapManager.tileWidth; tile.height = this.tileMapManager.tileHeight;
 			this.tiles[rows][cols] = tile;	
 		}		
 	}
