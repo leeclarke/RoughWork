@@ -1,7 +1,7 @@
-(B) Get display size and size gamePortal to fit properly. +API-Display
+(A) Get display size and size gamePortal to fit properly. +API-Display
 (C) Build Object around display for api offering +API-Display
 (B) Build Monster Generator +API-GameEgine
-(B) Develop SPrite Annimation +API-Entity-SpriteManager
+(A) Develop SPrite Annimation +API-Entity-SpriteManager
 (C) Build Status object to manage message life etc +UI-GameEngine
 (B) Build Map Maker Tool +DevTools
 Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
@@ -11,7 +11,8 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
 (D) Add Mouse click support +UI-GameEngine
 (B) Consider Building getMonsterByLocation function +API-GameManager
-Make Status view hidden when no status info. +UI-GameEngine
+(C) Make Status view hidden when no status info. +UI-GameEngine
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
+(A) Install jsLint - npm install jslint +API-Build
