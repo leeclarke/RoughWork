@@ -3,7 +3,6 @@
 (B) Build Monster Generator +API-GameEgine
 (B) Develop SPrite Annimation +API-Entity-SpriteManager
 (C) Build Status object to manage message life etc +UI-GameEngine
-(B) Develop deployment Script in groovy/Python +Deployment +DevTools
 (B) Build Map Maker Tool +DevTools
 Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
 SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research

@@ -9,3 +9,4 @@ x 2011-05-31 improve visability so cant see through walls.
 x 2011-05-31 Set up Nodester Account +API-Research
 x 2011-06-01 Fill out Unit TEsts for EntityManager +API-EntityManager
 x 2011-06-01 expand TiledMapTest coverage +API-Testing
+x 2011-06-01 Develop deployment Script in groovy/Python +Deployment +DevTools
