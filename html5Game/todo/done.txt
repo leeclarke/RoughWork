@@ -3,3 +3,7 @@ x 2011-05-28 Build GameEngine object +API-GameEngine
 x 2011-05-28 Fix dead player can still move +API-Mover
 x 2011-05-29 Decide if Tiles need to be Entity and convert if yes +API-Display
 x 2011-05-31 Add Explored flag/render +API-MapRender
+x 2011-05-31 Monsters show up in unexplored tailes, add visable flag and enforce. +API-MapRender
+x 2011-05-31 Remove getRange and test +API-TiledMap
+x 2011-05-31 improve visability so cant see through walls.
+x 2011-05-31 Set up Nodester Account +API-Research

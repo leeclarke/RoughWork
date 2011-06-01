@@ -15,11 +15,23 @@ GameEngine.monsters = [];
 GameEngine.eventMesgsStack = [];
 GameEngine.currentMap = null;
 
+/**
+ * Move the monsters if they can move, also updates visability
+ */
 GameEngine.moveMonsters = function() {
 	mover = new Mover();
-	for(m = 0; m < this.monsters.length; m++) {
+	for(m = 0; m < this.monsters.length; m++) {		
+		this.checkMonsterVisability(m);
 		mover.moveMonster(this.monsters[m],this.player);
 	}	
+}
+
+/**
+ * Check to see if monster is in players sight and sets monsters visable value acordingly.
+ */
+GameEngine.checkMonsterVisability = function(m) {
+	area = this.getPlayerVisableArea();
+	this.monsters[m].visable = this.inRange(this.monsters[m], area);
 }
 
 /**
@@ -48,6 +60,9 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 
 	//Draw monsters
 	for(m = 0; m < GameEngine.monsters.length; m++){
+		if(GameEngine.monsters[m].visable == false) {
+			continue;
+		}
 		context.drawImage(GameEngine.monsters[m].renderImg(), GameEngine.monsters[m].x, GameEngine.monsters[m].y);
 	}
 
@@ -128,6 +143,40 @@ GameEngine.randomInt = function(from, to) {
 GameEngine.diceRoll = function( sides, numDice) {
 	return this.randomInt(sides, sides*numDice);       
 };
+
+/**
+ * Checks 2 entities to see if they have collided.
+ */
+GameEngine.checkCollision = function(a, b) {
+  return a.x < b.x + b.width &&
+         a.x + a.width > b.x &&
+         a.y < b.y + b.height &&
+         a.y + a.height > b.y;
+}
+
+/**
+ * See if an entity is with-in a given area 
+ * 
+ * @entity - object created from EntityMaanger with location component.
+ * @area - defined area with upperLeft and bottomRight positions.  ex. {"upperLeft":{"row":0,"col":0},"bottomRight":{"row":0,"col":0}}
+ * @return - true if entity lies with-in area  
+ */
+GameEngine.inRange = function(entity, area) {
+	if(area.upperLeft.row <= entity.getRow() && area.bottomRight.row >= entity.getRow()) {
+			if(area.upperLeft.col <= entity.getCol() && area.bottomRight.col >= entity.getCol())
+				return true;
+	}
+	return false;
+}
+
+/**
+ * Simple helper to simplify the retrival of the players visable area. 
+ */
+GameEngine.getPlayerVisableArea = function() {
+	return this.currentMap.getSurroundingTiles(this.player.getRow(),this.player.getCol(),this.player.vision,this.player.vision);
+}
+
+/****Array mods. ******?
 
 /**
  * Select random item from an Array.

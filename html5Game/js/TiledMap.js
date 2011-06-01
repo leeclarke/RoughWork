@@ -57,44 +57,13 @@ TiledMap.prototype.getTile = function(row, col) {
 }
 
 /**
-//TODO This should be removed then tested.
- * Grab a rectangle of tiles and return tile array, width and height are inclusive of the starting tile.
- * //TODO: evaluate the need for this.. it is not being used by any objects currently.
- * Perhaps getRange should just return a rectangle of tile coordinates for use when working with tiles?
- */
-TiledMap.prototype.getRange = function(startRow, startCol, tileHeight, tileWidth) {
-	resp =[];
-	//TODO: Doesnt work!
-	//Should first determine the upper left point to start from , correcting for -1 nums by settign to 0.
-	leftTopPoint = {"row":(startRow-tileHeight),"col":(startCol-tileWidth)}
-	rightBottomPoint = {"row":(startRow+tileHeight),"col":(startCol+tileWidth)}
-	if(leftTopPoint.row <0) leftTopPoint.row = 0;
-	if(leftTopPoint.col <0) leftTopPoint.row = 0;
-	if(tileHeight < 0) tileHeight = 0;
-	if(tileWidth < 0) tileWidth = 0;
-	
-	//TODO: Make sure dont exceed sizes of rows or cols.	
-	for(var rows = leftTopPoint.row; rows <= rightBottomPoint.row ;rows++)		{
-		maxCol = (rightBottomPoint.col>this.tiles[rows].length)?this.tiles[rows].length:(rightBottomPoint.col) ;
-		for(var cols = leftTopPoint.col; cols < maxCol; cols++) {
-			
-			aTile = this.tiles[rows][cols];
-			//Shouldnt need below. verify its already correct.
-			aTile.col = cols; aTile.row = rows;
-			resp.push(aTile);
-		}
-	}
-	//}*/
-	return resp;
-}
-
-/**
  * Returns a rectangle of tile points around a given map tile, not exceeding the boundry of the map. 
  * 		Values exceeding will be set to the min/max
  * @return rectangle Object with upperLeft and bottomRight points or rectangle. 
  *		ex: {"upperLeft":{"row":0,"col":0},"bottomRight":{"row":0,"col":0}}
  */
 TiledMap.prototype.getSurroundingTiles = function(startRow, startCol, radialHeight, radialWidth) {
+	
 	if(!radialHeight || radialHeight < 0) radialHeight = 0;
 	if(!radialWidth  || radialWidth < 0) radialWidth = 0;
 	
@@ -167,8 +136,7 @@ TiledMap.prototype.renderMap = function() {
 					continue;
 				}
 				if(GameEngine.lightsOn == false && currTile.explored == false){
-					//not visable yet, skip render
-					continue;
+					continue; //not visable yet, skip render
 				}
 				
 				tileX = cols*tileMapManager.tileWidth;
@@ -186,9 +154,13 @@ TiledMap.prototype.renderMap = function() {
  */
 TiledMap.prototype.exploreTiles = function() {	
 	expArea = this.getSurroundingTiles(GameEngine.player.getRow(),GameEngine.player.getCol(),GameEngine.player.vision,GameEngine.player.vision);
-	for(var rows = expArea.upperLeft.row; rows < expArea.bottomRight.row ;rows++) {
-		bRight = (expArea.bottomRight.col>this.tiles[rows].length)?this.tiles[rows].length:expArea.bottomRight.col
-		for(var cols = expArea.upperLeft.col; cols < bRight; cols++){
+	maxRow = (expArea.bottomRight.row>this.tiles.length)?expArea.bottomRight.row:this.tiles.length
+	for(var rows = expArea.upperLeft.row; rows < maxRow ;rows++) {
+		bRight = (expArea.bottomRight.col>this.tiles[rows].length-1)?this.tiles[rows].length-1:expArea.bottomRight.col
+		if(bRight >10)
+			console.log("");
+		for(var cols = expArea.upperLeft.col; cols <= bRight; cols++){
+			console.log("row="+rows+"col=="+cols)
 			this.tiles[rows][cols].explored = true;	
 		}
 	}

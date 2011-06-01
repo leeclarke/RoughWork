@@ -4,8 +4,8 @@ var CANVAS_HEIGHT = 600;
 //Set Static Values on the GameEngine
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
-GameEngine.STATUS_WIDTH = 150;
-GameEngine.DisplayGrid = false;
+GameEngine.STATUS_WIDTH = 80;
+GameEngine.DisplayGrid = true;
 GameEngine.lightsOn = false;
 var context;
 

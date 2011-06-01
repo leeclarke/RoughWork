@@ -14,7 +14,5 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (D) Add Mouse click support +UI-GameEngine
 (C) expand TiledMapTest coverage +API-Testing
 (B) Consider Building getMonsterByLocation function +API-GameManager
-(A) Remove getRange and test +API-TiledMap
-(A) Monsters show up in unexplored tailes, add visable flag and enforce. +API-MapRender
 Make Status view hidden when no status info. +UI-GameEngine
-Set up Nodester Account +API-Research
+improve visability so cant see through walls. +API-TiledMap

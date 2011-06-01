@@ -31,6 +31,7 @@ EntityManager.createEntity = function(entityType){
 			entity.toString = toString;
 			renderable(entity);
 			addMonster(entity);
+			entity.visable = false;
 			return entity;
 		case 'MapTile':
 			entity = new Entity(entityType);
