@@ -9,10 +9,11 @@ Look into new requestAnimationFrame function which makes animation safer and acc
 SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 (E) build Player Generator +API-EntityManager
-(B) Fill out Unit TEsts for EntityManager +API-EntityManager
 (B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
 (D) Add Mouse click support +UI-GameEngine
-(C) expand TiledMapTest coverage +API-Testing
+x 2011-06-01 expand TiledMapTest coverage +API-Testing
 (B) Consider Building getMonsterByLocation function +API-GameManager
 Make Status view hidden when no status info. +UI-GameEngine
-improve visability so cant see through walls. +API-TiledMap
+(C) improve visability so cant see through walls. +API-TiledMap
+(B) Design command scructure, testcase heal,missile attack +API-GameEngine
+(B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine

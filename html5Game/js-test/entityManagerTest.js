@@ -7,8 +7,6 @@ if(GameEngine.currentMap == null) {
 	GameEngine.currentMap.tileMapManager = new SpriteTileManager(null,32,32);
 }
 
-//TODO: Add createEntityTest for each Type.
-
 EntityManagerTest.prototype.testGetPlayerEntity = function() {
 	player = EntityManager.createEntity('Player');
 	assertNotNull('Player should not be null',player);

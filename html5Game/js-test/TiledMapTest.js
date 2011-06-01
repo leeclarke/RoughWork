@@ -21,6 +21,7 @@ tile_Maptiles = [
 		[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
 		[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
 		[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
+		[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],
 		[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 ];
 
@@ -36,7 +37,7 @@ TiledMapTest.prototype.testUpdateMap = function() {
 	assertTrue('TiledMap obj should have cols properties',tile_tiledMap.hasOwnProperty('cols'));
 	
 	jstestdriver.console.log("TiledMapTest", tile_tiledMap.rows + "," + tile_tiledMap.cols);	
-	assertEquals(11,tile_tiledMap.rows);
+	assertEquals(12,tile_tiledMap.rows);
 	assertEquals(16,tile_tiledMap.cols);
 }
 
@@ -44,8 +45,6 @@ TiledMapTest.prototype.testMoveAtt = function() {
 	tile_tiledMap.updateMap(tile_Maptiles);
 	assertEquals(1,tile_tiledMap.movementAttributes["open"]);
 }
-
-//TODO: Add map edge tests at top and bottom rt.
 
 TiledMapTest.prototype.testSurroundingTiles = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);
@@ -115,6 +114,8 @@ TiledMapTest.prototype.testSurroundingTiles_NearBottomRight = function() {
 
 TiledMapTest.prototype.testExploreTiles = function() {	
 	tile_tiledMap.updateMap(tile_Maptiles);
+	startRow = 4;
+	startCol = 3;
 	//Set player location so that exploreTiles can function.
 	GameEngine.player = EntityManager.createEntity('Player');
 	GameEngine.player.x = (3*32);
@@ -124,14 +125,22 @@ TiledMapTest.prototype.testExploreTiles = function() {
 	//Now tiles should be explored. grab them and verify.
 	tileArea = tile_tiledMap.getSurroundingTiles(GameEngine.player.getRow(), GameEngine.player.getCol(), GameEngine.player.vision, GameEngine.player.vision);
 	assertNotNull('The Area retrieved to validate test is invalid check getSurroundingTiles()',tileArea);
+	jstestdriver.console.log("TiledMapTest", "Expected Explored area" + tileArea.bottomRight.row + "," + tileArea.bottomRight.col);	
 	
-	//TODO:Finish
-	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[0][0].explored);
-	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[4][3].explored);
-	assertTrue("The upper left should have been marked explored.",tile_tiledMap.tiles[7][6].explored);
-	assertFalse("The upper left should have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision][3+GameEngine.player.vision+1].explored);
-	assertFalse("The upper left should have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision+1][3+GameEngine.player.vision].explored);
-	assertFalse("The tile 10,9 should NOT have been marked explored.",tile_tiledMap.tiles[4+GameEngine.player.vision+1][3+GameEngine.player.vision+1].explored)
+	assertTrue("The 0,0 should have been marked explored.",tile_tiledMap.tiles[0][0].explored);
+	assertTrue("The 4,3 should have been marked explored.",tile_tiledMap.tiles[4][3].explored);
+	assertTrue("The 6,7 should have been marked explored.",tile_tiledMap.tiles[7][6].explored);
+	outAreaRow = startRow+GameEngine.player.vision;
+	outAreaCol = startCol+GameEngine.player.vision+1;
+	assertFalse("The "+outAreaRow+","+outAreaCol+" should NOT have been marked explored.",tile_tiledMap.tiles[outAreaRow][outAreaCol].explored);
+	
+	outAreaRow = tileArea.bottomRight.row+2;
+	outAreaCol = startCol+GameEngine.player.vision;
+	assertFalse("The "+outAreaRow+","+outAreaCol+" should have NOT marked explored. row=" + outAreaRow + ","+ outAreaCol,tile_tiledMap.tiles[outAreaRow][outAreaCol].explored);
+	
+	outAreaRow = startRow+GameEngine.player.vision+1;
+	outAreaCol = startCol+GameEngine.player.vision+2;
+	assertFalse("The tile "+outAreaRow+","+outAreaCol+" should NOT have been marked explored.",tile_tiledMap.tiles[outAreaRow][outAreaCol].explored)
 }
 
 TiledMapTest.prototype.testGetTile = function() {	
@@ -156,9 +165,17 @@ TiledMapTest.prototype.testGetTileHeightWidth = function() {
 	assertEquals(32,tile_tiledMap.getTileHeight());
 }
 
-//TODO: Build better tests/ add getRange, getTile
+//TODO: Not sure how to write an automated test for this. other then call it and make sure its not throwing an exception.
 TiledMapTest.prototype.testRenderMap = function() {
 	//map = tiledMap.renderMap();
 	//assertNotNull(map);
 }
 
+//NOt working right but not used so put on hold.
+/*TiledMapTest.prototype.testGetMapSize = function() {
+	tile_tiledMap.updateMap(tile_Maptiles);
+	mapSize = tile_tiledMap.getMapSize();
+	assertNotNull(mapSize);
+	jstestdriver.console.log("TiledMapTest", "map size=" + mapSize.height + "," + mapSize.width);	
+	
+}*/

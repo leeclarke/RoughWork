@@ -7,3 +7,5 @@ x 2011-05-31 Monsters show up in unexplored tailes, add visable flag and enforce
 x 2011-05-31 Remove getRange and test +API-TiledMap
 x 2011-05-31 improve visability so cant see through walls.
 x 2011-05-31 Set up Nodester Account +API-Research
+x 2011-06-01 Fill out Unit TEsts for EntityManager +API-EntityManager
+x 2011-06-01 expand TiledMapTest coverage +API-Testing

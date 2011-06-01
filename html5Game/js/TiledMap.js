@@ -36,10 +36,11 @@ TiledMap.prototype.getTileHeight = function() {
 
 /**
  * Returns the size of the canvas containing the map. This size is adjusted to fit the tile size.
+ TODO: Not being used and has an odd bug. Fix is needed.
  */
-TiledMap.prototype.getMapSize = function() {
-	return {"width":this.map.width, "height": this.map.height};
-}
+//TiledMap.prototype.getMapSize = function() {
+//	return {"width":this.width, "height": this.height};
+//}
 
 /**
  * Safely grab a single tile from map.
@@ -154,11 +155,9 @@ TiledMap.prototype.renderMap = function() {
  */
 TiledMap.prototype.exploreTiles = function() {	
 	expArea = this.getSurroundingTiles(GameEngine.player.getRow(),GameEngine.player.getCol(),GameEngine.player.vision,GameEngine.player.vision);
-	maxRow = (expArea.bottomRight.row>this.tiles.length)?expArea.bottomRight.row:this.tiles.length
+	maxRow = (expArea.bottomRight.row>this.tiles.length)?this.tiles.length:expArea.bottomRight.row;
 	for(var rows = expArea.upperLeft.row; rows < maxRow ;rows++) {
 		bRight = (expArea.bottomRight.col>this.tiles[rows].length-1)?this.tiles[rows].length-1:expArea.bottomRight.col
-		if(bRight >10)
-			console.log("");
 		for(var cols = expArea.upperLeft.col; cols <= bRight; cols++){
 			console.log("row="+rows+"col=="+cols)
 			this.tiles[rows][cols].explored = true;	

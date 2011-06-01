@@ -181,7 +181,7 @@ function alive(entity) {
 	entity.str = 1;
 	entity.strMax = 1;
 	entity.deadImg = document.createElement('img');
-	entity.aggression = 0; //non-agressive @ 0
+	entity.aggression = 0; //non-agressive @ 0   //TODO: need to implement use of this.
 }
 
 
