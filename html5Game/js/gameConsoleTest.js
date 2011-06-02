@@ -16,7 +16,6 @@ var context;
  * This simulates an actual game client
  */
 function windowReady() {
-	Math.floor(1);  //force this to add the added on methods. TODO: change methods to GameEngine object.
 	//Create canvas
 	var canvasElement = $("<canvas width='" + GameEngine.CANVAS_WIDTH + 
                       "' height='" + GameEngine.CANVAS_HEIGHT + "'></canvas>");
@@ -36,6 +35,16 @@ function windowReady() {
 	GameEngine.player.spriteImg.src = "res/player.png";
 	GameEngine.player.deadImg.src = "res/bones.png";
 	GameEngine.player.weaponWielded = EntityManager.weaponFactory('Sword');
+	
+	//set up player spriteSheet for animation.
+	playerSpriteManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/hero.png", "namedTiles":[
+		{"id":0,"name":"WALL1","col":0,"row":0},
+		{"id":1,"name":"FLOOR1","col":1,"row":8},
+		{"id":2,"name":"DOOR1","col":4,"row":2},
+		{"id":3,"name":"DOOR2","col":1,"row":6}
+	]};
+	
+	
 	 
 	
 	//Test Monster
@@ -103,13 +112,13 @@ function windowReady() {
 	
 	//draw to canvas		
 	GameEngine.render();
-	setInterval(main, 1);
+	setInterval(main, 30);
 }
 
+/**
+ * Capture click events to use for game play.
+ */
 window.addEventListener("mousedown", function(e) {
-  // A mouse click means the players wants to attack.
-  // We don't actually do that yet, but instead tell the rest
-  // of the program about the request.
   GameEngine.addEventMessage(("Mouse Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
   GameEngine.mouseClick = e;
 }, false);
@@ -123,11 +132,6 @@ function handleInput() {
 };
 
 function main () {
-	// Calculate elapsed time since last frame
-	var now = Date.now();
-	GameEngine.elapsed = (now - this.lastUpdate);
-	GameEngine.lastUpdate = now;
-	
 	handleInput();
 	update();
 	GameEngine.render();

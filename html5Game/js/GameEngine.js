@@ -13,6 +13,8 @@ GameEngine.lightsOn = false; //Toggles visability, true makes whole map explored
 GameEngine.showPlayerStatus = true;
 GameEngine.elapsed = 0;
 GameEngine.lastUpdate = 0;
+GameEngine.lastUpdateTime = 0;
+GameEngine.fps = 0;
 GameEngine.buttonStates = [];
 GameEngine.player = {};
 GameEngine.monsters = [];
@@ -65,6 +67,10 @@ GameEngine.render = function() {
  * @param vpCtrY - ViewPort's center Y position, adjusted to the UL corner of the center player tile.
  */
 GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
+	var now = new Date().getTime();
+	GameEngine.elapsed = (now - this.lastUpdate);
+	GameEngine.fps = ~~(1000/(now - GameEngine.elapsed));
+	GameEngine.lastUpdateTime = now;
 	renderedMap = GameEngine.currentMap.renderMap();
 	context.save();  //save position to return to later.
 	context.translate(vpCtrX-GameEngine.player.x,vpCtrY-GameEngine.player.y); //Move to point on map where player stands
@@ -146,7 +152,8 @@ GameEngine.buildStatusDisplay = function(context) {
 		context.fillText("HP: "+GameEngine.player.hp, 8, 40);
 		context.fillText("AC: "+GameEngine.player.getArmor(), 8, 60);
 		context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 80);
-		context.fillText("Col:"+GameEngine.player.getCol()+" Row:"+GameEngine.player.getRow(), 8, 100);
+		context.fillText("Col: "+GameEngine.player.getCol()+" Row: "+GameEngine.player.getRow(), 8, 100);
+		context.fillText("fps: "+GameEngine.fps,8, 120);
 		
 		context.restore();
 	}

@@ -10,3 +10,5 @@ x 2011-05-31 Set up Nodester Account +API-Research
 x 2011-06-01 Fill out Unit TEsts for EntityManager +API-EntityManager
 x 2011-06-01 expand TiledMapTest coverage +API-Testing
 x 2011-06-01 Develop deployment Script in groovy/Python +Deployment +DevTools
+x 2011-06-02 @In-Dev Enable game looping for animation support. +API-GameEngine
+x 2011-06-02 Make Status view hidden when no status info. +UI-GameEngine
