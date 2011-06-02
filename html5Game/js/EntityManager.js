@@ -269,9 +269,9 @@ function attackRules(entity) {
 		}
 		//TODO: Extract this to the Coming GameEngine object.
 		if(this.entityType === 'Player'){
-			GameEngine.eventMesgsStack.push("You hit the monster for " + dmg + "!\n");
+			GameEngine.addEventMessage("You hit the monster for " + dmg + "!\n");
 		} else {
-			GameEngine.eventMesgsStack.push("Monster hit you for " + dmg + "!\n");
+			GameEngine.addEventMessage("Monster hit you for " + dmg + "!\n");
 		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
@@ -280,9 +280,9 @@ function attackRules(entity) {
 		}
 	} else {
 		if(this.entityType === 'Player'){
-			GameEngine.eventMesgsStack.push("Your attack missed!");
+			GameEngine.addEventMessage("Your attack missed!");
 		} else {
-			GameEngine.eventMesgsStack.push("Monster missed!\n");
+			GameEngine.addEventMessage("Monster missed!\n");
 		}
 	}
 }

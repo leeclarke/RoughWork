@@ -7,6 +7,7 @@ GameEngine.CANVAS_HEIGHT = 600;
 GameEngine.STATUS_WIDTH = 80;
 GameEngine.DisplayGrid = true;
 GameEngine.lightsOn = false;
+GameEngine.lastUpdate = Date.now();
 var context;
 
 /**
@@ -102,7 +103,36 @@ function windowReady() {
 	
 	//draw to canvas		
 	GameEngine.render();
+	setInterval(main, 1);
 }
+
+window.addEventListener("mousedown", function(e) {
+  // A mouse click means the players wants to attack.
+  // We don't actually do that yet, but instead tell the rest
+  // of the program about the request.
+  GameEngine.addEventMessage(("Mouse Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
+  GameEngine.mouseClick = e;
+}, false);
+
+function handleInput() {
+  // Here is where we respond to the click
+  if(GameEngine.mouseClick != null){
+    //e.button, e.pageX, e.pageY
+    GameEngine.mouseClick = null;
+  }
+};
+
+function main () {
+	// Calculate elapsed time since last frame
+	var now = Date.now();
+	GameEngine.elapsed = (now - this.lastUpdate);
+	GameEngine.lastUpdate = now;
+	
+	handleInput();
+	update();
+	GameEngine.render();
+};
+
 
 window.onload = windowReady;
 
@@ -118,13 +148,13 @@ $(function() {
   
   $(document).bind("keydown", function(event) {
     keydown[keyName(event)] = true;
-    fakeLoop();
+    //fakeLoop();
   });
   
-  $(document).bind("keyup", function(event) {
+  /*$(document).bind("keyup", function(event) {
     keydown[keyName(event)] = false;
     //fakeLoop(); //Forcing an update outside of thread loop
-  });
+  });*/
 });
 
 function fakeLoop() {
@@ -134,28 +164,38 @@ function fakeLoop() {
 //REMOVE: TESTING only
 
 /**
- * Update player postion based on input.
+ * Update player and Monster postion based on input.
  */
 function update() {
 	mover = new Mover();
   if (keydown.left) {
-    mover.movePlayer(GameEngine.player, -32,0);
-    GameEngine.moveMonsters();
+	keydown.left = false;
+	mover.movePlayer(GameEngine.player, -32,0);
+	GameEngine.moveMonsters();
   }
 
   if (keydown.right) {
-    mover.movePlayer(GameEngine.player, 32,0);
-    GameEngine.moveMonsters();
+	keydown.right = false;
+	mover.movePlayer(GameEngine.player, 32,0);
+	GameEngine.moveMonsters();
   }
   
   if (keydown.up) {
-		mover.movePlayer(GameEngine.player, 0,-32);
-		GameEngine.moveMonsters();
+	keydown.up = false;
+	mover.movePlayer(GameEngine.player, 0,-32);
+	GameEngine.moveMonsters();
   }
   
   if (keydown.down) {
-		mover.movePlayer(GameEngine.player, 0,32);
-		GameEngine.moveMonsters();
+	keydown.down = false;
+	mover.movePlayer(GameEngine.player, 0,32);
+	GameEngine.moveMonsters();
+  }
+  
+  if (keydown.f2) {
+	keydown.f2 = false;
+	//toggle display stats bar
+	GameEngine.showPlayerStatus = (GameEngine.showPlayerStatus)?false:true;
   }
 }
 

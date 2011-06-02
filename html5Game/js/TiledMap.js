@@ -159,7 +159,6 @@ TiledMap.prototype.exploreTiles = function() {
 	for(var rows = expArea.upperLeft.row; rows < maxRow ;rows++) {
 		bRight = (expArea.bottomRight.col>this.tiles[rows].length-1)?this.tiles[rows].length-1:expArea.bottomRight.col
 		for(var cols = expArea.upperLeft.col; cols <= bRight; cols++){
-			console.log("row="+rows+"col=="+cols)
 			this.tiles[rows][cols].explored = true;	
 		}
 	}

@@ -10,10 +10,22 @@ GameEngine.STATUS_WIDTH = 0;
 GameEngine.playerDefaltVisonRange = 5;
 GameEngine.DisplayGrid = false;
 GameEngine.lightsOn = false; //Toggles visability, true makes whole map explored.
+GameEngine.showPlayerStatus = true;
+GameEngine.elapsed = 0;
+GameEngine.lastUpdate = 0;
+GameEngine.buttonStates = [];
 GameEngine.player = {};
 GameEngine.monsters = [];
 GameEngine.eventMesgsStack = [];
 GameEngine.currentMap = null;
+
+GameEngine.addEventMessage = function(msg,life) {
+	if(msg) {
+		life = (life || life == null)?60:life;
+		this.eventMesgsStack.push({"msg":msg, "life":life})
+	}
+}
+
 
 /**
  * Move the monsters if they can move, also updates visability
@@ -90,14 +102,21 @@ GameEngine.writeStatus = function(context) {
 	//drawFrame
 	context.strokeRect(this.STATUS_WIDTH+statusMargin,statusMargin,(this.CANVAS_WIDTH-10-this.STATUS_WIDTH),statusHeight-10);
 	context.fillStyle = "rgba(204, 204, 204, 0.1)";
-	context.fillRect(6,6,(this.STATUS_WIDTH-12),this.CANVAS_HEIGHT-12);
+	context.fillRect(this.STATUS_WIDTH+statusMargin,statusMargin,(this.CANVAS_WIDTH-10-this.STATUS_WIDTH),statusHeight-10);
 	context.fillStyle = "#FFFF33";	
 	msgCt = 1;
 	vertPosStart = 20;
 	//context.fillText("TEST2", STATUS_WIDTH+(statusMargin*2), 30);
-	while(GameEngine.eventMesgsStack.length >0) {
-		e = GameEngine.eventMesgsStack.pop();
-		context.fillText(e, this.STATUS_WIDTH+statusMargin, vertPosStart*msgCt);	
+	//while(GameEngine.length >0) {
+	for(m = 0; m < GameEngine.eventMesgsStack.length ;m++)	{
+		//e = GameEngine.eventMesgsStack.pop();
+		e = GameEngine.eventMesgsStack[m];
+		context.fillText(e.msg, this.STATUS_WIDTH+statusMargin, vertPosStart*msgCt);	
+		if(e.life > 0) {
+			e.life--;
+		} else {
+			GameEngine.eventMesgsStack.splice(m,1);
+		}
 		msgCt++;	
 	}
 	
@@ -109,25 +128,28 @@ GameEngine.writeStatus = function(context) {
  */
 GameEngine.buildStatusDisplay = function(context) {
 	//position in upper left corner	
-	context.save();
-	context.translate(0,0);
-	
-	context.strokeStyle = 'rgb(255, 255, 51)' ;
-	context.lineWidth = "0.5";
+	if(GameEngine.showPlayerStatus) {
+		context.save();
+		context.translate(0,0);
+		
+		context.strokeStyle = 'rgb(255, 255, 51)' ;
+		context.lineWidth = "0.5";
 
-	//drawFrame
-	context.strokeRect(5,5,(this.STATUS_WIDTH-10),this.CANVAS_HEIGHT-10);
-	context.fillStyle = "rgba(204, 204, 204, 0.1)";
-	context.fillRect(6,6,(this.STATUS_WIDTH-12),this.CANVAS_HEIGHT-12);
-	
-	//Write some text for Debugging
-	context.fillStyle = "#FFFF33"; // Set color to black
-	context.fillText(GameEngine.player.name, 8, 20);
-	context.fillText("HP: "+GameEngine.player.hp, 8, 40);
-	context.fillText("AC: "+GameEngine.player.getArmor(), 8, 60);
-	context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 80);
-	
-	context.restore();
+		//drawFrame
+		context.strokeRect(5,5,(this.STATUS_WIDTH-10),this.CANVAS_HEIGHT-10);
+		context.fillStyle = "rgba(204, 204, 204, 0.1)";
+		context.fillRect(6,6,(this.STATUS_WIDTH-12),this.CANVAS_HEIGHT-12);
+		
+		//Write some text for Debugging
+		context.fillStyle = "#FFFF33"; // Set color to black
+		context.fillText(GameEngine.player.name, 8, 20);
+		context.fillText("HP: "+GameEngine.player.hp, 8, 40);
+		context.fillText("AC: "+GameEngine.player.getArmor(), 8, 60);
+		context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 80);
+		context.fillText("Col:"+GameEngine.player.getCol()+" Row:"+GameEngine.player.getRow(), 8, 100);
+		
+		context.restore();
+	}
 }
 
 /**

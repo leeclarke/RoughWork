@@ -16,3 +16,4 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
 (A) Install jsLint - npm install jslint +API-Build
+(A) @In-Dev Enable game looping for animation support. +API-GameEngine
