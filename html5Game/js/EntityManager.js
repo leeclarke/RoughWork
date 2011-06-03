@@ -213,14 +213,36 @@ function renderable(entity) {
 	entity.width = 32;
 	entity.height = 32;
 	entity.renderImg = renderSprite;
+	entity.spriteManager = null;
+	entity.initSpriteManager = setupSpriteManager;
+}
+
+/**
+ * Initializes a sprite sheet for a given entity to provide support for animations.
+ * @param spriteManagerConfig - config defining the sprites contined in a sprite sheet.
+ * @param animationSequences - object containing sequences that reference tiles defined in the spriteManagerConfig
+ */
+function setupSpriteManager(spriteManagerConfig, animationSequences) {
+	entity.initSpriteManager = new SpriteTileManager(spriteManagerConfig);
+	
+	//TODO: define animationSequence object and how it will be used.
+	/*
+	sequences:{"sequenceName":"name",
+	"sequence":[id,id,id,id], 
+	"sequenceFrameDuration":2, //number of frames to pass before moving to next sequence
+	"more?":0 ]} 
+	*/
 }
 
 /**
  * Technically doesn't render but, returns the correct image for rendering, controls animation output.
  */
 function renderSprite(){
-	if(this.alive == false)
+	if(this.alive == false) {
 		return this.deadImg;
+	}
+	//if the SpriteManager  is not null then use the manger, but need to decide how to specify a sequence
+	// to be displayed.
 	return this.spriteImg; //TODO: convert to anamation with an array of sprites
 }
 
