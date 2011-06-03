@@ -34,3 +34,110 @@ SpriteTileManagerTest.prototype.testGetNamedTileFail = function() {
 	sprite_tileMapManager.addNamedTile(sprite_tile);
 	assertNotSame(sprite_tile2,sprite_tileMapManager.getNamedTile('FLOOR1'));
 }
+
+SpriteTileManagerTest.prototype.testInitAnimationSeqs = function() {
+	var player_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/hero2.png", "namedTiles":[
+		{"id":0,"name":"FRONT","col":0,"row":0},
+		{"id":1,"name":"FRONT_RT","col":1,"row":0},
+		{"id":2,"name":"FRONT_LT","col":2,"row":0},
+		{"id":3,"name":"FRONT_SW","col":3,"row":0},
+		{"id":4,"name":"LEFT_1","col":0,"row":1},
+		{"id":5,"name":"LEFT_2","col":1,"row":1},
+		{"id":6,"name":"LEFT_3","col":2,"row":1},
+		{"id":7,"name":"LEFT_4","col":3,"row":1},
+		{"id":8,"name":"RIGHT_1","col":0,"row":2},
+		{"id":9,"name":"RIGHT_2","col":1,"row":2},
+		{"id":10,"name":"RIGHT_3","col":2,"row":2},
+		{"id":11,"name":"RIGHT_4","col":3,"row":2},
+		{"id":12,"name":"BACK_1","col":0,"row":3},
+		{"id":13,"name":"BACK_2","col":1,"row":3},
+		{"id":14,"name":"BACK_3","col":2,"row":3},
+		{"id":15,"name":"BACK_4","col":3,"row":3},
+	]};
+	var attackAnimation = [{"name":"attack_left",
+		"sequence":[6,5,4,5,6,7,6,0], 
+		"sequenceFrameDuration":2},
+		{"name":"attack_right",
+		"sequence":[10,9,8,9,10,11,10,0], 
+		"sequenceFrameDuration":2}
+		];
+	
+	var sprite_tileMapManager = new SpriteTileManager(player_testManagerConfig);
+	
+	sprite_tileMapManager.initAnimationSeqs(attackAnimation);
+	
+}
+
+
+
+SpriteTileManagerTest.prototype.testInitAnimationSeqs_invalidSequence = function() {
+	var player_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/hero2.png", "namedTiles":[
+		{"id":0,"name":"FRONT","col":0,"row":0},
+		{"id":1,"name":"FRONT_RT","col":1,"row":0},
+		{"id":2,"name":"FRONT_LT","col":2,"row":0},
+		{"id":3,"name":"FRONT_SW","col":3,"row":0},
+		{"id":4,"name":"LEFT_1","col":0,"row":1},
+		{"id":5,"name":"LEFT_2","col":1,"row":1},
+		{"id":6,"name":"LEFT_3","col":2,"row":1},
+		{"id":7,"name":"LEFT_4","col":3,"row":1},
+		{"id":8,"name":"RIGHT_1","col":0,"row":2},
+		{"id":9,"name":"RIGHT_2","col":1,"row":2},
+		{"id":10,"name":"RIGHT_3","col":2,"row":2},
+		{"id":11,"name":"RIGHT_4","col":3,"row":2},
+		{"id":12,"name":"BACK_1","col":0,"row":3},
+		{"id":13,"name":"BACK_2","col":1,"row":3},
+		{"id":14,"name":"BACK_3","col":2,"row":3},
+		{"id":15,"name":"BACK_4","col":3,"row":3},
+	]};
+	var attackAnimation = [{"name":"attack_left",
+		"sequence":[6,5,4,15,6,27,6,0], 
+		"sequenceFrameDuration":2},
+		{"name":"attack_right",
+		"sequence":[10,9,8,9,10,11,10,0], 
+		"sequenceFrameDuration":2}
+		];
+	
+	var sprite_tileMapManager = new SpriteTileManager(player_testManagerConfig);
+	try {
+		sprite_tileMapManager.initAnimationSeqs(attackAnimation);
+	} catch(err) {
+		jstestdriver.console.log("SpriteTileManagerTest", "initAnimationSeqs return Error as expected. Err="+err);	
+	}
+	
+}
+
+SpriteTileManagerTest.prototype.testAnimationSequences = function() {
+	//TODO: Finish writing Test
+	var player_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/hero2.png", "namedTiles":[
+		{"id":0,"name":"FRONT","col":0,"row":0},
+		{"id":1,"name":"FRONT_RT","col":1,"row":0},
+		{"id":2,"name":"FRONT_LT","col":2,"row":0},
+		{"id":3,"name":"FRONT_SW","col":3,"row":0},
+		{"id":4,"name":"LEFT_1","col":0,"row":1},
+		{"id":5,"name":"LEFT_2","col":1,"row":1},
+		{"id":6,"name":"LEFT_3","col":2,"row":1},
+		{"id":7,"name":"LEFT_4","col":3,"row":1},
+		{"id":8,"name":"RIGHT_1","col":0,"row":2},
+		{"id":9,"name":"RIGHT_2","col":1,"row":2},
+		{"id":10,"name":"RIGHT_3","col":2,"row":2},
+		{"id":11,"name":"RIGHT_4","col":3,"row":2},
+		{"id":12,"name":"BACK_1","col":0,"row":3},
+		{"id":13,"name":"BACK_2","col":1,"row":3},
+		{"id":14,"name":"BACK_3","col":2,"row":3},
+		{"id":15,"name":"BACK_4","col":3,"row":3},
+	]};
+	var attackAnimation = [{"name":"attack_left",
+		"sequence":[6,5,4,15,6,27,6,0], 
+		"sequenceFrameDuration":2},
+		{"name":"attack_right",
+		"sequence":[10,9,8,9,10,11,10,0], 
+		"sequenceFrameDuration":2}
+		];
+		
+	var player = EntityManager.createEntity('Player');
+	player.initSpriteManager(player_testManagerConfig,attackAnimation);
+	
+	//Calling function results in TypeError??  not sure whats up.
+	var playerImg = entity.renderImg();
+	assertNotNull(playerImg);
+}

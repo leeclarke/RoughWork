@@ -224,14 +224,7 @@ function renderable(entity) {
  */
 function setupSpriteManager(spriteManagerConfig, animationSequences) {
 	entity.initSpriteManager = new SpriteTileManager(spriteManagerConfig);
-	
-	//TODO: define animationSequence object and how it will be used.
-	/*
-	sequences:{"sequenceName":"name",
-	"sequence":[id,id,id,id], 
-	"sequenceFrameDuration":2, //number of frames to pass before moving to next sequence
-	"more?":0 ]} 
-	*/
+	entity.spriteManager.initAnimationSeqs(animationSequences);
 }
 
 /**
@@ -243,6 +236,14 @@ function renderSprite(){
 	}
 	//if the SpriteManager  is not null then use the manger, but need to decide how to specify a sequence
 	// to be displayed.
+	if(spriteManager != null){
+		//TODO: use it!
+		
+		//check if animation is running else default to the default spriteImg.
+		//Get the sprite data point from sprite map.
+		//use points to render the img. Maybe cache up images in the SpriteManager?
+		
+	}
 	return this.spriteImg; //TODO: convert to anamation with an array of sprites
 }
 
