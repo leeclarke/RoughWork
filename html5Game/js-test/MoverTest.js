@@ -28,7 +28,7 @@ tiledMap.tiles = [
 				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 
 		];
-		//TODO: fix this it should be set using the init method.
+		//TODO: fix this it should be set using the init method. 
 tiledMap.tileMapManager = tileMapManager;
 
 //theMap = tiledMap.renderMap();

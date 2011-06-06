@@ -164,7 +164,7 @@ $(function() {
  * Update player and Monster postion based on input.
  */
 function update() {
-	mover = new Mover();
+  mover = new Mover();
   if (keydown.left) {
 	keydown.left = false;
 	mover.movePlayer(GameEngine.player, -32,0, Mover.MoveDir.LEFT);
