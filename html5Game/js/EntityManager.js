@@ -236,34 +236,29 @@ function setupSpriteManager(spriteManagerConfig, animationSequences) {
 function renderSprite(context, x,y){
 	if(this.alive == false) {
 		return this.deadImg;
+		//TODO: draw image to context.
 	}
-	//if the SpriteManager  is not null then use the manger, but need to decide how to specify a sequence
-	// to be displayed.
+	
 	if(this.spriteManager != null && this.spriteManager.spriteImage.imageLoaded ) {
 		if(this.currentSequence != null){
 			var spriteId = 0;
-			//TODO add code that checks and ocunts the number of times the same step has been requested.
 			var spriteData =  this.spriteManager.getSequenceSprite(this.currentSequence, this.currentSequenceStep, this.currentSequenceFrame);
-			//TODO have above return the correct sprite point and then render like in the else.
-			
+			var defaultSprite;
 			if(spriteData == null) { //sequence is over, return default.
 				this.currentSequence = null;
 				this.currentSequenceStep = 0;
 				this.currentSequenceFrame = 0;
 				defaultSprite = this.spriteManager.namedTileOrgPoint(spriteId);
-				context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);
-				return;
 			} else {
 				spriteId = spriteData.sequence[this.currentSequenceStep];
 				if(this.currentSequenceFrame != 0 && (this.currentSequenceFrame%spriteData.sequenceFrameDuration)==0) {
 					this.currentSequenceStep++;
 				}
 				this.currentSequenceFrame++;
-				defaultSprite = this.spriteManager.namedTileOrgPoint(spriteId)
-				context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);	
+				defaultSprite = this.spriteManager.namedTileOrgPoint(spriteId);
 			}
 			
-			
+			context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);
 			return;
 		}else{
 			defaultSprite = this.spriteManager.namedTileOrgPoint(0);
@@ -271,7 +266,7 @@ function renderSprite(context, x,y){
 			return;
 		}
 	}
-	return this.spriteImg; //TODO: convert to anamation with an array of sprites
+	return this.spriteImg;
 }
 
 
