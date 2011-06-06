@@ -229,6 +229,12 @@ function setUpPlayerImg() {
 		"sequenceFrameDuration":4},
 		{"name":"attack_right",
 		"sequence":[10,9,8,9,10,11,10,0], 
+		"sequenceFrameDuration":4},
+		{"name":"attack_up",
+		"sequence":[13,12,13,14,13,15,13,0], 
+		"sequenceFrameDuration":4},
+		{"name":"attack_down",
+		"sequence":[0,3,0,2,0], 
 		"sequenceFrameDuration":4}
 		];
 		
