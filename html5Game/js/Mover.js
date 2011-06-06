@@ -8,6 +8,11 @@ function Mover(){
 	
 }
 
+/** 
+ * Static value that allows directional Indicator.
+ */
+Mover.MoveDir = {"UP":0,"RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOWN":5,"LEFT":6,"LEFT_UP":7}
+
 /**
  * xDir, yDir pos or neg value to move.
  */

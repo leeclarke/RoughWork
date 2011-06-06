@@ -28,6 +28,7 @@ tiledMap.tiles = [
 				[{},{},{},{},{},{},{},{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 
 		];
+		//TODO: fix this it should be set using the init method.
 tiledMap.tileMapManager = tileMapManager;
 
 //theMap = tiledMap.renderMap();
@@ -151,3 +152,16 @@ MoverTest.prototype.testGetRange_AdjacentPoints= function() {
 
 //TODO: Test on axis and diaginal
 }
+
+MoverTest.prototype.testStaticDirections= function() {
+	assertEquals(0,Mover.MoveDir.UP);
+	assertEquals(1,Mover.MoveDir.RIGHT_UP);
+	assertEquals(2,Mover.MoveDir.RIGHT);
+	assertEquals(3,Mover.MoveDir.RIGHT_DOWN);
+	assertEquals(4,Mover.MoveDir.DOWN);
+	assertEquals(5,Mover.MoveDir.LEFT_DOWN);
+	assertEquals(6,Mover.MoveDir.LEFT);
+	assertEquals(7,Mover.MoveDir.LEFT_UP);
+	//RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOWN":5,"LEFT":6,"LEFT_UP":7
+}
+

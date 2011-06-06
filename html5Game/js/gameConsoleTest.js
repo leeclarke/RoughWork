@@ -167,25 +167,25 @@ function update() {
 	mover = new Mover();
   if (keydown.left) {
 	keydown.left = false;
-	mover.movePlayer(GameEngine.player, -32,0);
+	mover.movePlayer(GameEngine.player, -32,0, Mover.MoveDir.LEFT);
 	GameEngine.moveMonsters();
   }
 
   if (keydown.right) {
 	keydown.right = false;
-	mover.movePlayer(GameEngine.player, 32,0);
+	mover.movePlayer(GameEngine.player, 32,0, Mover.MoveDir.RIGHT);
 	GameEngine.moveMonsters();
   }
   
   if (keydown.up) {
 	keydown.up = false;
-	mover.movePlayer(GameEngine.player, 0,-32);
+	mover.movePlayer(GameEngine.player, 0,-32, Mover.MoveDir.UP);
 	GameEngine.moveMonsters();
   }
   
   if (keydown.down) {
 	keydown.down = false;
-	mover.movePlayer(GameEngine.player, 0,32);
+	mover.movePlayer(GameEngine.player, 0,32, Mover.MoveDir.DOWN);
 	GameEngine.moveMonsters();
   }
   
