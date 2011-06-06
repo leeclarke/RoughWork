@@ -127,17 +127,21 @@ SpriteTileManagerTest.prototype.testAnimationSequences = function() {
 		{"id":15,"name":"BACK_4","col":3,"row":3},
 	]};
 	var attackAnimation = [{"name":"attack_left",
-		"sequence":[6,5,4,15,6,27,6,0], 
-		"sequenceFrameDuration":2},
+		"sequence":[6,5,4,5,6,7,6,0], 
+		"sequenceFrameDuration":4},
 		{"name":"attack_right",
 		"sequence":[10,9,8,9,10,11,10,0], 
-		"sequenceFrameDuration":2}
+		"sequenceFrameDuration":4}
 		];
 		
 	var player = EntityManager.createEntity('Player');
+	
 	player.initSpriteManager(player_testManagerConfig,attackAnimation);
 	
+	player.currentSequence = 'attack_left';
 	//Calling function results in TypeError??  not sure whats up.
-	var playerImg = entity.renderImg();
+	var playerImg = player.renderImg();
+	
 	assertNotNull(playerImg);
+	assertEquals("IMG",playerImg.tagName);
 }

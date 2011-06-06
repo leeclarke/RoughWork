@@ -90,8 +90,8 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	context.restore(); //pop the canvas back to where it was which moves the map.
 	this.buildStatusDisplay(context);
 	this.writeStatus(context);
-	
-	context.drawImage(GameEngine.player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
+	GameEngine.player.renderImg(context, vpX, vpY);
+	//context.drawImage(GameEngine.player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
 }
 
 GameEngine.writeStatus = function(context) {

@@ -8,19 +8,29 @@
  */
 function SpriteTileManager(config, tileW, tileH, src) {
 	this.animationSequences = null;
-	this.spriteImgBuffer = document.createElement('img');
+	this.spriteImgBuffer = document.createElement('canvas');
+	this.bufferCtx = this.spriteImgBuffer.getContext('2d');
+	this.spriteImage = document.createElement('img');
+	this.spriteImage.onload = function() {
+		this.imageLoaded = true;
+		console.log("Image loaded! " + this.src);
+	}
 	if(config){
 		this.tileWidth = (config.tileWidth)?config.tileWidth:0;
 		this.tileHeight = (config.tileHeight)?config.tileHeight:0;
 		this.namedTiles = (config.namedTiles)?config.namedTiles:[];
-		this.spriteImage = document.createElement('img');
-		this.spriteImage.src = (config.src)?config.src:"";		
+		if(!config.src) {
+			throw "missing src value in config. check you config.";
+		}
+		this.spriteImage.src = config.src;		
 	} else{
 		this.tileWidth = (tileW)?tileW:0;
 		this.tileHeight = (tileH)?tileH:0;
 		this.namedTiles = {};
-		this.spriteImage = document.createElement('img');
-		this.spriteImage.src = (src)?src:"";	
+		if(!src) {
+			throw "missing src value in config. check you config.";
+		}
+		this.spriteImage.src = src;	
 	}
 }
 
@@ -52,18 +62,35 @@ SpriteTileManager.prototype.initAnimationSeqs = function(config) {
 }
 
 /**
+ * Given the animation sequence id and the sequence step, return img with sprite or null if number exceeds the length of sequence.
+ * @param sequenceId - id or name of the sequence 
+ * @param sequenceStep - position in the sequence wanted.
+ * @return img with sprite or null if out of bounds.
+ */
+SpriteTileManager.prototype.getSequenceSprite = function(sequenceId, sequenceStep) {
+	//get sequence /check step is < sequence.length , rturn null if > len
+	var aniSeq = this.animationSequences[sequenceId];
+	if(aniSeq == null || sequenceStep >= aniSeq.sequence.length ){
+		return null;
+	}
+	return aniSeq;
+}
+
+/**
  * Render a specific sprite as img 
  */
 SpriteTileManager.prototype.renderSprite = function(spriteId) {
 	//TODO: need to build simple graphical test to validate this.
+	
 	var spriteData = this.getNamedTileById(spriteId);
 	if(!spriteData) {
 		throw "Invalid Sprite Tile id:" +spriteId;
 	}
 	tileX = spriteData.col*tileMapManager.tileWidth;
 	tileY = spriteData.row*tileMapManager.tileHeight;
-	mapCtx.drawImage(this.spriteImage, sprPos.xPos, sprPos.yPos, this.tileWidth, this.tileHeight, tileX,tileY, this.tileWidth, this.tileHeight);
 	
+	this.bufferCtx.drawImage(this.spriteImage, spriteData.xPos, spriteData.yPos, this.tileWidth, this.tileHeight, tileX,tileY, this.tileWidth, this.tileHeight);
+	return this.bufferCtx.canvas;
 }
 
 /**
