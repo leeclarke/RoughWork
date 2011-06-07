@@ -249,6 +249,3 @@ function setUpPlayerImg() {
 
 
 
-//TODO SpriteManager not setting
-
-

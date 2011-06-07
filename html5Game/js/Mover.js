@@ -32,13 +32,13 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 	}
 
 	//get targeted tile.
-	targetTile = tiledMap.getTile(player.getRow(),player.getCol());
+	targetTile = GameEngine.currentMap.getTile(player.getRow(),player.getCol());
 	if(targetTile !== null) {
 		colls = this.checkCollision(player, targetTile);
 		if(colls) {//looks like there would always be a collision so the question is, does this offer anything?
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
-			if(!targetTile.hasOwnProperty('type') || targetTile.type === tiledMap.movementAttributes.unpassable) {
+			if(!targetTile.hasOwnProperty('type') || targetTile.type === GameEngine.currentMap.movementAttributes.unpassable) {
 				//blocked
 				player.x = playerOldX;
 				player.y = playerOldY;
@@ -82,7 +82,7 @@ Mover.prototype.moveMonster = function(monster, player) {
 				return;
 			}
 		}
-		var path = a_star(monster, player, tiledMap);
+		var path = a_star(monster, player, GameEngine.currentMap);
 
 //TODO: M has range weapon and in range ? attack : move
 		if(path && path.length >2 && path.length <= monster.range){
@@ -90,15 +90,15 @@ Mover.prototype.moveMonster = function(monster, player) {
 			///make sure there isnt a monster in the target location.. 
 			///Might be more efficent to mark the tile as occupied?
 			var tileClear = true;
-			var newPos = {"x":(path[1].x*tiledMap.tileMapManager.tileWidth), "y":(path[1].y*tiledMap.tileMapManager.tileHeight)};
+			var newPos = {"x":(path[1].x*GameEngine.currentMap.tileMapManager.tileWidth), "y":(path[1].y*GameEngine.currentMap.tileMapManager.tileHeight)};
 			for(mn = 0; mn < GameEngine.monsters.length; mn++) {
 				if(GameEngine.monsters[mn].x === newPos.x && GameEngine.monsters[mn].y === newPos.y){
 					tileClear = false; break;
 				}
 			}  
 			if(tileClear) { 
-				monster.x = path[1].x*tiledMap.tileMapManager.tileWidth;
-				monster.y = path[1].y*tiledMap.tileMapManager.tileHeight;
+				monster.x = path[1].x*GameEngine.currentMap.tileMapManager.tileWidth;
+				monster.y = path[1].y*GameEngine.currentMap.tileMapManager.tileHeight;
 			} else {
 				//Try ranged attack.
 			}
@@ -128,7 +128,7 @@ Mover.prototype.getRange = function (point1,point2){
  * @return true if if  
  */
 Mover.prototype.offMap = function(entity, tiledMap){
-	return (entity.x <0 || entity.y <0 || entity.x > tiledMap.width || entity.y > tiledMap.height);
+	return (entity.x <0 || entity.y <0 || entity.x > GameEngine.currentMap.width || entity.y > GameEngine.currentMap.height);
 };
 
 /**
