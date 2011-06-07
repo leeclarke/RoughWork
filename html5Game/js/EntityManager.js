@@ -181,6 +181,7 @@ function alive(entity) {
 	entity.str = 1;
 	entity.strMax = 1;
 	entity.deadImg = document.createElement('img');
+	entity.deadImg.src = "res/bones.png";  //Set a default. TODO: revisit this later.
 	entity.aggression = 0; //non-agressive @ 0   //TODO: need to implement use of this.
 }
 
@@ -234,8 +235,11 @@ function setupSpriteManager(spriteManagerConfig, animationSequences) {
  * Technically doesn't render but, returns the correct image for rendering, controls animation output.
  */
 function renderSprite(context, x,y){
-	if(this.alive == false) {
-		//TODO Want to update this to conditionally render from the sprite sheet 
+	if(this.alive === false) {
+		//TODO Want to update this to conditionally render from the sprite sheet also check for animation sequence.
+		//Sudo-code follows.
+		//if(this.spriteManager.getSequence("DEAD"))
+		//else if(this.spriteManager.getTile("DEAD"))
 		context.drawImage(this.deadImg,  x, y);
 		return;
 	}

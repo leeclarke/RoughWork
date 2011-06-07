@@ -25,6 +25,7 @@ function windowReady() {
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, GameEngine.CANVAS_WIDTH, GameEngine.CANVAS_HEIGHT ) ;
 	
+	//TODO refactor this into GameEngine.tiledMap.
 	tiledMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,32,32);
 
 	//add fake player sprite, centerd in middle of screen
@@ -33,7 +34,7 @@ function windowReady() {
 	GameEngine.player.y = (11*32);
 	GameEngine.player.name = "Lee";
 	GameEngine.player.spriteImg.src = "res/player.png";
-	GameEngine.player.deadImg.src = "res/bones.png";
+	//GameEngine.player.deadImg.src = "res/bones.png";
 	GameEngine.player.weaponWielded = EntityManager.weaponFactory('Sword');
 	
 	setUpPlayerImg();

@@ -8,7 +8,7 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (E) build Player Generator +API-EntityManager
 (B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
 (A) Add Mouse click support +UI-GameEngine
-(B) Consider Building getMonsterByLocation function +API-GameManager
+(D) Consider Building getMonsterByLocation function +API-GameManager
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
@@ -16,3 +16,4 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Add missile attack support +API-GameEngine
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
 (D) Support Magic and Magic combat. +API-GameEngine
+Fix renderSprite bug on player death the img sometiems doesnt load. Add onload and make dead img global +API-EntityManager

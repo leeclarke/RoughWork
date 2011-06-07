@@ -5,7 +5,6 @@
  */
 function Mover(){
 	
-	
 }
 
 /** 
@@ -18,10 +17,11 @@ Mover.MoveDir = {"UP":0,"RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOW
  */
 Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 	//use player location to get row,col of surrounding tiles.
-	if(player.alive == false)
+	if(player.alive === false) {
 		return;
-	playerOldX = player.x;
-	playerOldY = player.y;
+	}
+	var playerOldX = player.x;
+	var playerOldY = player.y;
 	player.x += xDir;
 	player.y += yDir;
 	
@@ -38,21 +38,21 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 		if(colls) {//looks like there would always be a collision so the question is, does this offer anything?
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
-			if(!targetTile.hasOwnProperty('type') || targetTile.type === tiledMap.movementAttributes["unpassable"]) {
+			if(!targetTile.hasOwnProperty('type') || targetTile.type === tiledMap.movementAttributes.unpassable) {
 				//blocked
 				player.x = playerOldX;
 				player.y = playerOldY;
 				return;
 			}
 			//check monster Collision.
-			for(m in GameEngine.monsters) {
+			for(m = 0; m < GameEngine.monsters.length; m++) {
 				if(this.checkCollision(GameEngine.player,GameEngine.monsters[m]) && GameEngine.monsters[m].alive === true) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
 					//TODO: Add mouse click support.
 					
-					if(mvVector != null) {
+					if(mvVector !== null) {
 						GameEngine.player.currentSequence = GameEngine.player.spriteManager.getSequenceSpriteByDirection(mvVector).name;
 					}
 					
@@ -62,7 +62,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 			}
 		} 
 	}
-}
+};
 
 /**
  * Move the monster towards the player if in range or attack if can.
@@ -70,28 +70,28 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 Mover.prototype.moveMonster = function(monster, player) {
 	//need to consider line of sight, when waking up a monster. a direct unblocked path is needed.
 
-	dist = this.getRange(player,monster);
+	var dist = this.getRange(player,monster);
 	if(dist <= monster.range) {
 		if(monster.alive === false){
-			if(monster.oneLastSwing == true) {
+			if(monster.oneLastSwing === true) {
 				monster.isHostile = true;
-				monster.oneLastSwing = false;
+				monster.oneLastSwing = false;	
 				monster.attack(player);
 				return;
 			} else {
 				return;
 			}
 		}
-		path = a_star(monster, player, tiledMap);
+		var path = a_star(monster, player, tiledMap);
 
 //TODO: M has range weapon and in range ? attack : move
 		if(path && path.length >2 && path.length <= monster.range){
 			monster.isHostile = true;
 			///make sure there isnt a monster in the target location.. 
 			///Might be more efficent to mark the tile as occupied?
-			tileClear = true;
-			newPos = {"x":(path[1].x*tiledMap.tileMapManager.tileWidth), "y":(path[1].y*tiledMap.tileMapManager.tileHeight)};
-			for(mn in GameEngine.monsters) {
+			var tileClear = true;
+			var newPos = {"x":(path[1].x*tiledMap.tileMapManager.tileWidth), "y":(path[1].y*tiledMap.tileMapManager.tileHeight)};
+			for(mn = 0; mn < GameEngine.monsters.length; mn++) {
 				if(GameEngine.monsters[mn].x === newPos.x && GameEngine.monsters[mn].y === newPos.y){
 					tileClear = false; break;
 				}
@@ -108,7 +108,7 @@ Mover.prototype.moveMonster = function(monster, player) {
 			monster.attack(player);
 		}
 	}		
-}
+};
 
 /**
  * This returns the distance to the other point rounded down if not a whole number. This just helps determine if 
@@ -117,11 +117,11 @@ Mover.prototype.moveMonster = function(monster, player) {
  * 
  */
 Mover.prototype.getRange = function (point1,point2){
-	 dx = (point2.x/32)-(point1.x/32);
-	 dy = (point2.y/32)-(point1.y/32);
-	 dist = ~~(Math.sqrt((dx*dx) + (dy*dy)));
+	 var dx = (point2.x/32)-(point1.x/32);
+	 var dy = (point2.y/32)-(point1.y/32);
+	 var dist = ~~(Math.sqrt((dx*dx) + (dy*dy)));
 	 return dist;
-}
+};
 
 /**
  * clamp object to map so it cant ever get outside the map bounds.
@@ -129,7 +129,7 @@ Mover.prototype.getRange = function (point1,point2){
  */
 Mover.prototype.offMap = function(entity, tiledMap){
 	return (entity.x <0 || entity.y <0 || entity.x > tiledMap.width || entity.y > tiledMap.height);
-}
+};
 
 /**
  * Returns true if two entities collide or overlap.
@@ -139,4 +139,4 @@ Mover.prototype.checkCollision = function(a, b) {
          a.x + a.width > b.x &&
          a.y < b.y + b.height &&
          a.y + a.height > b.y;
-}
+};
