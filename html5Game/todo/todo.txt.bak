@@ -7,12 +7,12 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 (E) build Player Generator +API-EntityManager
 (B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
-(D) Add Mouse click support +UI-GameEngine
+(A) Add Mouse click support +UI-GameEngine
 (B) Consider Building getMonsterByLocation function +API-GameManager
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
 (A) Install jsLint - npm install jslint +API-Build
 (B) Add missile attack support +API-GameEngine
-x 2011-06-07 Fix image render for dead player.
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
+(D) Support Magic and Magic combat. +API-GameEngine

@@ -1,6 +1,5 @@
 //TODO: need to convert start[] to an entity calling .x, .y
 //TODO: convert destination to use .x, .y  perhaps take a MapTile or Entity.
-//TODO: convert board to take the mapTiles array.
 //TODO: could have function take the map and it could pull tiles and cols/rows from the object.
 /**
  * Pathfinding for MovableEntities
