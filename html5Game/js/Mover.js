@@ -51,7 +51,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 					player.x = playerOldX;
 					player.y = playerOldY;
 					//TODO: Add mouse click support.
-					//mvVector
+					
 					if(mvVector != null) {
 						GameEngine.player.currentSequence = GameEngine.player.spriteManager.getSequenceSpriteByDirection(mvVector).name;
 					}

@@ -14,5 +14,5 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
 (A) Install jsLint - npm install jslint +API-Build
 (B) Add missile attack support +API-GameEngine
-(A) Fix image render for dead player.
-Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
+x 2011-06-07 Fix image render for dead player.
+(B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine

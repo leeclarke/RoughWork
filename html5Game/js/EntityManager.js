@@ -235,8 +235,9 @@ function setupSpriteManager(spriteManagerConfig, animationSequences) {
  */
 function renderSprite(context, x,y){
 	if(this.alive == false) {
-		return this.deadImg;
-		//TODO: draw image to context.
+		//TODO Want to update this to conditionally render from the sprite sheet 
+		context.drawImage(this.deadImg,  x, y);
+		return;
 	}
 	
 	if(this.spriteManager != null && this.spriteManager.spriteImage.imageLoaded ) {
