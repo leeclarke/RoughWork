@@ -16,7 +16,7 @@ Mover.MoveDir = {"UP":0,"RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOW
 /**
  * xDir, yDir pos or neg value to move.
  */
-Mover.prototype.movePlayer = function(player, xDir, yDir) {
+Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 	//use player location to get row,col of surrounding tiles.
 	if(player.alive == false)
 		return;
@@ -50,7 +50,12 @@ Mover.prototype.movePlayer = function(player, xDir, yDir) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
-					//Do Bump attack for now, TODO: Add mouse click support.
+					//TODO: Add mouse click support.
+					//mvVector
+					if(mvVector != null) {
+						GameEngine.player.currentSequence = GameEngine.player.spriteManager.getSequenceSpriteByDirection(mvVector).name;
+					}
+					
 					player.attack(GameEngine.monsters[m]);
 					return;
 				}

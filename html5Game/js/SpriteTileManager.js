@@ -27,9 +27,6 @@ function SpriteTileManager(config, tileW, tileH, src) {
 		this.tileWidth = (tileW)?tileW:0;
 		this.tileHeight = (tileH)?tileH:0;
 		this.namedTiles = {};
-		if(!src) {
-			throw "missing src value in config. check you config.";
-		}
 		this.spriteImage.src = src;	
 	}
 }
@@ -74,6 +71,20 @@ SpriteTileManager.prototype.getSequenceSprite = function(sequenceId, sequenceSte
 		return null;
 	}
 	return aniSeq;
+}
+
+/**
+ * Retrieves a Sequence associated with a specified Mover.MoveDir
+ */
+SpriteTileManager.prototype.getSequenceSpriteByDirection = function(moverDir) {
+	if(!(typeof(moverDir) === undefined)){	
+		for(var prop in this.animationSequences) {
+			if(!(typeof( this.animationSequences[prop]) === undefined) && this.animationSequences[prop].hasOwnProperty('direction') && this.animationSequences[prop].direction == moverDir) {
+				return this.animationSequences[prop];
+			}
+		}
+	}
+	return null;
 }
 
 /**

@@ -226,16 +226,20 @@ function setUpPlayerImg() {
 	]};
 	var attackAnimation = [{"name":"attack_left",
 		"sequence":[6,5,4,5,6,7,6,0], 
-		"sequenceFrameDuration":4},
+		"sequenceFrameDuration":4,
+		"direction":Mover.MoveDir.LEFT},
 		{"name":"attack_right",
 		"sequence":[10,9,8,9,10,11,10,0], 
-		"sequenceFrameDuration":4},
+		"sequenceFrameDuration":4,
+		"direction":Mover.MoveDir.RIGHT},
 		{"name":"attack_up",
 		"sequence":[13,12,13,14,13,15,13,0], 
-		"sequenceFrameDuration":4},
+		"sequenceFrameDuration":4,
+		"direction":Mover.MoveDir.UP},
 		{"name":"attack_down",
 		"sequence":[0,3,0,2,0], 
-		"sequenceFrameDuration":4}
+		"sequenceFrameDuration":4,
+		"direction":Mover.MoveDir.DOWN}
 		];
 		
 	GameEngine.player.initSpriteManager(player_testManagerConfig,attackAnimation);
