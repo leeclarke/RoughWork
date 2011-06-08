@@ -3,7 +3,8 @@
  */
 function GameEngine(){
 	
-}
+};
+
 GameEngine.CANVAS_WIDTH = 0;
 GameEngine.CANVAS_HEIGHT = 0;
 GameEngine.STATUS_WIDTH = 0;
@@ -23,6 +24,7 @@ GameEngine.currentMap = null;
 GameEngine.mouseQueue = [];
 GameEngine.dblClickTimeLimit = 8000;
 GameEngine.lastMouseEvent = 0; //in ms
+GameEngine.watchedMouseEvents = [];
 
 /**
  * Adds Messages to the Message queue to display to player.
@@ -32,7 +34,7 @@ GameEngine.addEventMessage = function(msg,life) {
 		life = (life || life == null)?60:life;
 		this.eventMesgsStack.push({"msg":msg, "life":life})
 	}
-}
+};
 
 
 /**
@@ -44,7 +46,7 @@ GameEngine.moveMonsters = function() {
 		this.checkMonsterVisability(m);
 		mover.moveMonster(this.monsters[m],this.player);
 	}	
-}
+};
 
 /**
  * Check to see if monster is in players sight and sets monsters visable value acordingly.
@@ -52,7 +54,7 @@ GameEngine.moveMonsters = function() {
 GameEngine.checkMonsterVisability = function(m) {
 	area = this.getPlayerVisableArea();
 	this.monsters[m].visable = this.inRange(this.monsters[m], area);
-}
+};
 
 /**
  * Responsable for rendering the ViewPort or Camera of the game.
@@ -63,7 +65,7 @@ GameEngine.render = function() {
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT ) ;
 	this.renderViewPort(context, vpX,vpY); 
-}
+};
 
 /**
  * Paints the game map then centers the viewport on the player sprite.
@@ -97,7 +99,7 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	this.buildStatusDisplay(context);
 	this.writeStatus(context);
 	GameEngine.player.renderImg(context, vpX, vpY);
-}
+};
 
 /**
  * Displays the Messages overlay at the top of the viewPort, it doesnt display if no messages.
@@ -138,7 +140,7 @@ GameEngine.writeStatus = function(context) {
 	}
 	
 	context.restore();
-}
+};
 
 /**
  * Draws the status display overlay. 
@@ -168,7 +170,7 @@ GameEngine.buildStatusDisplay = function(context) {
 		
 		context.restore();
 	}
-}
+};
 
 /**
  * Generate rnd number between 2 numbers including the from and to values.
@@ -192,7 +194,7 @@ GameEngine.checkCollision = function(a, b) {
          a.x + a.width > b.x &&
          a.y < b.y + b.height &&
          a.y + a.height > b.y;
-}
+};
 
 /**
  * See if an entity is with-in a given area 
@@ -207,22 +209,68 @@ GameEngine.inRange = function(entity, area) {
 				return true;
 	}
 	return false;
-}
+};
 
 /**
  * Simple helper to simplify the retrival of the players visable area. 
  */
 GameEngine.getPlayerVisableArea = function() {
 	return this.currentMap.getSurroundingTiles(this.player.getRow(),this.player.getCol(),this.player.vision,this.player.vision);
+};
+
+/**
+ * To make this work you would register an Objects events
+ *From http://www.geekdaily.net/2008/04/02/javascript-defining-and-using-custom-events/
+ */
+GameEngine.CustomEvent = function() {
+	//name of the event
+	this.eventName = arguments[0];
+	var mEventName = this.eventName;
+
+	//function to call on event fire
+	var eventAction = null;
+
+	//subscribe a function to the event
+	this.subscribe = function(fn) {
+		eventAction = fn;
+	};
+
+	//fire the event
+	this.fire = function(sender, eventArgs) {
+		//this.eventName = eventName2; //Not needed?
+		if(eventAction != null) {
+			eventAction(sender, eventArgs);
+		}
+		else {
+			alert('There was no function subscribed to the ' + mEventName + ' event!');
+		}
+	};
+};
+
+/**
+ * Adds additional CustomeEvents to the listener queue which responds to mouse events.
+ */
+GameEngine.addMouseEventListener = function(custEvent) {
+	if(custEvent && custEvent !== null) {
+		this.watchedMouseEvents.push(custEvent);
+	}
 }
 
-/****Array mods. ******?
+
+GameEngine.processMouseEvents = function(mouseEvent){
+	for(e = 0 ; e < watchedEvents.length; e++) {
+			this.watchedEvents[e].fire(null, {message: eventTestMsg + " " + watchedEvents[e].eventName, event: mouseEvent});
+	}
+}
+
+
+/****Array mods. These dont actually attach to the Array object..******/
 
 /**
  * Select random item from an Array.
  */
 Array.prototype.ramdomItem =  function(){	
-	return this[this.randomInt(0, this.length - 1)];
+	return this[GameEngine.randomInt(0, this.length - 1)];
 };
 
 /**
@@ -234,4 +282,4 @@ Array.prototype.indexOf = function (vItem) {
             return i;
         }    }
     return -1;
-}
+};
