@@ -8,6 +8,7 @@ GameEngine.STATUS_WIDTH = 80;
 GameEngine.DisplayGrid = true;
 GameEngine.lightsOn = false;
 GameEngine.lastUpdate = Date.now();
+
 var context;
 
 /**
@@ -114,18 +115,48 @@ function windowReady() {
  */
 window.addEventListener("mousedown", function(e) {
   GameEngine.addEventMessage(("Mouse Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
+  GameEngine.mouseQueue.push(e);
   GameEngine.mouseClick = e;
 }, false);
 
+
+/**
+ * Capture dblclick events to use for game play.
+ */
+window.addEventListener("dblclick", function(e) {
+	/*TODO: this will only work if I create some sort of queing of clicks with  sshort delay giving time 
+	 * for the dblckcik to happen 
+	 * then I need to inspect the stack and popoff the 2 clicks that come before the dblClcik. PIA?*/
+  GameEngine.addEventMessage(("Mouse dblClick Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
+  GameEngine.mouseQueue.push(e);
+  GameEngine.mouseClick = e;
+}, false);
+
+/**
+ * Do something with click events. Only want to fire this every 250ms to allow time for dblCLick detection.
+ * @param lastMouseEvent number of ms since last processing of mouse events. reset to 0 if over the dblClcik tie limit.
+ */
 function handleInput() {
+	//TODO: It looks like DBL click checking is far too hard to get since the interval looping is very unpredictable.
   // Here is where we respond to the click
-  if(GameEngine.mouseClick != null){
+  if(GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
+  //if(GameEngine.mouseClick != null){
     //e.button, e.pageX, e.pageY
+    if(GameEngine.mouseQueue.length >1){
+		console.log("got dbl");
+	}
+    var mEvent = GameEngine.mouseQueue.pop();
+     
     GameEngine.mouseClick = null;
+    GameEngine.lastMouseEvent = 0;
   }
 };
 
+/**
+ * The main processing is done by caling this in the thread loop. 
+ */
 function main () {
+	GameEngine.lastMouseEvent += GameEngine.elapsed;
 	handleInput();
 	update();
 	GameEngine.render();

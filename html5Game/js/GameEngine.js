@@ -20,7 +20,13 @@ GameEngine.player = {};
 GameEngine.monsters = [];
 GameEngine.eventMesgsStack = [];
 GameEngine.currentMap = null;
+GameEngine.mouseQueue = [];
+GameEngine.dblClickTimeLimit = 8000;
+GameEngine.lastMouseEvent = 0; //in ms
 
+/**
+ * Adds Messages to the Message queue to display to player.
+ */
 GameEngine.addEventMessage = function(msg,life) {
 	if(msg) {
 		life = (life || life == null)?60:life;
@@ -91,13 +97,18 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	this.buildStatusDisplay(context);
 	this.writeStatus(context);
 	GameEngine.player.renderImg(context, vpX, vpY);
-	//context.drawImage(GameEngine.player.renderImg(), vpX, vpY); //Draws player sprite in the middle of VP
 }
 
+/**
+ * Displays the Messages overlay at the top of the viewPort, it doesnt display if no messages.
+ */
 GameEngine.writeStatus = function(context) {
 	statusMargin = 5;
 	statusHeight = 100;
-
+	if(GameEngine.eventMesgsStack.length === 0) {
+		//nothing to display
+		return;
+	}
 	//position in upper left corner	
 	context.save();
 	context.translate(0,0);

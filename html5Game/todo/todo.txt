@@ -16,5 +16,5 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Add missile attack support +API-GameEngine
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
 (D) Support Magic and Magic combat. +API-GameEngine
-(A) Fix renderSprite bug on player death the img sometiems doesnt load. Add onload and make dead img global +API-EntityManager
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
+(A) Decide if dblClick support is possible, looks like no. +API-GameEngine

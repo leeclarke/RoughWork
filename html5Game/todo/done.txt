@@ -16,3 +16,4 @@ x 2011-06-05 Develop SPrite Annimation +API-Entity-SpriteManager
 x 2011-06-05 Build Status object to manage message life etc +UI-GameEngine
 x 2011-06-07 Compleate animation for Player attacks in all directions +API-GameEngine
 x 2011-06-07 Fix image render for dead player.
+x 2011-06-07 Fix renderSprite bug on player death the img sometiems doesnt load. Add onload and make dead img global +API-EntityManager
