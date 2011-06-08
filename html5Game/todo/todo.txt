@@ -17,3 +17,8 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (D) Support Magic and Magic combat. +API-GameEngine
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
 (A) Decide if dblClick support is possible, looks like no. +API-GameEngine
+Build Event System for tracking button clicks etc.. +API-Display
+Build out event system +UI-MouseTask
+Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
+Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
+allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
