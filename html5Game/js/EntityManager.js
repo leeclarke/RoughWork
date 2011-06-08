@@ -7,6 +7,7 @@ function EntityManager() {
 
 function Entity(type){
 	this.entityType = type;
+	
 }
 
  /**
@@ -219,6 +220,7 @@ function renderable(entity) {
 	entity.currentSequence = null;
 	entity.currentSequenceStep = 0;
 	entity.currentSequenceFrame = 0;
+	entity.drawDeadSprite = drawDeadSprite;
 }
 
 /**
@@ -232,39 +234,42 @@ function setupSpriteManager(spriteManagerConfig, animationSequences) {
 }
 
 /**
- * Technically doesn't render but, returns the correct image for rendering, controls animation output.
+ * Renders the Dead Entitys sprite,or sequence from the spriteManager or spriteImg if no 'DEAD'
+ * sprite is defined in the spriteManager. 
+ */
+function drawDeadSprite(context,x,y, entity) {
+	if(entity.spriteManager.getSequenceSprite("DEAD",0) !== null) {
+		if(entity.currentSequence != "DEAD"){
+			entity.currentSequence = "DEAD";
+			entity.currentSequenceStep = 0;
+			entity.currentSequenceFrame = 0;
+		}
+		var deadSpriteData = entity.spriteManager.getSequenceSprite(entity.currentSequence, entity.currentSequenceStep);
+		//call AnimateSprite funciton
+	}
+	if(entity.spriteManager.getNamedTile("DEAD") !== null) {
+		var deadSpriteData = entity.spriteManager.getNamedTile("DEAD");
+		deadSprite = entity.spriteManager.tileOrgPoint(deadSpriteData.col,deadSpriteData.row);
+		context.drawImage(entity.spriteManager.spriteImage, deadSprite.xPos , deadSprite.yPos, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight, x, y, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight);
+	} else {
+		context.drawImage(entity.deadImg, x, y);
+	}	
+};
+
+/**
+ * Renders correct sprite to the games context.
  */
 function renderSprite(context, x,y){
 	if(this.alive === false) {
-		//TODO Want to update this to conditionally render from the sprite sheet also check for animation sequence.
-		//Sudo-code follows.
-		//if(this.spriteManager.getSequence("DEAD"))
-		//else if(this.spriteManager.getTile("DEAD"))
-		context.drawImage(this.deadImg,  x, y);
+		drawDeadSprite(context,x,y,this);
 		return;
 	}
 	
 	if(this.spriteManager != null && this.spriteManager.spriteImage.imageLoaded ) {
 		if(this.currentSequence != null){
-			var spriteId = 0;
-			var spriteData =  this.spriteManager.getSequenceSprite(this.currentSequence, this.currentSequenceStep, this.currentSequenceFrame);
-			var defaultSprite;
-			if(spriteData == null) { //sequence is over, return default.
-				this.currentSequence = null;
-				this.currentSequenceStep = 0;
-				this.currentSequenceFrame = 0;
-				defaultSprite = this.spriteManager.namedTileOrgPoint(spriteId);
-			} else {
-				spriteId = spriteData.sequence[this.currentSequenceStep];
-				if(this.currentSequenceFrame != 0 && (this.currentSequenceFrame%spriteData.sequenceFrameDuration)==0) {
-					this.currentSequenceStep++;
-				}
-				this.currentSequenceFrame++;
-				defaultSprite = this.spriteManager.namedTileOrgPoint(spriteId);
-			}
-			
-			context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);
-			return;
+			var spriteData =  this.spriteManager.getSequenceSprite(this.currentSequence, this.currentSequenceStep);
+			animate(context, x, y, this, spriteData);
+		return;
 		}else{
 			defaultSprite = this.spriteManager.namedTileOrgPoint(0);
 			context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);
@@ -274,6 +279,29 @@ function renderSprite(context, x,y){
 	return this.spriteImg;
 }
 
+/**
+ * Keeps track of the animation sequence and renders the sprite to the context.
+ * 
+ */
+function animate(context, x, y, entity, spriteData) {
+	var spriteId = 0;
+	var defaultSprite;
+	if(spriteData == null) { //sequence is over, return default.
+		entity.currentSequence = null;
+		entity.currentSequenceStep = 0;
+		entity.currentSequenceFrame = 0;
+		defaultSprite = entity.spriteManager.namedTileOrgPoint(spriteId);
+	} else {
+		spriteId = spriteData.sequence[entity.currentSequenceStep];
+		if(entity.currentSequenceFrame != 0 && (entity.currentSequenceFrame%spriteData.sequenceFrameDuration)==0) {
+			entity.currentSequenceStep++;
+		}
+		entity.currentSequenceFrame++;
+		defaultSprite = entity.spriteManager.namedTileOrgPoint(spriteId);
+	}
+	
+	context.drawImage(entity.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight, x, y, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight);
+};
 
 /**
  * Initiallize the map from stored data which should be int he format of {"id":0, "type":0}

@@ -116,7 +116,6 @@ SpriteTileManagerTest.prototype.testInitAnimationSeqs = function() {
 }
 
 
-
 SpriteTileManagerTest.prototype.testInitAnimationSeqs_invalidSequence = function() {
 	var player_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/hero2.png", "namedTiles":[
 		{"id":0,"name":"FRONT","col":0,"row":0},
@@ -135,6 +134,7 @@ SpriteTileManagerTest.prototype.testInitAnimationSeqs_invalidSequence = function
 		{"id":13,"name":"BACK_2","col":1,"row":3},
 		{"id":14,"name":"BACK_3","col":2,"row":3},
 		{"id":15,"name":"BACK_4","col":3,"row":3},
+		{"id":16,"name":"DEAD","col":0,"row":4},
 	]};
 	var attackAnimation = [{"name":"attack_left",
 		"sequence":[6,5,4,15,6,27,6,0], 

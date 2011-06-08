@@ -224,6 +224,7 @@ function setUpPlayerImg() {
 		{"id":13,"name":"BACK_2","col":1,"row":3},
 		{"id":14,"name":"BACK_3","col":2,"row":3},
 		{"id":15,"name":"BACK_4","col":3,"row":3},
+		{"id":16,"name":"DEAD","col":0,"row":4},
 	]};
 	var attackAnimation = [{"name":"attack_left",
 		"sequence":[6,5,4,5,6,7,6,0], 

@@ -65,7 +65,6 @@ SpriteTileManager.prototype.initAnimationSeqs = function(config) {
  * @return img with sprite or null if out of bounds.
  */
 SpriteTileManager.prototype.getSequenceSprite = function(sequenceId, sequenceStep) {
-	//get sequence /check step is < sequence.length , rturn null if > len
 	var aniSeq = this.animationSequences[sequenceId];
 	if(aniSeq == null || sequenceStep >= aniSeq.sequence.length ){
 		return null;
