@@ -12,7 +12,6 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
-(A) Install jsLint - npm install jslint +API-Build
 (B) Add missile attack support +API-GameEngine
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
 (D) Support Magic and Magic combat. +API-GameEngine

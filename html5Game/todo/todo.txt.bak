@@ -12,9 +12,9 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
-(A) Install jsLint - npm install jslint +API-Build
+x 2011-06-08 Install jsLint - npm install jslint +API-Build
 (B) Add missile attack support +API-GameEngine
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
 (D) Support Magic and Magic combat. +API-GameEngine
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
-Decide if dblClick support is possible, looks like no. +API-GameEngine
+(A) Decide if dblClick support is possible, looks like no. +API-GameEngine

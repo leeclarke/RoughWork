@@ -25,16 +25,16 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 	player.x += xDir;
 	player.y += yDir;
 	
-	if(this.offMap(player, tiledMap)) {
+	if(this.offMap(player)) {
 		player.x = playerOldX;
 		player.y = playerOldY;
 		return;
 	}
 
 	//get targeted tile.
-	targetTile = GameEngine.currentMap.getTile(player.getRow(),player.getCol());
+	var targetTile = GameEngine.currentMap.getTile(player.getRow(),player.getCol());
 	if(targetTile !== null) {
-		colls = this.checkCollision(player, targetTile);
+		var colls = this.checkCollision(player, targetTile);
 		if(colls) {//looks like there would always be a collision so the question is, does this offer anything?
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
 			//if collision, see if blocked.
@@ -127,7 +127,7 @@ Mover.prototype.getRange = function (point1,point2){
  * clamp object to map so it cant ever get outside the map bounds.
  * @return true if if  
  */
-Mover.prototype.offMap = function(entity, tiledMap){
+Mover.prototype.offMap = function(entity){
 	return (entity.x <0 || entity.y <0 || entity.x > GameEngine.currentMap.width || entity.y > GameEngine.currentMap.height);
 };
 
