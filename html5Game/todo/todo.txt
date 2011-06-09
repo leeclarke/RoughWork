@@ -1,4 +1,3 @@
-(A) Get display size and size gamePortal to fit properly. +API-Display
 (C) Build Object around display for api offering +API-Display
 (B) Build Monster Generator +API-GameEgine
 (B) Build Map Maker Tool +DevTools
@@ -18,7 +17,6 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
 (A) Decide if dblClick support is possible, looks like no. +API-GameEngine
 Build Event System for tracking button clicks etc.. +API-Display
-Build out event system +UI-MouseTask
-Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
 Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
 allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
+Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask

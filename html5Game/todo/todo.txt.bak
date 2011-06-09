@@ -1,4 +1,4 @@
-(A) Get display size and size gamePortal to fit properly. +API-Display
+x 2011-06-08 Get display size and size gamePortal to fit properly. +API-Display
 (C) Build Object around display for api offering +API-Display
 (B) Build Monster Generator +API-GameEgine
 (B) Build Map Maker Tool +DevTools
@@ -12,9 +12,12 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
-x 2011-06-08 Install jsLint - npm install jslint +API-Build
 (B) Add missile attack support +API-GameEngine
 (B) Animation sequence obect needs an Action type to go with direction, ie Attack, cast, shoot with UP gives more opions +API-GameEngine
 (D) Support Magic and Magic combat. +API-GameEngine
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
 (A) Decide if dblClick support is possible, looks like no. +API-GameEngine
+Build Event System for tracking button clicks etc.. +API-Display
+Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
+allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
+Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask

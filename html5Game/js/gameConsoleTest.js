@@ -17,6 +17,13 @@ var context;
  * This simulates an actual game client
  */
 function windowReady() {
+	var body = $(this).find("body");
+	
+CANVAS_WIDTH = window.innerWidth;//body.width();//1000;
+ CANVAS_HEIGHT = window.innerHeight;//();//600;
+GameEngine.CANVAS_WIDTH = window.innerWidth;//body.width();
+GameEngine.CANVAS_HEIGHT = window.innerHeight;//body.height();
+	
 	//Create canvas
 	var canvasElement = $("<canvas width='" + GameEngine.CANVAS_WIDTH + 
                       "' height='" + GameEngine.CANVAS_HEIGHT + "'></canvas>");
@@ -142,6 +149,21 @@ function handleInput() {
   if(GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
   //if(GameEngine.mouseClick != null){
     //e.button, e.pageX, e.pageY
+    
+    //TODO: use AStar to plot a path and use the path[1] as the target to move to!!
+    /* 	1. 	Use the x,y coordinates to determine the row/col of the tile clicked.
+     * 	2. 	call tiledMap.getTile(row,col)
+     * 	3.	call astar(start,targetTile, map);
+     *  4.	move player to path[1].
+     * 
+     * 	to check for Ranged attack,
+     * 	1.	Use the x,y coordinates to determine the row/col of the tile clicked.
+     * 	2.	determine if tile id with in missle range
+     * 	3.	Is there a monster?
+     * 	4.	Do attack!
+     */
+     
+     
     if(GameEngine.mouseQueue.length >1){
 		console.log("got dbl");
 	}

@@ -18,3 +18,6 @@ x 2011-06-07 Compleate animation for Player attacks in all directions +API-GameE
 x 2011-06-07 Fix image render for dead player.
 x 2011-06-07 Fix renderSprite bug on player death the img sometiems doesnt load. Add onload and make dead img global +API-EntityManager
 x 2011-06-08 Install jsLint - npm install jslint +API-Build
+x 2011-06-08 Build out event system +UI-MouseTask
+x 2011-06-08 Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
+x 2011-06-08 Get display size and size gamePortal to fit properly. +API-Display
