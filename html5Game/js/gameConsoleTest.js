@@ -167,7 +167,7 @@ function handleInput() {
     var mEvent = GameEngine.mouseQueue.pop();
     var upperLeft = GameEngine.getMapUpperLeftPosition();
     
-    var mapClickPoint = {"x":(mEvent.x-upperLeft.x), "y":(mEvent.y-upperLeft.y)};
+    var mapClickPoint = {"x":~~(mEvent.x-upperLeft.x), "y":~~(mEvent.y-upperLeft.y)};
     
     var clickedTile = GameEngine.currentMap.getTileAt(mapClickPoint.x, mapClickPoint.y);
     GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY) + 
@@ -181,9 +181,10 @@ function handleInput() {
     if(clickPath.length > 1) {
 		//TODO: pull mover into GameEngine
 		try{
-		var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
-		GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
-		mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
+			var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
+			GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
+			mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
+			GameEngine.moveMonsters();
 		}
 		catch(e) {
 			GameEngine.addEventMessage("It Broke: "+e);
