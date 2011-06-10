@@ -67,12 +67,13 @@ function windowReady() {
 	dragon2 = EntityManager.createCreature('Green Dragon');
 	dragon2.x = 3*32;
 	dragon2.y = 4*32;
-	dragon2.name = "Green Dragon2";
+	dragon2.name = "Puff The Dragon";
 	dragon2.spriteImg.src = "res/dragon.png";
 	dragon2.deadImg.src = "res/bones.png";
 	dragon2.agression = 2;
 	dragon2.range = 4;
-	dragon2.hp = 8;
+	dragon2.hp = 1;
+	dragon2.ac = 10;
  	dragon2.hpMax = 8;
 	
 	GameEngine.monsters.push(dragon2);
@@ -129,34 +130,27 @@ window.addEventListener("mousedown", function(e) {
 
 /**
  * Capture dblclick events to use for game play.
- */
+ *
 window.addEventListener("dblclick", function(e) {
 	/*TODO: this will only work if I create some sort of queing of clicks with  sshort delay giving time 
 	 * for the dblckcik to happen 
-	 * then I need to inspect the stack and popoff the 2 clicks that come before the dblClcik. PIA?*/
+	 * then I need to inspect the stack and popoff the 2 clicks that come before the dblClcik. PIA?
   GameEngine.addEventMessage(("Mouse dblClick Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
   GameEngine.mouseQueue.push(e);
   GameEngine.mouseClick = e;
-}, false);
+}, false);*/
 
 /**
  * Do something with click events. Only want to fire this every 250ms to allow time for dblCLick detection.
  * @param lastMouseEvent number of ms since last processing of mouse events. reset to 0 if over the dblClcik tie limit.
  */
 function handleInput() {
-	//TODO: It looks like DBL click checking is far too hard to get since the interval looping is very unpredictable.
+	
   // Here is where we respond to the click
   if(GameEngine.mouseQueue.length > 0 && GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
-	
-  //if(GameEngine.mouseClick != null){
-    //e.button, e.pageX, e.pageY
     
     //TODO: use AStar to plot a path and use the path[1] as the target to move to!!
-    /* 	/1. 	Use the x,y coordinates to determine the row/col of the tile clicked.
-     * 	/2. 	call tiledMap.getTile(row,col)
-     * 	/3.	call astar(start,targetTile, map);
-     *  /4.	move player to path[1].
-     * 
+    /* 	
      * 	to check for Ranged attack,
      * 	1.	Use the x,y coordinates to determine the row/col of the tile clicked.
      * 	2.	determine if tile id with in missle range
@@ -170,20 +164,18 @@ function handleInput() {
     var mapClickPoint = {"x":~~(mEvent.x-upperLeft.x), "y":~~(mEvent.y-upperLeft.y)};
     
     var clickedTile = GameEngine.currentMap.getTileAt(mapClickPoint.x, mapClickPoint.y);
-    GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY) + 
-		" ajd_x=" + mapClickPoint.x+ " ajd_y=" + mapClickPoint.y + " col:" + clickedTile.col+  " row:" + clickedTile.row);
+ /*   GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY) + 
+		" ajd_x=" + mapClickPoint.x+ " ajd_y=" + mapClickPoint.y + " col:" + clickedTile.col+  " row:" + clickedTile.row);*/
 	if(clickedTile === null) {
 		//user probably clicked outside the map, do nothing.
 		return;
 	}
 	var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
-	GameEngine.addEventMessage("path len=" + clickPath.length);
     if(clickPath.length > 1) {
 		//TODO: pull mover into GameEngine
 		try{
-			//TODO: Always returning LEFT.
 			var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
-			GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
+			//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
 			mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
 			GameEngine.moveMonsters();
 		}
@@ -242,6 +234,15 @@ $(function() {
  */
 function update() {
   mover = new Mover();
+  if(keydown.ctrl) {
+	  if(keydown.x){
+		GameEngine.debugOn = (GameEngine.debugOn)?false:true;
+		GameEngine.addEventMessage("debug On.");
+		keydown.x = false;
+		keydown.ctrl = false;
+	  }
+  }
+  
   if (keydown.left) {
 	keydown.left = false;
 	mover.movePlayer(GameEngine.player, -32,0, Mover.MoveDir.LEFT);
@@ -275,8 +276,12 @@ function update() {
   //Test attack animation
   if (keydown.a) {
 	keydown.a = false;
-	console.log("a key pressed"); 
 	GameEngine.player.currentSequence = 'attack_left'
+  }
+  
+  if(keydown.g) {
+	GameEngine.DisplayGrid = (GameEngine.DisplayGrid)?false:true;
+	keydown.g = false;
   }
   
 }

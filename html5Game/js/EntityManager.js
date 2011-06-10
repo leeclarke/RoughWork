@@ -239,7 +239,7 @@ function setupSpriteManager(spriteManagerConfig, animationSequences) {
  * sprite is defined in the spriteManager. 
  */
 function drawDeadSprite(context,x,y, entity) {
-	if(entity.spriteManager.getSequenceSprite("DEAD",0) !== null) {
+	if(entity.spriteManager !== null && entity.spriteManager.getSequenceSprite("DEAD",0) !== null) {
 		if(entity.currentSequence != "DEAD"){
 			entity.currentSequence = "DEAD";
 			entity.currentSequenceStep = 0;
@@ -248,7 +248,7 @@ function drawDeadSprite(context,x,y, entity) {
 		var deadSpriteData = entity.spriteManager.getSequenceSprite(entity.currentSequence, entity.currentSequenceStep);
 		//call AnimateSprite funciton
 	}
-	if(entity.spriteManager.getNamedTile("DEAD") !== null) {
+	if(entity.spriteManager !== null && entity.spriteManager.getNamedTile("DEAD") !== null) {
 		var deadSpriteData = entity.spriteManager.getNamedTile("DEAD");
 		deadSprite = entity.spriteManager.tileOrgPoint(deadSpriteData.col,deadSpriteData.row);
 		context.drawImage(entity.spriteManager.spriteImage, deadSprite.xPos , deadSprite.yPos, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight, x, y, entity.spriteManager.tileWidth, entity.spriteManager.tileHeight);
@@ -323,9 +323,11 @@ function attackRules(entity) {
 	if(!this.weaponWielded.hasOwnProperty('type')){
 		this.weaponWielded = getDefaultWeapon('Hands');
 	}
+	GameEngine.debug("EntityManager",GameEngine.diceRoll(1, 20));
 	hitRoll = GameEngine.diceRoll(1, 20) + this.toHitAdj() + this.getAttackAdj() + this.weaponWielded.toHitMagicAdj;
 	thac0 = 21 - this.level;
-	console.log("hitRoll="+hitRoll + " thac0=" + thac0);
+	
+	GameEngine.debug("EntityManager","hitRoll="+hitRoll + " thac0=" + thac0);
 	if ((thac0 - entity.getArmor()) <= hitRoll)
 	{
 		dmg = 0;
@@ -354,8 +356,12 @@ function attackRules(entity) {
 		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
-			entity.alive = false; //Monsters get one last swing since the go second.
-			if(entity.entityType === 'Creature') entity.oneLastSwing = true;
+			entity.alive = false; //Monsters get one last swing sincey the go second.
+			if(entity.entityType === 'Creature') {
+				entity.oneLastSwing = true;
+			} else {
+				GameEngine.addEventMessage("Ooops, you died!");
+			}
 		}
 	} else {
 		if(this.entityType === 'Player'){

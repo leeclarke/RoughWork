@@ -146,9 +146,9 @@ function node(x, y, parent_index, g, h, f)
 	this.f = f;
 	
 	this.getCol = function() {
-		return ~~(this.x/GameEngine.currentMap.getTileWidth())
+		return this.x;
 	}
 	this.getRow = function() {
-		return ~~(this.y/GameEngine.currentMap.getTileHeight())
+		return this.y;
 	}
 }

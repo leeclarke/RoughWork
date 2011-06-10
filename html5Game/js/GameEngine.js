@@ -5,6 +5,7 @@ function GameEngine(){
 	
 };
 
+GameEngine.debugOn = false;
 GameEngine.CANVAS_WIDTH = 0;
 GameEngine.CANVAS_HEIGHT = 0;
 GameEngine.ViewPortCenterX = 0;
@@ -93,6 +94,7 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 		if(GameEngine.monsters[m].visable == false) {
 			continue;
 		}
+		//TODO: Fix monster rendering to work with the New img rendering system.   renderImg() requires a context.. not sure how the ever works..
 		context.drawImage(GameEngine.monsters[m].renderImg(), GameEngine.monsters[m].x, GameEngine.monsters[m].y);
 	}
 
@@ -285,7 +287,14 @@ GameEngine.processMouseEvents = function(mouseEvent){
 	}
 }
 
-
+/**
+ * Debug method to display debug in game.
+ */
+GameEngine.debug = function(source, msg) {
+	if(GameEngine.debugOn){
+		GameEngine.addEventMessage("["+source+"] "+msg);
+	}
+}
 /****Array mods. These dont actually attach to the Array object..******/
 
 /**

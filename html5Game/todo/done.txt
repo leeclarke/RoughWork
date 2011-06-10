@@ -21,3 +21,7 @@ x 2011-06-08 Install jsLint - npm install jslint +API-Build
 x 2011-06-08 Build out event system +UI-MouseTask
 x 2011-06-08 Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
 x 2011-06-08 Get display size and size gamePortal to fit properly. +API-Display
+x 2011-06-10 Build Event System for tracking button clicks etc.. +API-Display
+x 2011-06-10 Add Mouse click support +UI-GameEngine
+x 2011-06-10 Decide if dblClick support is possible, looks like no. +API-GameEngine
+x 2011-06-10 Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
