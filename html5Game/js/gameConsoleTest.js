@@ -181,6 +181,7 @@ function handleInput() {
     if(clickPath.length > 1) {
 		//TODO: pull mover into GameEngine
 		try{
+			//TODO: Always returning LEFT.
 			var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
 			GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
 			mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
