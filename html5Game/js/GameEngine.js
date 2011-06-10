@@ -7,6 +7,8 @@ function GameEngine(){
 
 GameEngine.CANVAS_WIDTH = 0;
 GameEngine.CANVAS_HEIGHT = 0;
+GameEngine.ViewPortCenterX = 0;
+GameEngine.ViewPortCenterY = 0;
 GameEngine.STATUS_WIDTH = 0;
 GameEngine.playerDefaltVisonRange = 5;
 GameEngine.DisplayGrid = false;
@@ -62,6 +64,8 @@ GameEngine.checkMonsterVisability = function(m) {
 GameEngine.render = function() {
 	vpX = (this.CANVAS_WIDTH/2)-(this.currentMap.getTileWidth()/2); //viewPort Center.
 	vpY = (this.CANVAS_HEIGHT/2)-(this.currentMap.getTileHeight()/2);
+	GameEngine.ViewPortCenterX = vpX;
+	GameEngine.ViewPortCenterY = vpY;
 	context.fillStyle = 'rgb(0, 0, 0)' ;
 	context.fillRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT ) ;
 	this.renderViewPort(context, vpX,vpY); 
@@ -105,8 +109,9 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
  * Displays the Messages overlay at the top of the viewPort, it doesnt display if no messages.
  */
 GameEngine.writeStatus = function(context) {
-	statusMargin = 5;
-	statusHeight = 100;
+	var vertPosStart = 20;
+	var statusMargin = 5;
+	var statusHeight = vertPosStart*GameEngine.eventMesgsStack.length + vertPosStart;
 	if(GameEngine.eventMesgsStack.length === 0) {
 		//nothing to display
 		return;
@@ -123,8 +128,8 @@ GameEngine.writeStatus = function(context) {
 	context.fillStyle = "rgba(204, 204, 204, 0.1)";
 	context.fillRect(this.STATUS_WIDTH+statusMargin,statusMargin,(this.CANVAS_WIDTH-10-this.STATUS_WIDTH),statusHeight-10);
 	context.fillStyle = "#FFFF33";	
-	msgCt = 1;
-	vertPosStart = 20;
+	var msgCt = 1;
+	
 	//context.fillText("TEST2", STATUS_WIDTH+(statusMargin*2), 30);
 	//while(GameEngine.length >0) {
 	for(m = 0; m < GameEngine.eventMesgsStack.length ;m++)	{
@@ -167,10 +172,25 @@ GameEngine.buildStatusDisplay = function(context) {
 		context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 80);
 		context.fillText("Col: "+GameEngine.player.getCol()+" Row: "+GameEngine.player.getRow(), 8, 100);
 		context.fillText("fps: "+GameEngine.fps,8, 120);
-		
+		context.fillText("ctPt-x: "+ ~~(GameEngine.ViewPortCenterX),8, 140);
+		context.fillText("ctPt-y: "+ ~~(GameEngine.ViewPortCenterY),8, 160);
+		var upperLeft = this.getMapUpperLeftPosition();
+		context.fillText("mapPt-x: "+ upperLeft.x,8, 180);
+		context.fillText("mapPt-y: "+ ~~(upperLeft.y),8, 200);
 		context.restore();
 	}
 };
+
+/**
+ * Computes the upper Left corner of the map which will rarely be 0,0. THis can be used to determine
+ * click locations relative to the map.
+ * @return the usual point response. {"x":0,"y":0}
+ */
+GameEngine.getMapUpperLeftPosition = function() {
+	var ulX = GameEngine.ViewPortCenterX - GameEngine.player.x;
+	var ulY = GameEngine.ViewPortCenterY - GameEngine.player.y;
+	return {"x":ulX, "y":ulY};
+}
 
 /**
  * Generate rnd number between 2 numbers including the from and to values.

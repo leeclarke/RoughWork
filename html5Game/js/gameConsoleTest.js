@@ -18,11 +18,11 @@ var context;
  */
 function windowReady() {
 	var body = $(this).find("body");
-	
-CANVAS_WIDTH = window.innerWidth;//body.width();//1000;
- CANVAS_HEIGHT = window.innerHeight;//();//600;
-GameEngine.CANVAS_WIDTH = window.innerWidth;//body.width();
-GameEngine.CANVAS_HEIGHT = window.innerHeight;//body.height();
+	//TODO: Remove these, need to find usage first.
+	CANVAS_WIDTH = window.innerWidth;//body.width();//1000;
+	CANVAS_HEIGHT = window.innerHeight;//();//600;
+	GameEngine.CANVAS_WIDTH = window.innerWidth;//body.width();
+	GameEngine.CANVAS_HEIGHT = window.innerHeight;//body.height();
 	
 	//Create canvas
 	var canvasElement = $("<canvas width='" + GameEngine.CANVAS_WIDTH + 
@@ -165,22 +165,29 @@ function handleInput() {
      */
      
     var mEvent = GameEngine.mouseQueue.pop();
-    GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY));
+    var upperLeft = GameEngine.getMapUpperLeftPosition();
     
-    //TODO Adjust the x,p points to account for the upper left of the  map not being at 0,0
-    //need to know the uperleft point of the map.
-    //I know that the player is at dead center...
-    //and I know the position of the player on the map. so can subtract to get the uperLEft point.
-    var clickedTile = GameEngine.currentMap.getTileAt(mEvent.pageX, mEvent.pageY);
+    var mapClickPoint = {"x":(mEvent.x-upperLeft.x), "y":(mEvent.y-upperLeft.y)};
+    
+    var clickedTile = GameEngine.currentMap.getTileAt(mapClickPoint.x, mapClickPoint.y);
+    GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY) + 
+		" ajd_x=" + mapClickPoint.x+ " ajd_y=" + mapClickPoint.y + " col:" + clickedTile.col+  " row:" + clickedTile.row);
 	if(clickedTile === null) {
 		//user probably clicked outside the map, do nothing.
 		return;
 	}
 	var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
+	GameEngine.addEventMessage("path len=" + clickPath.length);
     if(clickPath.length > 1) {
 		//TODO: pull mover into GameEngine
+		try{
 		var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
+		GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
 		mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
+		}
+		catch(e) {
+			GameEngine.addEventMessage("It Broke: "+e);
+		}
 	}
      
     GameEngine.mouseClick = null;

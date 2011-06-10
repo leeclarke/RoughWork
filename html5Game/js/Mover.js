@@ -18,6 +18,23 @@ Mover.Coordinates = [{"x":0,"y":-32},{"x":32,"y":-32},{"x":32,"y":0},{"x":32,"y"
  * Determine which direction entity is moving based on target tile.
  */
 Mover.determineDirection = function(entity, targetTile) {
+	GameEngine.addEventMessage("enter dd entiy:"+entity.getCol() + "," + entity.getRow());
+	
+	targetTile.toString = function () {
+	out =  "["+ this.entityType +"] ";
+	for(var prop in this)
+	{
+		if(this.hasOwnProperty(prop) && prop != 'toString') {
+			var type = typeof prop;
+			out += (prop + " = " + this[prop] + " , ");
+		}
+	}
+	return out;
+};
+	
+	GameEngine.addEventMessage("targetTile:"+targetTile.toString());
+	
+	
 	var colDif =  (targetTile.col - entity.getCol()); 
 	if(colDif < 0) {
 		colDif = colDif/(colDif*-1);

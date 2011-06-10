@@ -14,7 +14,7 @@ var testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontile
 
 tileMapManager = new SpriteTileManager(testManagerConfig);
 
-mover_Maptiles == [
+var mover_Maptiles = [
 		[{},{}],
 		[{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],
 		[{},{"id":2, "type":2},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}],

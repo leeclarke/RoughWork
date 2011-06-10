@@ -43,6 +43,7 @@ EntityManager.createEntity = function(entityType){
 			entity.row = 0;
 			entity.width = 0;
 			entity.height = 0;
+			entity.toString = toString;
 			entity.init = initMapTile;
 			return entity;
 		case 'Arrow':
