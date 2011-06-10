@@ -121,7 +121,7 @@ GameEngine.CANVAS_HEIGHT = window.innerHeight;//body.height();
  * Capture click events to use for game play.
  */
 window.addEventListener("mousedown", function(e) {
-  GameEngine.addEventMessage(("Mouse Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
+  //GameEngine.addEventMessage(("Mouse Event [ button="+e.button+" pageX=" + e.pageX + " pageY=" + e.pageY));
   GameEngine.mouseQueue.push(e);
   GameEngine.mouseClick = e;
 }, false);
@@ -146,15 +146,16 @@ window.addEventListener("dblclick", function(e) {
 function handleInput() {
 	//TODO: It looks like DBL click checking is far too hard to get since the interval looping is very unpredictable.
   // Here is where we respond to the click
-  if(GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
+  if(GameEngine.mouseQueue.length > 0 && GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
+	
   //if(GameEngine.mouseClick != null){
     //e.button, e.pageX, e.pageY
     
     //TODO: use AStar to plot a path and use the path[1] as the target to move to!!
-    /* 	1. 	Use the x,y coordinates to determine the row/col of the tile clicked.
-     * 	2. 	call tiledMap.getTile(row,col)
-     * 	3.	call astar(start,targetTile, map);
-     *  4.	move player to path[1].
+    /* 	/1. 	Use the x,y coordinates to determine the row/col of the tile clicked.
+     * 	/2. 	call tiledMap.getTile(row,col)
+     * 	/3.	call astar(start,targetTile, map);
+     *  /4.	move player to path[1].
      * 
      * 	to check for Ranged attack,
      * 	1.	Use the x,y coordinates to determine the row/col of the tile clicked.
@@ -163,11 +164,24 @@ function handleInput() {
      * 	4.	Do attack!
      */
      
-     
-    if(GameEngine.mouseQueue.length >1){
-		console.log("got dbl");
-	}
     var mEvent = GameEngine.mouseQueue.pop();
+    GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY));
+    
+    //TODO Adjust the x,p points to account for the upper left of the  map not being at 0,0
+    //need to know the uperleft point of the map.
+    //I know that the player is at dead center...
+    //and I know the position of the player on the map. so can subtract to get the uperLEft point.
+    var clickedTile = GameEngine.currentMap.getTileAt(mEvent.pageX, mEvent.pageY);
+	if(clickedTile === null) {
+		//user probably clicked outside the map, do nothing.
+		return;
+	}
+	var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
+    if(clickPath.length > 1) {
+		//TODO: pull mover into GameEngine
+		var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
+		mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
+	}
      
     GameEngine.mouseClick = null;
     GameEngine.lastMouseEvent = 0;

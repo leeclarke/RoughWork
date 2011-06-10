@@ -152,12 +152,27 @@ TiledMapTest.prototype.testGetTile = function() {
 	assertEquals(2,tTile.type);
 	assertTrue('MapTile should have property "y".',tTile.hasOwnProperty('y'));
 	assertTrue('tTile should have property "x".',tTile.hasOwnProperty('x'));
+	assertTrue('x value should have been > -1',tTile.x > -1);
 	assertTrue('tTile should have property "col".',tTile.hasOwnProperty('col'));
 	assertTrue('tTile should have property "row".',tTile.hasOwnProperty('row'));
 	assertTrue('tTile should have property "width".',tTile.hasOwnProperty('width'));
 	assertTrue('tTile should have property "height".',tTile.hasOwnProperty('height'));
 	assertTrue('tTile should have property "explored".',tTile.hasOwnProperty('explored'));
 	assertEquals(32,tTile.width);
+}
+
+TiledMapTest.prototype.testGetTileAtPoint = function() {
+	tile_tiledMap.updateMap(tile_Maptiles);
+	var x = 4*32; //offset from the default point
+	var y = 3*32;
+	var taTile = tile_tiledMap.getTileAt(x+ 10,y+ 5);
+	assertNotNull(taTile);
+	assertTrue('MapTile should have property "y".',tTile.hasOwnProperty('y'));
+	assertTrue('tTile should have property "x".',tTile.hasOwnProperty('x'));
+	assertTrue('tTile should have property "col".',tTile.hasOwnProperty('col'));
+	assertTrue('tTile should have property "row".',tTile.hasOwnProperty('row'));
+	assertEquals(4, taTile.col);
+	assertEquals(3, taTile.row);
 }
 
 TiledMapTest.prototype.testGetTileHeightWidth = function() {	

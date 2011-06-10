@@ -43,6 +43,19 @@ TiledMap.prototype.getTileHeight = function() {
 //}
 
 /**
+ * Using an x,y point get the tile that contains that point.
+ * @param x - x coordinate
+ * @param y - y coordinate
+ * @return Tile
+ */
+TiledMap.prototype.getTileAt = function(x,y) {
+	//Determine row/col
+	var pointCol =  (~~(x/this.tileMapManager.tileWidth))
+	var pointRow = (~~(y/this.tileMapManager.tileHeight));
+	return this.getTile(pointRow,pointCol);
+}
+
+/**
  * Safely grab a single tile from map.
  */
 TiledMap.prototype.getTile = function(row, col) {

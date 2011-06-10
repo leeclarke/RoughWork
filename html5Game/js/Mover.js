@@ -11,6 +11,53 @@ function Mover(){
  * Static value that allows directional Indicator.
  */
 Mover.MoveDir = {"UP":0,"RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOWN":5,"LEFT":6,"LEFT_UP":7};
+/** Defines the pixal adjustment to make on a move based on direction moved referenced in Move.MoveDir**/
+Mover.Coordinates = [{"x":0,"y":-32},{"x":32,"y":-32},{"x":32,"y":0},{"x":32,"y":32},
+					{"x":0,"y":32}, {"x":-32,"y":32},{"x":-32,"y":0},{"x":-32,"y":0}];
+/**
+ * Determine which direction entity is moving based on target tile.
+ */
+Mover.determineDirection = function(entity, targetTile) {
+	var colDif =  (targetTile.col - entity.getCol()); 
+	if(colDif < 0) {
+		colDif = colDif/(colDif*-1);
+	} //convert to either -1, or 1 nomatter the dif.
+	else if(colDif > 0) { 
+		colDif = colDif/(colDif);
+	}
+	
+	var rowDif = targetTile.row - entity.getRow()
+	if(rowDif < 0) {rowDif = rowDif/(rowDif*-1);}
+	else if(rowDif > 0){ rowDif = rowDif/(rowDif);}
+	
+	if(rowDif <0) { //UP
+		switch(colDif){
+			case 1:
+				return Mover.MoveDir.RIGHT_UP;
+			case 0:
+				return Mover.MoveDir.UP;
+			case -1:
+				return Mover.MoveDir.LEFT_UP;
+		}
+	} else if(rowDif >0){ //DOWN
+		switch(colDif){
+			case 1:
+				return Mover.MoveDir.RIGHT_DOWN;
+			case 0:
+				return Mover.MoveDir.DOWN;
+			
+			case -1:
+				return Mover.MoveDir.LEFT_DOWN;
+		}
+	} else {//0
+		switch(colDif) {
+			case 1:
+				return Mover.MoveDir.RIGHT;
+			case -1:
+				return Mover.MoveDir.LEFT;
+		}
+	}	
+}
 
 /**
  * xDir, yDir pos or neg value to move.
