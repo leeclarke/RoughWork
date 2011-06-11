@@ -125,9 +125,13 @@ function addLocation(entity) {
 	}
 }
 
+/**
+ * Any entity needing to fight will need this nature. 
+ */
 function addCombatant(entity) {
 	entity.level =1;
 	entity.weaponWielded = {};
+	entity.rangeWeaponWielded = {};
 	entity.toHitAdj = function() {
 		//TODO:
 		return 0;

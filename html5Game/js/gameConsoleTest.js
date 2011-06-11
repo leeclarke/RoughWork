@@ -1,6 +1,3 @@
-var CANVAS_WIDTH = 1000;
-var CANVAS_HEIGHT = 600;
-
 //Set Static Values on the GameEngine
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
@@ -18,9 +15,7 @@ var context;
  */
 function windowReady() {
 	var body = $(this).find("body");
-	//TODO: Remove these, need to find usage first.
-	CANVAS_WIDTH = window.innerWidth;//body.width();//1000;
-	CANVAS_HEIGHT = window.innerHeight;//();//600;
+	
 	GameEngine.CANVAS_WIDTH = window.innerWidth;//body.width();
 	GameEngine.CANVAS_HEIGHT = window.innerHeight;//body.height();
 	
@@ -34,7 +29,7 @@ function windowReady() {
 	context.fillRect(0, 0, GameEngine.CANVAS_WIDTH, GameEngine.CANVAS_HEIGHT ) ;
 	
 	//TODO refactor this into GameEngine.tiledMap.
-	tiledMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,32,32);
+	GameEngine.currentMap = new TiledMap(GameEngine.CANVAS_WIDTH+300,GameEngine.CANVAS_HEIGHT+300,32,32);
 
 	//add fake player sprite, centerd in middle of screen
 	GameEngine.player = EntityManager.createEntity('Player');
@@ -110,10 +105,8 @@ function windowReady() {
 				[{},{},{"id":0, "type":0},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":3, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":1, "type":1},{"id":0, "type":0}],		
 				[{},{},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0},{"id":0, "type":0}]
 		];
-	tiledMap.tileMapManager = tileMapManager;
-	tiledMap.updateMap(mapTiles);
-		
-	GameEngine.currentMap = tiledMap;
+	GameEngine.currentMap.tileMapManager = tileMapManager;
+	GameEngine.currentMap.updateMap(mapTiles);
 	
 	//draw to canvas		
 	GameEngine.render();
@@ -151,11 +144,11 @@ function handleInput() {
   // Here is where we respond to the click
   if(GameEngine.mouseQueue.length > 0 && GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
     
-    //TODO: use AStar to plot a path and use the path[1] as the target to move to!!
+    
     /* 	
      * 	to check for Ranged attack,
      * 	1.	Use the x,y coordinates to determine the row/col of the tile clicked.
-     * 	2.	determine if tile id with in missle range
+     * 	2.	determine if tile id with in missle range which i s== to vision range
      * 	3.	Is there a monster?
      * 	4.	Do attack!
      */

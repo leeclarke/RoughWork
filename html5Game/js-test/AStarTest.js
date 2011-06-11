@@ -1,6 +1,6 @@
 AStarTest = TestCase("AStarTest");
 
-aStar_tiledMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,32,32);
+aStar_tiledMap = new TiledMap(1300,1300,32,32);
 
 aStar_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"../res/dungeontiles.gif", "namedTiles":[
 	{"id":0,"name":"WALL1","col":0,"row":0},

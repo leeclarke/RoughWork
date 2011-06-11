@@ -3,7 +3,7 @@ MoverTest = TestCase("MoverTest");
 //TODO: clean out this stuff.. cant really need all of it...
 var tileWidth = 32;
 var tileHeight = 32;
-var moverTestMap = new TiledMap(CANVAS_WIDTH+300,CANVAS_HEIGHT+300,tileWidth,tileHeight);
+var moverTestMap = new TiledMap(1300,1300,tileWidth,tileHeight);
 
 var testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 	{"id":0,"name":"WALL1","col":0,"row":0},
