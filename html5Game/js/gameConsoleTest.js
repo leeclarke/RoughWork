@@ -60,6 +60,7 @@ function windowReady() {
 	dragon.range = 5;
 	dragon.hp = 8;
  	dragon.hpMax = 8;
+ 	setDragonImg(dragon);
 	
 	GameEngine.monsters.push(dragon);
 	
@@ -75,6 +76,7 @@ function windowReady() {
 	dragon2.hp = 1;
 	dragon2.ac = 10;
  	dragon2.hpMax = 8;
+	setDragonImg(dragon2);
 	
 	GameEngine.monsters.push(dragon2);
 
@@ -328,6 +330,17 @@ function setUpPlayerImg() {
 	GameEngine.player.initSpriteManager(player_testManagerConfig,attackAnimation);
 }
 
+
+function setDragonImg(monster){
+	var monster_testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dragon.png", "namedTiles":[
+		{"id":0,"name":"FRONT","col":0,"row":0}]};
+		
+	var monsterAnimation = 	[{"name":"nothing",
+		"sequence":[0], 
+		"sequenceFrameDuration":4}];
+		
+	monster.initSpriteManager(monster_testManagerConfig,monsterAnimation);
+}
 
 
 
