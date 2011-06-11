@@ -93,9 +93,8 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	for(m = 0; m < GameEngine.monsters.length; m++){
 		if(GameEngine.monsters[m].visable == false) {
 			continue;
-		}
-		//TODO: Fix monster rendering to work with the New img rendering system.   renderImg() requires a context.. not sure how the ever works..
-		context.drawImage(GameEngine.monsters[m].renderImg(), GameEngine.monsters[m].x, GameEngine.monsters[m].y);
+		}		
+		GameEngine.monsters[m].renderImg(context,GameEngine.monsters[m].x, GameEngine.monsters[m].y);
 	}
 
 	if(this.DisplayGrid) {
@@ -104,7 +103,7 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	context.restore(); //pop the canvas back to where it was which moves the map.
 	this.buildStatusDisplay(context);
 	this.writeStatus(context);
-	GameEngine.player.renderImg(context, vpX, vpY);
+	GameEngine.player.renderImg(context, vpCtrX, vpCtrY);
 };
 
 /**
