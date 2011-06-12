@@ -14,8 +14,9 @@ function Entity(type){
   * Creates an Entity of the requested type. Types are publicly defined in EntityManager.EtityTypes Map.
   */
 EntityManager.createEntity = function(entityType){
+	entityType = entityType.toLowerCase();
 	switch(entityType) {
-		case 'Player':
+		case 'player':
 			entity = new Entity(entityType);
 			addLocation(entity);
 			alive(entity);
@@ -24,7 +25,7 @@ EntityManager.createEntity = function(entityType){
 			entity.toString = toString;
 			renderable(entity);
 			return entity;
-		case 'Creature':
+		case 'creature':
 			entity = new Entity(entityType);
 			addLocation(entity);
 			alive(entity);
@@ -34,7 +35,7 @@ EntityManager.createEntity = function(entityType){
 			addMonster(entity);
 			entity.visable = false;
 			return entity;
-		case 'MapTile':
+		case 'maptile':
 			entity = new Entity(entityType);
 			entity.explored = false;
 			entity.x = 0;
@@ -46,17 +47,23 @@ EntityManager.createEntity = function(entityType){
 			entity.toString = toString;
 			entity.init = initMapTile;
 			return entity;
-		case 'Arrow':
+		case 'arrow':
 			entity = new Entity(entityType);
 			
 			return entity;
-		case 'Weapon':
+		case 'weapon':
 			entity = new Entity(entityType);
 			addWeapon(entity);				
 			return entity;
-		case 'Armor':
+		case 'armor':
 			entity = new Entity(entityType);
 					
+			return entity;
+		case 'missile':
+			entity = new Entity(entityType);
+			entity.volicity = 0;
+			entity.speed = 8;  //pixels to move per volicity change;
+			entity.target = null;
 			return entity;
 	}
 }
@@ -77,6 +84,13 @@ EntityManager.weaponFactory = function(type) {
 	weapon = this.createEntity('Weapon');
 	switch(type) {
 		case 'Sword':
+			return weapon;
+		case 'Bow':
+			weapon.name = 'Long Bow';
+			weapon.description = "A strong bow of oak.";
+			weapon.weaponType = "bow"; //Reconsider this perhaps it should be ranged
+			weapon.damageThrown = 0;
+			weapon.damage = 4;
 			return weapon;
 		default:
 			//Return Hands, the default.
@@ -131,7 +145,7 @@ function addLocation(entity) {
 function addCombatant(entity) {
 	entity.level =1;
 	entity.weaponWielded = {};
-	entity.rangeWeaponWielded = {};
+
 	entity.toHitAdj = function() {
 		//TODO:
 		return 0;

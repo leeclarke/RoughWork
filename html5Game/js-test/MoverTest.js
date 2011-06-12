@@ -53,11 +53,11 @@ MoverTest.prototype.testCheckCollision_Collision = function() {
 }
 
 MoverTest.prototype.testMovePlayer = function() {
-	player = EntityManager.createEntity('Player');
+	/*player = EntityManager.createEntity('Player');
 	player.x = 4*32;
 	player.y = 2*32;
 	mover = new Mover();
-	resp_noCol = mover.movePlayer(player, 0,32);
+	resp_noCol = mover.movePlayer(player, 0,32);*/
 }
 
 /**

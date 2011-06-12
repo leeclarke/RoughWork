@@ -167,21 +167,28 @@ function handleInput() {
 	}
 	
 	//TODO: is the Target a Monster?  TEST
-	var monsterTile = GameEngine.isMonsterAtTile(clickedTile);
-	
-	var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
-    if(clickPath.length > 1) {
-		//TODO: pull mover into GameEngine
-		try{
-			var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
-			//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
-			mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
-			GameEngine.moveMonsters();
-		}
-		catch(e) {
-			GameEngine.addEventMessage("It Broke: "+e);
+	var monsterAtTile = GameEngine.isMonsterAtTile(clickedTile);
+	if(monsterAtTile !== null && GameEngine.player.weaponWielded.weaponType === 'bow'){
+		//Never mind LOS, if the pathing returns OK shoot the missle and if it hits something then its the players mistake ;)
+		//fire that missile!
+		GameEngine.missiles.push(EntityManager.createEntity('missile'));
+	} else {
+		var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
+		if(clickPath.length > 1) {
+			//TODO: pull mover into GameEngine
+			try{
+				var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
+				//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
+				mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
+				GameEngine.moveMonsters();
+			}
+			catch(e) {
+				GameEngine.addEventMessage("MouseIn Broke: "+e);
+			}
 		}
 	}
+	
+	
      
     GameEngine.mouseClick = null;
     GameEngine.lastMouseEvent = 0;
@@ -193,6 +200,7 @@ function handleInput() {
  */
 function main () {
 	GameEngine.lastMouseEvent += GameEngine.elapsed;
+	GameEngine.proessMissilesInFlight();
 	handleInput();
 	update();
 	GameEngine.render();
@@ -238,8 +246,8 @@ function update() {
 		GameEngine.debugOn = (GameEngine.debugOn)?false:true;
 		GameEngine.addEventMessage("debug On.");
 		keydown.x = false;
-		keydown.ctrl = false;
 	  }
+	  keydown.ctrl = false;
   }
   
   if (keydown.left) {
@@ -264,6 +272,19 @@ function update() {
 	keydown.down = false;
 	mover.movePlayer(GameEngine.player, 0,32, Mover.MoveDir.DOWN);
 	GameEngine.moveMonsters();
+  }
+  
+  /**
+   * TEMP toggle between sword and bow for testing 
+   */
+  if(keydown['2']) {
+	GameEngine.player.weaponWielded = EntityManager.weaponFactory('Bow');
+	keydown['2'] = false;
+  }
+  
+  if(keydown['1']) {
+	GameEngine.player.weaponWielded = EntityManager.weaponFactory('Sword');
+	keydown['1'] = false;
   }
   
   if (keydown.f2) {

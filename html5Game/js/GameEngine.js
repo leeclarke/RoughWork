@@ -28,7 +28,7 @@ GameEngine.mouseQueue = [];
 GameEngine.dblClickTimeLimit = 8000;
 GameEngine.lastMouseEvent = 0; //in ms
 GameEngine.watchedMouseEvents = [];
-GameEngine.missles = [];  //in flight
+GameEngine.missiles = [];  //in flight
 
 /**
  * Adds Messages to the Message queue to display to player.
@@ -171,14 +171,15 @@ GameEngine.buildStatusDisplay = function(context) {
 		context.fillText(GameEngine.player.name, 8, 20);
 		context.fillText("HP: "+GameEngine.player.hp, 8, 40);
 		context.fillText("AC: "+GameEngine.player.getArmor(), 8, 60);
-		context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 80);
-		context.fillText("Col: "+GameEngine.player.getCol()+" Row: "+GameEngine.player.getRow(), 8, 100);
-		context.fillText("fps: "+GameEngine.fps,8, 120);
-		context.fillText("ctPt-x: "+ ~~(GameEngine.ViewPortCenterX),8, 140);
-		context.fillText("ctPt-y: "+ ~~(GameEngine.ViewPortCenterY),8, 160);
+		context.fillText("Wep: "+GameEngine.player.weaponWielded.name, 8, 80);
+		context.fillText("x:"+GameEngine.player.x+" y:"+GameEngine.player.y, 8, 100);
+		context.fillText("Col: "+GameEngine.player.getCol()+" Row: "+GameEngine.player.getRow(), 8, 120);
+		context.fillText("fps: "+GameEngine.fps,8, 140);
+		context.fillText("ctPt-x: "+ ~~(GameEngine.ViewPortCenterX),8, 160);
+		context.fillText("ctPt-y: "+ ~~(GameEngine.ViewPortCenterY),8, 180);
 		var upperLeft = this.getMapUpperLeftPosition();
-		context.fillText("mapPt-x: "+ upperLeft.x,8, 180);
-		context.fillText("mapPt-y: "+ ~~(upperLeft.y),8, 200);
+		context.fillText("mapPt-x: "+ upperLeft.x,8, 200);
+		context.fillText("mapPt-y: "+ ~~(upperLeft.y),8, 220);
 		context.restore();
 	}
 };
@@ -298,17 +299,31 @@ GameEngine.debug = function(source, msg) {
 
 /**
  * Check for monster at location.
+ * @return the monster at location or null if none.
  */
 GameEngine.isMonsterAtTile = function(clickedTile) {
-	var collide = false;
+	var tileMonster = null;
 	if(clickedTile !== null) {
 		//TODO: TEST
-		//TODO convert collision check in mover to static.
 		for(m = 0; m < GameEngine.monsters.length; m++) {
-			collide = GameEngine.checkCollision(clickedTile, GameEngine.monsters[m]);
+			var collide = GameEngine.checkCollision(clickedTile, GameEngine.monsters[m]);
+			if(collide) {tileMonster = GameEngine.monsters[m]};
 		}
 	}
-	return collide;
+	return tileMonster;
+}
+
+/**
+ * This should be called each game loop to update the position of missiles currently in flight. Call 
+ * before updateing player. They should be rendered last.
+ */
+GameEngine.proessMissilesInFlight = function() {
+	for(ms = 0; ms < GameEngine.missiles.length; ms++) {
+		//update on current course. target the center of tile. +16,+16
+		GameEngine.missiles[ms];
+		//TODO:  write code for this! look at how other do it to speed things up. 
+		//Perhaps just create a vector? store array of every point between a and b
+	}
 }
 
 /****Array mods. These dont actually attach to the Array object..******/
