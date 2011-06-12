@@ -28,6 +28,7 @@ GameEngine.mouseQueue = [];
 GameEngine.dblClickTimeLimit = 8000;
 GameEngine.lastMouseEvent = 0; //in ms
 GameEngine.watchedMouseEvents = [];
+GameEngine.missles = [];  //in flight
 
 /**
  * Adds Messages to the Message queue to display to player.
@@ -294,6 +295,22 @@ GameEngine.debug = function(source, msg) {
 		GameEngine.addEventMessage("["+source+"] "+msg);
 	}
 }
+
+/**
+ * Check for monster at location.
+ */
+GameEngine.isMonsterAtTile = function(clickedTile) {
+	var collide = false;
+	if(clickedTile !== null) {
+		//TODO: TEST
+		//TODO convert collision check in mover to static.
+		for(m = 0; m < GameEngine.monsters.length; m++) {
+			collide = GameEngine.checkCollision(clickedTile, GameEngine.monsters[m]);
+		}
+	}
+	return collide;
+}
+
 /****Array mods. These dont actually attach to the Array object..******/
 
 /**

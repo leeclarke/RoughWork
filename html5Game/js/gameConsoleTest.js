@@ -165,6 +165,10 @@ function handleInput() {
 		//user probably clicked outside the map, do nothing.
 		return;
 	}
+	
+	//TODO: is the Target a Monster?  TEST
+	var monsterTile = GameEngine.isMonsterAtTile(clickedTile);
+	
 	var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
     if(clickPath.length > 1) {
 		//TODO: pull mover into GameEngine
