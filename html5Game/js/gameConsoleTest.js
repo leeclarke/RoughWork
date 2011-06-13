@@ -1,7 +1,7 @@
 //Set Static Values on the GameEngine
 GameEngine.CANVAS_WIDTH = 1000;
 GameEngine.CANVAS_HEIGHT = 600;
-GameEngine.STATUS_WIDTH = 80;
+GameEngine.STATUS_WIDTH = 100;
 GameEngine.DisplayGrid = true;
 GameEngine.lightsOn = false;
 GameEngine.lastUpdate = Date.now();
@@ -166,12 +166,14 @@ function handleInput() {
 		return;
 	}
 	
-	//TODO: is the Target a Monster?  TEST
+	//TODO: TEST
 	var monsterAtTile = GameEngine.isMonsterAtTile(clickedTile);
+	//If missile thne create one and set start pos as center of player tile.
 	if(monsterAtTile !== null && GameEngine.player.weaponWielded.weaponType === 'bow'){
-		//Never mind LOS, if the pathing returns OK shoot the missle and if it hits something then its the players mistake ;)
-		//fire that missile!
-		GameEngine.missiles.push(EntityManager.createEntity('missile'));
+		var missile = EntityManager.createEntity('missile')
+		missile.currentPosition.x = GameEngine.player.x + ~~(GameEngine.player.spriteManager.tileWidth/2);
+		missile.currentPosition.y = GameEngine.player.y + ~~(GameEngine.player.spriteManager.tileHeight/2);
+		GameEngine.missiles.push(missile);
 	} else {
 		var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
 		if(clickPath.length > 1) {
@@ -200,7 +202,7 @@ function handleInput() {
  */
 function main () {
 	GameEngine.lastMouseEvent += GameEngine.elapsed;
-	GameEngine.proessMissilesInFlight();
+	GameEngine.processMissilesInFlight(context);
 	handleInput();
 	update();
 	GameEngine.render();

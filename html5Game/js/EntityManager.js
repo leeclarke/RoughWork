@@ -61,9 +61,11 @@ EntityManager.createEntity = function(entityType){
 			return entity;
 		case 'missile':
 			entity = new Entity(entityType);
-			entity.volicity = 0;
-			entity.speed = 8;  //pixels to move per volicity change;
-			entity.target = null;
+			entity.speed = 4;  //pixels to move per frame change;
+			entity.target = null; //entity
+			entity.currentPosition = {"x":0,"y":0};
+			entity.render = renderMissile;
+			
 			return entity;
 	}
 }
@@ -387,5 +389,12 @@ function attackRules(entity) {
 		} else {
 			GameEngine.addEventMessage("Monster missed!\n");
 		}
+	}
+	
+	/**
+	 * Draw the arrow/bolt whatever onto the screen.
+	 */
+	function renderMissile(context) {
+		//TODO: 
 	}
 }
