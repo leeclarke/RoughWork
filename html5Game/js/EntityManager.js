@@ -395,6 +395,8 @@ function attackRules(entity) {
 	 * Draw the arrow/bolt whatever onto the screen.
 	 */
 	function renderMissile(context) {
-		//TODO: 
+		//TODO: Draw a simple bullet for initial pass.
+		//Actually just draw a RED dot.
+		//context.draw(this.currentPosition.x,this.currentPosition.y);
 	}
 }
