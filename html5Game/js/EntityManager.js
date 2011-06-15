@@ -64,7 +64,12 @@ EntityManager.createEntity = function(entityType){
 			entity.speed = 4;  //pixels to move per frame change;
 			entity.target = null; //entity
 			entity.currentPosition = {"x":0,"y":0};
-			entity.render = renderMissile;
+			entity.render = renderMissile = function (context) {
+				//TODO: Draw a simple bullet for initial pass.
+				context.arc(this.currentPosition.x,this.currentPosition.y,2,0,2*Math.PI,false);
+				context.fillStyle = "#CC0000";
+				context.fill();
+			}
 			
 			return entity;
 	}
@@ -290,7 +295,7 @@ function renderSprite(context, x,y){
 		if(this.currentSequence != null){
 			var spriteData =  this.spriteManager.getSequenceSprite(this.currentSequence, this.currentSequenceStep);
 			animate(context, x, y, this, spriteData);
-		return;
+			return;
 		}else{
 			defaultSprite = this.spriteManager.namedTileOrgPoint(0);
 			context.drawImage(this.spriteManager.spriteImage, defaultSprite.xPos , defaultSprite.yPos, this.spriteManager.tileWidth, this.spriteManager.tileHeight, x, y, this.spriteManager.tileWidth,this.spriteManager.tileHeight);
@@ -336,11 +341,12 @@ function initMapTile(data) {
 
 /**
  * All creatures get treated the same in combat though the implementation for stats will vary.
- * places attack results string into games eventMesgs stack.
+ * places attack results string into games eventMessage stack.
+ * @param entity - target of attack
+ * @param missile - if damage is from a missile set missile else leave null
  */
-function attackRules(entity) {
-	rangeAttack = false;
-	if(!this.weaponWielded.hasOwnProperty('type')){
+function attackRules(entity, missile) {
+	if(!this.weaponWielded.hasOwnProperty('entityType')){
 		this.weaponWielded = getDefaultWeapon('Hands');
 	}
 	GameEngine.debug("EntityManager",GameEngine.diceRoll(1, 20));
@@ -351,52 +357,44 @@ function attackRules(entity) {
 	if ((thac0 - entity.getArmor()) <= hitRoll)
 	{
 		dmg = 0;
-		
-		if (rangeAttack)
+		if (missile && missile !== null)
 		{
 			strAdj = ((this.weaponWielded.weaponType == 'crossbow') ? 0 : this.strToDmgAdj());
 
 			dmgMislMod = 0;
 			if (this.weaponWielded.weaponType == 'crossbow' || this.weaponWielded.weaponType == 'bow')
 			{
-				// Apply bolt/arrow adj
-				dmgMislMod += this.getMissiles().getAttackAdj();
+				// TODO: need to work out how the quiver will work. missleReady or something.
+				//dmgMislMod += this.getMissiles().getAttackAdj();
 			}
+			this.weaponWielded.damageThrown = 4
 			dmg = GameEngine.diceRoll(1,this.weaponWielded.damageThrown) + strAdj
-					+ this.weaponWielded.attackAdj + dmgMislMod + this.toDMGMajicAdj;
+					+ this.weaponWielded.attackAdj + dmgMislMod + this.getToDMGMajicAdj();
 		}
 		else {
 			dmg = GameEngine.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		//TODO: Extract this to the Coming GameEngine object.
-		if(this.entityType === 'Player'){
-			GameEngine.addEventMessage("You hit the monster for " + dmg + "!\n");
+		if(this.type === 'player'){
+			GameEngine.addEventMessage("You hit the monster for " + dmg + " !");
 		} else {
-			GameEngine.addEventMessage("Monster hit you for " + dmg + "!\n");
+			GameEngine.addEventMessage("Monster hit you for " + dmg + " !");
 		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
 			entity.alive = false; //Monsters get one last swing sincey the go second.
-			if(entity.entityType === 'Creature') {
+			if(entity.entityType === 'creature') {
 				entity.oneLastSwing = true;
 			} else {
 				GameEngine.addEventMessage("Ooops, you died!");
 			}
 		}
 	} else {
-		if(this.entityType === 'Player'){
+		if(this.entityType === 'player'){
 			GameEngine.addEventMessage("Your attack missed!");
 		} else {
 			GameEngine.addEventMessage("Monster missed!\n");
 		}
 	}
 	
-	/**
-	 * Draw the arrow/bolt whatever onto the screen.
-	 */
-	function renderMissile(context) {
-		//TODO: Draw a simple bullet for initial pass.
-		//Actually just draw a RED dot.
-		//context.draw(this.currentPosition.x,this.currentPosition.y);
-	}
 }

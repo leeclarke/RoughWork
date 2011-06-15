@@ -89,7 +89,12 @@ GameEngine.renderViewPort = function(context, vpCtrX, vpCtrY) {
 	context.save();  //save position to return to later.
 	context.translate(vpCtrX-GameEngine.player.x,vpCtrY-GameEngine.player.y); //Move to point on map where player stands
 	context.drawImage(renderedMap, 0, 0);
-
+	//render missiles in play.
+	for(mis = 0; mis < GameEngine.missiles.length; mis++){
+		GameEngine.missiles[mis].render(context);
+		
+	}
+	
 	//Draw monsters
 	for(m = 0; m < GameEngine.monsters.length; m++){
 		if(GameEngine.monsters[m].visable == false) {
@@ -320,46 +325,39 @@ GameEngine.isMonsterAtTile = function(clickedTile) {
 GameEngine.processMissilesInFlight = function(context) {
 	for(ms = 0; ms < GameEngine.missiles.length; ms++) {
 		//update on current course. target the center of tile. +16,+16? This should be adjusted when missile created.
-		var dx = GameEngine.missiles[ms].target.x - GameEngine.missiles[ms].currentPosition.x;
-		var dy = GameEngine.missiles[ms].target.y - GameEngine.missiles[ms].currentPosition.y;
+		var dx = (GameEngine.missiles[ms].target.x+16 )- GameEngine.missiles[ms].currentPosition.x;
+		var dy = (GameEngine.missiles[ms].target.y+16) - GameEngine.missiles[ms].currentPosition.y;
 		
 		var distance = Math.sqrt(dx*dx + dy*dy);
 		var moves = distance/GameEngine.missiles[ms].speed;
 		
 		//Then we find the distance to move both x and y on each call to drawScreen() . We name these variables xunits and yunits: 
-		var xunits = (GameEngine.missiles[ms].target.x - GameEngine.missiles[ms].currentPosition.x)/moves;
-		var yunits = (GameEngine.missiles[ms].target.y - GameEngine.missiles[ms].currentPosition.y)/moves;
+		var xunits = ((GameEngine.missiles[ms].target.x+16) - GameEngine.missiles[ms].currentPosition.x)/moves;
+		var yunits = ((GameEngine.missiles[ms].target.y+16) - GameEngine.missiles[ms].currentPosition.y)/moves;
 		
 		// set the new position of the missile.
 		GameEngine.missiles[ms].currentPosition.x += xunits;
 		GameEngine.missiles[ms].currentPosition.y += yunits;
-	
 		
-				
-		//If on the x,y axis then simple adjust pixels for that direction. If diaginal in any way have to get fancy.
-	/*	if(GameEngine.missiles[ms].currentPosition.y === GameEngine.missiles[ms].target.y) {
-			//Move on x axis.
-			GameEngine.missiles[ms].currentPosition.x += GameEngine.missiles[ms].speed;
-			//TODO: check for blocking collision if something is in the way.
-			//TODO check for collision with target
-			//apply dmg here?
-		} else if(GameEngine.missiles[ms].currentPosition.x === GameEngine.missiles[ms].target.x) {
-			//move on y axis.
-			GameEngine.missiles[ms].currentPosition.y += GameEngine.missiles[ms].speed; 
-		} else {
-			//Move diaginal.
-			context.beginPath();
-			context.moveTo(x, y)//current missile point.
-			context.lineTo(x, y) //target
-			//TODO: 
-			//1. Create a pix vector (array)? Use aStar path finding?
-			//2. use speed to move forward in the array pop until reach next step
-			// !! use a path inplace of vector and call:	isPointInPath(float x, float y) 
+		//Check for collision
+		//var hit = GameEngine.checkCollision(GameEngine.missiles[ms].currentPosition, GameEngine.missiles[ms].target);
+		if(isNaN(GameEngine.missiles[ms].currentPosition.x) || GameEngine.missiles[ms].currentPosition.x <=0 && GameEngine.missiles[ms].currentPosition.y <= 0){ 			
+			GameEngine.resolveMissileAttack(GameEngine.missiles[ms]);
+			GameEngine.missiles.splice(ms,1);
 			
-			//calc distance between second and first points.
-			
-			
-		}*/		
+			//GameEngine.eventMesgsStack.push({"msg":"You hit the " +  GameEngine.missiles[ms].target.name + " for x damage!", "life":60});
+		}
+	}
+}
+
+/**
+ * 
+ */
+GameEngine.resolveMissileAttack = function(missile) {
+	if(missile.target.type === 'player') {
+		
+	} else {
+		GameEngine.player.attack(missile.target, missile);
 	}
 }
 
