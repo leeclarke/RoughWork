@@ -26,3 +26,5 @@ x 2011-06-10 Add Mouse click support +UI-GameEngine
 x 2011-06-10 Decide if dblClick support is possible, looks like no. +API-GameEngine
 x 2011-06-10 Integrate Clicks into Attack/move functions, use aStar to move like monsters +UI-MouseTask
 x 2011-06-10 Fix Monster Rendering to work with new renderImg +API-EntityManager
+x 2011-06-15 Add missile attack support +API-GameEngine
+x 2011-06-15 Add attack support for Mouse click +UI-MouseTask
