@@ -142,28 +142,15 @@ window.addEventListener("dblclick", function(e) {
 function handleInput() {
 	
   // Here is where we respond to the click
-  if(GameEngine.mouseQueue.length > 0 && GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {
-    
-    
-    /* 	
-     * 	to check for Ranged attack,
-     * 	1.	Use the x,y coordinates to determine the row/col of the tile clicked.
-     * 	2.	determine if tile id with in missle range which i s== to vision range
-     * 	3.	Is there a monster?
-     * 	4.	Do attack!
-     */
-     
+  if(GameEngine.mouseQueue.length > 0 && GameEngine.lastMouseEvent > GameEngine.dblClickTimeLimit) {   
     var mEvent = GameEngine.mouseQueue.pop();
     var upperLeft = GameEngine.getMapUpperLeftPosition();
     
     var mapClickPoint = {"x":~~(mEvent.x-upperLeft.x), "y":~~(mEvent.y-upperLeft.y)};
     
     var clickedTile = GameEngine.currentMap.getTileAt(mapClickPoint.x, mapClickPoint.y);
- /*   GameEngine.addEventMessage(("Mouse Event [ button="+mEvent.button+" pageX=" + mEvent.pageX + " pageY=" + mEvent.pageY) + 
-		" ajd_x=" + mapClickPoint.x+ " ajd_y=" + mapClickPoint.y + " col:" + clickedTile.col+  " row:" + clickedTile.row);*/
 	if(clickedTile === null) {
-		//user probably clicked outside the map, do nothing.
-		return;
+		return; //user probably clicked outside the map, do nothing.
 	}
 	
 	var monsterAtTile = GameEngine.isMonsterAtTile(clickedTile);
@@ -174,6 +161,7 @@ function handleInput() {
 		missile.currentPosition.y = GameEngine.player.y + ~~(GameEngine.player.spriteManager.tileHeight/2);
 		missile.target = monsterAtTile;
 		GameEngine.missiles.push(missile);
+		GameEngine.moveMonsters(); 
 	} else {
 		var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
 		if(clickPath.length > 1) {
@@ -189,7 +177,6 @@ function handleInput() {
 			}
 		}
 	}
-	
 	
      
     GameEngine.mouseClick = null;
