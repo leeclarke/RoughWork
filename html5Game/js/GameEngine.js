@@ -351,13 +351,16 @@ GameEngine.processMissilesInFlight = function(context) {
 }
 
 /**
- * 
+ * Process the results of a missile hit and make special adjustments.
  */
 GameEngine.resolveMissileAttack = function(missile) {
 	if(missile.target.type === 'player') {
-		
+		//TODO: enable Missles from Monsters!
 	} else {
 		GameEngine.player.attack(missile.target, missile);
+		if(missile.target.range < GameEngine.player.vision ) {
+			missile.target.range = GameEngine.player.vision;
+		}
 	}
 }
 

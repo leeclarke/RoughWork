@@ -15,9 +15,8 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
 Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
 allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
-x 2011-06-15 Add attack support for Mouse click +UI-MouseTask
 (B) Add monster detection for blocking into Pathing. +APII-aStar
 (B) Add to pathing the ability to route around or terminate for LOS +API-aStar
 (C) Build Path Debugging tool that activates on key and just draws paths fro clicks. +API-DEBUG
 (B) BUG aStar can not move to upperLeft moves Left instead. +API-aStar
-(A) Fix missle can still fire once monster dead and an attack doesnt cause monster to go hostile.
+(A) and the player shoots missiles Monster doesnt move to attack if player is still.

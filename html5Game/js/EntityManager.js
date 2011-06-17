@@ -375,7 +375,7 @@ function attackRules(entity, missile) {
 			dmg = GameEngine.diceRoll(1,this.weaponWielded.damage) + this.strToDmgAdj() + this.weaponWielded.attackAdj + this.weaponWielded.toDMGMagicAdj;
 		}
 		//TODO: Extract this to the Coming GameEngine object.
-		if(this.type === 'player'){
+		if(this.entityType === 'player'){
 			GameEngine.addEventMessage("You hit the monster for " + dmg + " !");
 		} else {
 			GameEngine.addEventMessage("Monster hit you for " + dmg + " !");

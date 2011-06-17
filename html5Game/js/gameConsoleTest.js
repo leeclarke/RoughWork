@@ -166,10 +166,9 @@ function handleInput() {
 		return;
 	}
 	
-	//TODO: TEST
 	var monsterAtTile = GameEngine.isMonsterAtTile(clickedTile);
-	//If missile thne create one and set start pos as center of player tile.
-	if(monsterAtTile !== null && GameEngine.player.weaponWielded.weaponType === 'bow'){
+	//If missile then create one and set start pos as center of player tile.
+	if(monsterAtTile !== null && monsterAtTile.alive && GameEngine.player.weaponWielded.weaponType === 'bow'){
 		var missile = EntityManager.createEntity('missile')//TODO Create factory
 		missile.currentPosition.x = GameEngine.player.x + ~~(GameEngine.player.spriteManager.tileWidth/2);
 		missile.currentPosition.y = GameEngine.player.y + ~~(GameEngine.player.spriteManager.tileHeight/2);

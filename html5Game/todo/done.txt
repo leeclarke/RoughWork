@@ -28,3 +28,4 @@ x 2011-06-10 Integrate Clicks into Attack/move functions, use aStar to move like
 x 2011-06-10 Fix Monster Rendering to work with new renderImg +API-EntityManager
 x 2011-06-15 Add missile attack support +API-GameEngine
 x 2011-06-15 Add attack support for Mouse click +UI-MouseTask
+x 2011-06-16 Fix missle can still fire once monster dead and an attack doesnt cause monster to go hostile.
