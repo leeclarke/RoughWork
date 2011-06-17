@@ -68,7 +68,7 @@ function windowReady() {
 	dragon2.deadImg.src = "res/bones.png";
 	dragon2.agression = 2;
 	dragon2.range = 4;
-	dragon2.hp = 1;
+	dragon2.hp = 9;
 	dragon2.ac = 10;
  	dragon2.hpMax = 8;
 	setDragonImg(dragon2);
@@ -159,9 +159,11 @@ function handleInput() {
 		var missile = EntityManager.createEntity('missile')//TODO Create factory
 		missile.currentPosition.x = GameEngine.player.x + ~~(GameEngine.player.spriteManager.tileWidth/2);
 		missile.currentPosition.y = GameEngine.player.y + ~~(GameEngine.player.spriteManager.tileHeight/2);
+		monsterAtTile.hostile = true;
 		missile.target = monsterAtTile;
 		GameEngine.missiles.push(missile);
-		GameEngine.moveMonsters(); 
+		//TODO: monster doesnt come alive unless call moveMonsters but this doesnt make since. goingto have to trace it.
+		GameEngine.moveMonsters();
 	} else {
 		var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
 		if(clickPath.length > 1) {
@@ -170,7 +172,7 @@ function handleInput() {
 				var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
 				//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
 				mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
-				GameEngine.moveMonsters();
+				GameEngine.moveMonsters();//TODO: seems like this is goign to put things out of sequence since update is called adter this method.
 			}
 			catch(e) {
 				GameEngine.addEventMessage("MouseIn Broke: "+e);
@@ -184,14 +186,19 @@ function handleInput() {
   }
 };
 
+var tics = 0;
 /**
  * The main processing is done by calling this in the thread loop. 
  */
 function main () {
+	tics += 1; //test for moving creatures to a speed.
 	GameEngine.lastMouseEvent += GameEngine.elapsed;
-	GameEngine.processMissilesInFlight(context);
 	handleInput();
+	GameEngine.processMissilesInFlight(context);
 	update();
+	if(tics%30===0) {
+		GameEngine.moveMonsters();
+	}
 	GameEngine.render();
 };
 
@@ -242,25 +249,25 @@ function update() {
   if (keydown.left) {
 	keydown.left = false;
 	mover.movePlayer(GameEngine.player, -32,0, Mover.MoveDir.LEFT);
-	GameEngine.moveMonsters();
+	//GameEngine.moveMonsters();
   }
 
   if (keydown.right) {
 	keydown.right = false;
 	mover.movePlayer(GameEngine.player, 32,0, Mover.MoveDir.RIGHT);
-	GameEngine.moveMonsters();
+	//GameEngine.moveMonsters();
   }
   
   if (keydown.up) {
 	keydown.up = false;
 	mover.movePlayer(GameEngine.player, 0,-32, Mover.MoveDir.UP);
-	GameEngine.moveMonsters();
+	//GameEngine.moveMonsters();
   }
   
   if (keydown.down) {
 	keydown.down = false;
 	mover.movePlayer(GameEngine.player, 0,32, Mover.MoveDir.DOWN);
-	GameEngine.moveMonsters();
+	//GameEngine.moveMonsters();
   }
   
   /**

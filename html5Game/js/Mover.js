@@ -122,8 +122,10 @@ Mover.prototype.moveMonster = function(monster, player) {
 		if(monster.alive === false){
 			if(monster.oneLastSwing === true) {
 				monster.isHostile = true;
-				monster.oneLastSwing = false;	
-				monster.attack(player);
+				monster.oneLastSwing = false;
+				if(player.alive){
+					monster.attack(player);
+				}
 				return;
 			} else {
 				return;

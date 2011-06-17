@@ -346,6 +346,9 @@ function initMapTile(data) {
  * @param missile - if damage is from a missile set missile else leave null
  */
 function attackRules(entity, missile) {
+	if(entity.alive === false){
+		return;
+	}
 	if(!this.weaponWielded.hasOwnProperty('entityType')){
 		this.weaponWielded = getDefaultWeapon('Hands');
 	}
@@ -382,7 +385,7 @@ function attackRules(entity, missile) {
 		}
 		entity.hp -= dmg;
 		if(entity.hp <= 0){
-			entity.alive = false; //Monsters get one last swing sincey the go second.
+			entity.alive = false; //Monsters get one last swing since they go second.
 			if(entity.entityType === 'creature') {
 				entity.oneLastSwing = true;
 			} else {

@@ -359,7 +359,7 @@ GameEngine.resolveMissileAttack = function(missile) {
 	} else {
 		GameEngine.player.attack(missile.target, missile);
 		if(missile.target.range < GameEngine.player.vision ) {
-			missile.target.range = GameEngine.player.vision;
+			missile.target.range = GameEngine.player.vision+1;
 		}
 	}
 }

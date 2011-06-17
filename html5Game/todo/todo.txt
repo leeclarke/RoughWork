@@ -19,4 +19,4 @@ allow short circuit of event processing when an even such as ui-ctrl event consu
 (B) Add to pathing the ability to route around or terminate for LOS +API-aStar
 (C) Build Path Debugging tool that activates on key and just draws paths fro clicks. +API-DEBUG
 (B) BUG aStar can not move to upperLeft moves Left instead. +API-aStar
-(A) Monster doesnt move if player is shooting missiles at it.
+Implement a speed factor so that Monsters and Players move based on speed tics +API-GameEngine
