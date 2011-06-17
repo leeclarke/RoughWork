@@ -1,12 +1,11 @@
 (C) Build Object around display for api offering +API-Display
 (B) Build Monster Generator +API-GameEgine
-(B) Build Map Maker Tool +DevTools
-Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
+(A) Build Map Maker Tool +DevTools
+(C) Look into new requestAnimationFrame function which makes animation safer and accurate. +API-research
 SoundManager is best at the moment for sounds but audioApi is better once avail. check into IO session. +API-research
 (C) need to come up with image loader to detect when images are loaded and start rendering. +API-SpriteManager
 (E) build Player Generator +API-EntityManager
-(B) Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
-(D) Consider Building getMonsterByLocation function +API-GameManager
+(F) Consider Building getMonsterByLocation function +API-GameManager
 (C) improve visability so cant see through walls. +API-TiledMap
 (B) Design command scructure, testcase heal,missile attack +API-GameEngine
 (B) Build out Game Rules for combat.Expand on combat adjusters. +API-GameEngine
@@ -14,9 +13,9 @@ SoundManager is best at the moment for sounds but audioApi is better once avail.
 (D) Support Magic and Magic combat. +API-GameEngine
 (B) Add Red flash to sprite when takes damage? or have floating damage indicator +API-Game-Engine
 Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
-allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
 (B) Add monster detection for blocking into Pathing. +APII-aStar
-(B) Add to pathing the ability to route around or terminate for LOS +API-aStar
+(A) Add to pathing the ability to route around blocking objects and test more +API-aStar
 (C) Build Path Debugging tool that activates on key and just draws paths fro clicks. +API-DEBUG
-(B) BUG aStar can not move to upperLeft moves Left instead. +API-aStar
-x 2011-06-17 Monster doesnt move if player is shooting missiles at it.
+(A) BUG aStar can not move to upperLeft moves Left instead. +API-aStar
+Implement a speed factor so that Monsters and Players move based on speed tics +API-GameEngine
+(A) Refactor HandleInput and move it and Mover into GameEngine.
