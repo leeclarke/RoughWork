@@ -13,7 +13,7 @@ function Mover(){
 Mover.MoveDir = {"UP":0,"RIGHT_UP":1,"RIGHT":2,"RIGHT_DOWN":3,"DOWN":4,"LEFT_DOWN":5,"LEFT":6,"LEFT_UP":7};
 /** Defines the pixal adjustment to make on a move based on direction moved referenced in Move.MoveDir**/
 Mover.Coordinates = [{"x":0,"y":-32},{"x":32,"y":-32},{"x":32,"y":0},{"x":32,"y":32},
-					{"x":0,"y":32}, {"x":-32,"y":32},{"x":-32,"y":0},{"x":-32,"y":0}];
+					{"x":0,"y":32}, {"x":-32,"y":32},{"x":-32,"y":0},{"x":-32,"y":-32}];
 /**
  * Determine which direction entity is moving based on target tile.
  */
@@ -25,7 +25,7 @@ Mover.determineDirection = function(entity, targetTile) {
 	else if(colDif > 0) { 
 		colDif = colDif/(colDif);
 	}
-	
+//TODO there seems to be a bug here which prevents user from moving to upper Left.	
 	var rowDif = targetTile.getRow() - entity.getRow()
 	if(rowDif < 0) {rowDif = rowDif/(rowDif*-1);}
 	else if(rowDif > 0){ rowDif = rowDif/(rowDif);}

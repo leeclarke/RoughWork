@@ -11,7 +11,7 @@ function a_star(entity, mapTile, tiledMap, columns, rows)
 	if(!columns || !rows) {
 		columns = tiledMap.cols;
 		rows = tiledMap.rows;
-	}
+	} //TODO Check these calcs
 	
 	//Create start and destination as true nodes
 	start = new node((entity.x/tileWidth), (entity.y/tileHeight), -1, -1, -1, -1);

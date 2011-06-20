@@ -165,14 +165,16 @@ function handleInput() {
 		//TODO: monster doesnt come alive unless call moveMonsters but this doesnt make since. goingto have to trace it.
 		GameEngine.moveMonsters();
 	} else {
+		//TODO: Check why the col and rows are off. YThey seem to be passed right.
 		var clickPath = a_star(GameEngine.player,clickedTile, GameEngine.currentMap);
 		if(clickPath.length > 1) {
 			//TODO: pull mover into GameEngine
 			try{
 				var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
 				//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
-				mover.movePlayer(GameEngine.player, Mover.Coordinates[moveDir].x,Mover.Coordinates[moveDir].y, moveDir);
-				GameEngine.moveMonsters();//TODO: seems like this is goign to put things out of sequence since update is called adter this method.
+				
+				mover.movePlayer(GameEngine.player, (Mover.Coordinates[moveDir].x) , (Mover.Coordinates[moveDir].y), moveDir);
+				GameEngine.moveMonsters();//TODO: seems like this is going to put things out of sequence since update is called adter this method.
 			}
 			catch(e) {
 				GameEngine.addEventMessage("MouseIn Broke: "+e);
