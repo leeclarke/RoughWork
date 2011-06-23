@@ -16,6 +16,5 @@ Eval need for Mouse Listerner timeouts, do they do anything? +UI-MouseTask
 (B) Add monster detection for blocking into Pathing. +APII-aStar
 (A) Add to pathing the ability to route around blocking objects and test more +API-aStar
 (C) Build Path Debugging tool that activates on key and just draws paths fro clicks. +API-DEBUG
-(A) BUG aStar can not move to upperLeft moves Left instead. +API-aStar
 Implement a speed factor so that Monsters and Players move based on speed tics +API-GameEngine
 (A) Refactor HandleInput and move it and Mover into GameEngine.

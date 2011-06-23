@@ -59,7 +59,6 @@ function windowReady() {
 	
 	GameEngine.monsters.push(dragon);
 	
-	
 	dragon2 = EntityManager.createCreature('Green Dragon');
 	dragon2.x = 3*32;
 	dragon2.y = 4*32;
@@ -74,6 +73,20 @@ function windowReady() {
 	setDragonImg(dragon2);
 	
 	GameEngine.monsters.push(dragon2);
+	
+	dragon3 = EntityManager.createCreature('Green Dragon');
+	dragon3.x = 14*32;
+	dragon3.y = 13*32;
+	dragon3.name = "Green Dragon";
+	dragon3.spriteImg.src = "res/dragon.png";
+	dragon3.deadImg.src = "res/bones.png";
+	dragon3.agression = 7; //yikes!
+	dragon3.range = 5;
+	dragon3.hp = 8;
+ 	dragon3.hpMax = 8;
+ 	setDragonImg(dragon3);
+	
+	GameEngine.monsters.push(dragon3);
 
 	testManagerConfig = {"tileWidth":32, "tileHeight":32, "src":"res/dungeontiles.gif", "namedTiles":[
 		{"id":0,"name":"WALL1","col":0,"row":0},
@@ -171,7 +184,6 @@ function handleInput() {
 			//TODO: pull mover into GameEngine
 			try{
 				var moveDir = Mover.determineDirection(GameEngine.player, clickPath[1]);
-				//GameEngine.addEventMessage("moveDir=" + moveDir + " xAdj = " +Mover.Coordinates[moveDir].x+ " yAdj = " + Mover.Coordinates[moveDir].y);
 				
 				mover.movePlayer(GameEngine.player, (Mover.Coordinates[moveDir].x) , (Mover.Coordinates[moveDir].y), moveDir);
 				GameEngine.moveMonsters();//TODO: seems like this is going to put things out of sequence since update is called adter this method.

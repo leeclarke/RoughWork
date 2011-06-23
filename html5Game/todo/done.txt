@@ -32,3 +32,4 @@ x 2011-06-16 Fix missle can still fire once monster dead and an attack doesnt ca
 x 2011-06-17 Monster doesnt move if player is shooting missiles at it.
 x 2011-06-17 Missle Range Bug, if player out of range and monster gets attacked it wont retaliate
 x 2011-06-17 allow short circuit of event processing when an even such as ui-ctrl event consumes event. Like switch hand/missle wep +UI-MouseTask
+x 2011-06-20 BUG aStar can not move to upperLeft moves Left instead. +API-aStar
