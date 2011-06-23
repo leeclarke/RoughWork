@@ -60,7 +60,7 @@ Mover.determineDirection = function(entity, targetTile) {
 	}	
 }
 
-/**
+/**	
  * xDir, yDir pos or neg value to move.
  */
 Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
@@ -81,7 +81,7 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 
 	//get targeted tile.
 	var targetTile = GameEngine.currentMap.getTile(player.getRow(),player.getCol());
-	if(targetTile !== null) {
+	if(targetTile !== null && targetTile.id !== -1) {
 		var colls = this.checkCollision(player, targetTile);
 		if(colls) {//looks like there would always be a collision so the question is, does this offer anything?
 			//TODO: add logic for checking variables involved in diff tile types. doing simple 0|1 for now.
@@ -98,7 +98,6 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 					//blocked
 					player.x = playerOldX;
 					player.y = playerOldY;
-					//TODO: Add mouse click support.
 					
 					if(mvVector !== null) {
 						GameEngine.player.currentSequence = GameEngine.player.spriteManager.getSequenceSpriteByDirection(mvVector).name;
@@ -109,6 +108,9 @@ Mover.prototype.movePlayer = function(player, xDir, yDir, mvVector) {
 				}
 			}
 		} 
+	} else {
+		player.x = playerOldX;
+		player.y = playerOldY;
 	}
 };
 
